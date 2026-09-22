@@ -37,7 +37,7 @@ WHERE id NOT IN (SELECT categoria_id FROM producto);
 
 ### Qué filas afecta realmente
 
-Si `producto.categoria_id` no tiene valores `NULL`, elimina las categorías cuyo id no aparece en productos. Si la subconsulta devuelve aunque sea un `NULL`, la comparación `id NOT IN (...)` resulta `UNKNOWN` para cada fila y no elimina ninguna categoría.
+En el esquema genérico, si `producto.categoria_id` no tiene valores `NULL`, elimina las categorías cuyo id no aparece en productos. Si la subconsulta devuelve un `NULL`, las categorías que sí tienen coincidencia producen `FALSE` y las que no tienen coincidencia producen `UNKNOWN`: ninguna cumple el WHERE. En Food Store la clave se llama `id_categoria`; el script literal con `id` daría un error de columna inexistente.
 
 ### Por qué no cumple la consigna de forma segura
 
@@ -52,8 +52,28 @@ DELETE FROM categoria AS c
 WHERE NOT EXISTS (
     SELECT 1
     FROM producto AS p
-    WHERE p.categoria_id = c.id_categoria
+    WHERE p.categoria_id = c.id
 );
 ```
 
-En el esquema Food Store provisto, `producto.categoria_id` es `NOT NULL`, pero `NOT EXISTS` sigue siendo más claro y robusto. La sentencia se prueba primero con `ROLLBACK` y con un respaldo previo.
+La corrección anterior conserva el esquema genérico de la consigna. En Food Store, `producto.categoria_id` es `NOT NULL`, por lo que allí no se presenta el caso NULL. Además, la regla R7 exige baja lógica. La adaptación al proyecto sería:
+
+```sql
+UPDATE categoria AS c
+SET activo = FALSE
+WHERE c.activo = TRUE
+  AND NOT EXISTS (
+    SELECT 1 FROM producto AS p WHERE p.categoria_id = c.id_categoria
+  );
+```
+
+## Verificación realizada
+
+`pruebas_lectura_critica.sql` reproduce el esquema genérico con tablas temporales. En PostgreSQL se observaron estos resultados:
+
+- UPDATE sin WHERE: 3 funciones afectadas.
+- UPDATE corregido: 1 función afectada; la función vigente sigue activa.
+- NOT IN con NULL en la subconsulta: 0 categorías eliminadas.
+- NOT EXISTS: 2 categorías sin productos eliminadas; se conserva la referenciada.
+
+Las pruebas terminaron con ROLLBACK. `fecha_fin` es un supuesto explícito del esquema genérico de funciones, que no pertenece a Food Store. La adaptación de baja lógica se presenta como propuesta de diseño; los resultados anteriores corresponden al ejercicio genérico. Las salidas completas están en [la evidencia](evidencia_ejecucion_tp2.md).
