@@ -46,3 +46,7 @@ Las decisiones de rendimiento, incluidos descartes, siguen en [TP3](../tp3/duia.
 | 4548798 | Modelo ER, paso relacional y BCNF |
 
 Los commits siguientes incorporan ejecutor/evidencia y organización de entrega. No se reescribe el historial previo.
+
+## Edición PDF de entrega
+
+A pedido del alumno, Codex preparó la edición PDF con ReportLab a partir de estos documentos y de la evidencia existente. Se revisaron las nueve páginas renderizadas, los márgenes, la navegación y la existencia de los archivos enlazados en el commit técnico `bf96603`. El PDF reorganiza los resultados; no declara ensayos nuevos ni cambia sus valores. El generador y las imágenes de revisión se conservaron localmente, fuera de la entrega.

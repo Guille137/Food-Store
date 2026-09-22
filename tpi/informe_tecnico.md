@@ -2,6 +2,8 @@
 
 **Guillermo Sánchez · Base de Datos II · Food Store · 22/09/2026**
 
+[Descargar la edición PDF de entrega](Informe_Tecnico_TPI_Food_Store_Guillermo_Sanchez.pdf), con diagrama, matriz de objetivos, navegación interna y enlaces a la versión técnica documentada.
+
 Avances de unidades 1, 2 y 3 sobre PostgreSQL 17.11: cinco tablas, modelo ER/relacional y BCNF, reglas de integridad, consultas optimizadas, vistas, funciones, procedimientos y pruebas de transacciones/borrado lógico. El [mapa de nueve objetivos](README.md#matriz-de-los-nueve-objetivos) vincula cada requisito con su implementación y evidencia. El proyecto continúa en unidades posteriores.
 
 ## 1. Implementación por unidad
