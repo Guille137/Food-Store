@@ -13,3 +13,7 @@ JOIN categoria c ON c.id_categoria = p.categoria_id
 WHERE o.estado = 'ENTREGADO' AND p.activo AND c.activo
 GROUP BY c.id_categoria, c.nombre, date_trunc('month', o.fecha AT TIME ZONE 'UTC')::date
 WITH DATA;
+
+-- Clave completa, sin expresiones ni WHERE: requisito de REFRESH CONCURRENTLY.
+CREATE UNIQUE INDEX tp5_facturacion_categoria_mes
+ON tp5_facturacion_mensual (id_categoria, mes);

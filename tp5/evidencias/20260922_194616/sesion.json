@@ -3658,7 +3658,8 @@
     "v1": "backups\\food_store_tp5_20260922_194616_v1.dump",
     "v2": "backups\\food_store_tp5_20260922_194616_v2.dump",
     "v3": "backups\\food_store_tp5_20260922_194616_v3.dump",
-    "materializada": "backups\\food_store_tp5_20260922_194616_materializada.dump"
+    "materializada": "backups\\food_store_tp5_20260922_194616_materializada.dump",
+    "unico_materializada": "backups\\food_store_tp5_20260922_194616_unico_materializada.dump"
   },
   "ddl": {
     "i1": {
@@ -3839,6 +3840,46 @@
             "10703333.00"
           ]
         ]
+      }
+    },
+    "unico_materializada": {
+      "sentencia": "CREATE UNIQUE INDEX tp5_facturacion_categoria_mes\nON tp5_facturacion_mensual (id_categoria, mes)",
+      "estado": "CREATE INDEX",
+      "ensayo_revertido": true,
+      "verificacion": {
+        "estado": "REFRESH MATERIALIZED VIEW",
+        "duracion_ms": 324.51760000549257,
+        "equivalencia": {
+          "diferencias": [
+            0,
+            0
+          ],
+          "filas": 39,
+          "orden_igual": true,
+          "muestra": [
+            [
+              1,
+              "Pizzas",
+              "2025-01-01",
+              3874,
+              "10700224.00"
+            ],
+            [
+              2,
+              "Bebidas",
+              "2025-01-01",
+              3875,
+              "10695720.00"
+            ],
+            [
+              3,
+              "Sin productos",
+              "2025-01-01",
+              3879,
+              "10703333.00"
+            ]
+          ]
+        }
       }
     }
   },
