@@ -1,5 +1,7 @@
 # Food Store — Base de Datos II
 
+El **TP4 completo** se encuentra en [tp4/README.md](tp4/README.md): reportes analíticos, planes de joins, rankings, subconsultas correlacionadas, competencia y DUIA.
+
 El **TP3 completo** se encuentra en [tp3/README.md](tp3/README.md): carga masiva, optimizaciones medidas, lectura crítica, consultas equivalentes y la competencia basada en el ejemplo de la consigna. El contenido siguiente corresponde al TP2.
 
 Trabajo práctico 2: integridad, transacciones, concurrencia y lectura crítica de SQL. Resolución y evidencia ejecutada en PostgreSQL 17.11 sobre Windows.

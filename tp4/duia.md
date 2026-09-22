@@ -1,0 +1,16 @@
+# Declaración de Uso de IA — TP4
+
+Herramienta: Codex de OpenAI, asistente basado en GPT-6 según la identificación de esta sesión. No se expone un snapshot más específico. El alumno autorizó elegir la IA; no se atribuyen tareas a OpenCode ni Kiro. Se mantiene la autorización de una segunda sesión aislada para explicar únicamente un plan.
+
+| Herramienta | Para qué se usó | Prompt / spec resumida | Se aceptó / descartó y por qué | Verificación |
+|---|---|---|---|---|
+| Codex | Adaptar el TP4 al proyecto | Continuar el TP4 sobre la base masiva e índices del TP3, con commits y solo entregables. | Se usa cliente como usuario y SUM de detalles como gasto; no se inventan columnas ni bajas lógicas. | Inspección de esquema y conteos de la copia. |
+| Codex | Elegir reportes analíticos | [spec_analiticas.md](spec_analiticas.md): facturación por categoría/mes y ranking por gasto, al menos tres tablas. | Se aceptan los reportes con filtros y período explícitos. | EXPLAIN ANALYZE completo antes de proponer índices. |
+| Codex | Proponer mejoras de joins | Analizar los planes reales A1/A2 y atacar nodos concretos sin forzar algoritmos. | Se aceptan los índices; en A1 se descarta la reescritura por rango porque empeora. A2 acepta preagregación por cliente. | Cinco planes por etapa, equivalencia bidireccional y orden. |
+| Codex | Confirmar la mejora de A2 | Alternar cinco pares de SQL original con índices y preagregado para revisar una diferencia inicial pequeña. | Se conserva la preagregación; volvió a favorecerla la comparación alternada. | Todos los planes quedan en confirmacion_a2.json, sin reemplazar muestras iniciales. |
+| Codex, agente aislado | Explicar un plan con joins | Recibir únicamente A1 antes, explicar nodos, entradas externa/interna, cost, tiempos y loops. | Se conserva la respuesta literal; identifica correctamente ambos Nested Loop. | [Prompt/respuesta](explicacion_ia.md) y [tabla de contraste](lectura_critica.md). |
+| Codex | Ranking de ventana y alternativa | [spec_consultas.md](spec_consultas.md): ranking global DENSE_RANK con empates, gasto histórico y orden estable. | Se acepta DENSE_RANK; alternativa numera los importes distintos. No se agrega id al orden de la ventana porque rompería empates. | EXCEPT ALL en ambos sentidos, orden y fixtures con empates y cero. |
+| Codex | Subconsulta correlacionada y alternativa | Gasto entregado de 2025 del cliente externo estrictamente mayor que 50.000; alternativa JOIN/GROUP BY/HAVING. | Se acepta comparación estricta y política explícita para SUM NULL y catálogo desactivado. | Base masiva y casos de umbral exacto, ausencia de líneas, cancelación y fecha fuera de período. |
+| Codex | Competencia y documentación | Usar el ejemplo de ranking analítico de la guía, registrar todas las estrategias y elegir por tiempo real. | Se reutilizan explícitamente las medidas de A2; se conservan alternativas no elegidas e intento fallido A1. | Tablas enlazadas a planes reales, sin resultados inventados de otros equipos. |
+
+Las versiones A y B de las consultas tienen asistencia de IA, como permite la consigna. Se especificaron antes de generar la primera versión y se pidió después una estructura alternativa; no se atribuye escritura independiente humana. La revisión asistida no acredita por sí sola la defensa oral del alumno.
