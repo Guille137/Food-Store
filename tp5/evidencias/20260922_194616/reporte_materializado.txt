@@ -1,0 +1,8 @@
+Sort  (cost=32.50..33.55 rows=420 width=166) (actual time=0.016..0.018 rows=39 loops=1)
+  Sort Key: mes, id_categoria
+  Sort Method: quicksort  Memory: 26kB
+  Buffers: shared hit=1
+  ->  Seq Scan on tp5_facturacion_mensual  (cost=0.00..14.20 rows=420 width=166) (actual time=0.006..0.009 rows=39 loops=1)
+        Buffers: shared hit=1
+Planning Time: 0.026 ms
+Execution Time: 0.025 ms

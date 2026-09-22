@@ -40,6 +40,18 @@
       "mediana_ms": 0.311,
       "min_ms": 0.306,
       "max_ms": 0.465
+    },
+    "reporte_original": {
+      "consulta": "SELECT c.id_categoria, c.nombre AS nombre_categoria,\n       date_trunc('month', o.fecha AT TIME ZONE 'UTC')::date AS mes,\n       sum(d.cantidad) AS unidades, sum(d.cantidad * d.precio_unitario) AS importe\nFROM pedido o\nJOIN detalle_pedido d ON d.id_pedido = o.id_pedido\nJOIN producto p ON p.id_producto = d.id_producto\nJOIN categoria c ON c.id_categoria = p.categoria_id\nWHERE o.estado = 'ENTREGADO' AND p.activo AND c.activo\nGROUP BY c.id_categoria, c.nombre, date_trunc('month', o.fecha AT TIME ZONE 'UTC')::date\nORDER BY mes, c.id_categoria",
+      "mediana_ms": 217.223,
+      "min_ms": 213.484,
+      "max_ms": 272.534
+    },
+    "reporte_materializado": {
+      "consulta": "SELECT * FROM tp5_facturacion_mensual ORDER BY mes,id_categoria",
+      "mediana_ms": 0.024,
+      "min_ms": 0.023,
+      "max_ms": 0.04
     }
   },
   "respaldo_inicial": "backups\\food_store_tp5_20260922_194616_antes_inicial.dump",
@@ -3645,7 +3657,8 @@
     "i3": "backups\\food_store_tp5_20260922_194616_i3.dump",
     "v1": "backups\\food_store_tp5_20260922_194616_v1.dump",
     "v2": "backups\\food_store_tp5_20260922_194616_v2.dump",
-    "v3": "backups\\food_store_tp5_20260922_194616_v3.dump"
+    "v3": "backups\\food_store_tp5_20260922_194616_v3.dump",
+    "materializada": "backups\\food_store_tp5_20260922_194616_materializada.dump"
   },
   "ddl": {
     "i1": {
@@ -3788,6 +3801,42 @@
             1,
             "3769.00",
             "3769.00"
+          ]
+        ]
+      }
+    },
+    "materializada": {
+      "sentencia": "CREATE MATERIALIZED VIEW tp5_facturacion_mensual\n    (id_categoria, nombre_categoria, mes, unidades, importe)\nAS\nSELECT c.id_categoria, c.nombre,\n       date_trunc('month', o.fecha AT TIME ZONE 'UTC')::date,\n       sum(d.cantidad), sum(d.cantidad * d.precio_unitario)\nFROM pedido o\nJOIN detalle_pedido d ON d.id_pedido = o.id_pedido\nJOIN producto p ON p.id_producto = d.id_producto\nJOIN categoria c ON c.id_categoria = p.categoria_id\nWHERE o.estado = 'ENTREGADO' AND p.activo AND c.activo\nGROUP BY c.id_categoria, c.nombre, date_trunc('month', o.fecha AT TIME ZONE 'UTC')::date\nWITH DATA",
+      "estado": "SELECT 39",
+      "ensayo_revertido": true,
+      "verificacion": {
+        "diferencias": [
+          0,
+          0
+        ],
+        "filas": 39,
+        "orden_igual": true,
+        "muestra": [
+          [
+            1,
+            "Pizzas",
+            "2025-01-01",
+            3874,
+            "10700224.00"
+          ],
+          [
+            2,
+            "Bebidas",
+            "2025-01-01",
+            3875,
+            "10695720.00"
+          ],
+          [
+            3,
+            "Sin productos",
+            "2025-01-01",
+            3879,
+            "10703333.00"
           ]
         ]
       }
