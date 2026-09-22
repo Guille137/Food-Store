@@ -3644,7 +3644,8 @@
     "i2": "backups\\food_store_tp5_20260922_194616_i2.dump",
     "i3": "backups\\food_store_tp5_20260922_194616_i3.dump",
     "v1": "backups\\food_store_tp5_20260922_194616_v1.dump",
-    "v2": "backups\\food_store_tp5_20260922_194616_v2.dump"
+    "v2": "backups\\food_store_tp5_20260922_194616_v2.dump",
+    "v3": "backups\\food_store_tp5_20260922_194616_v3.dump"
   },
   "ddl": {
     "i1": {
@@ -3748,6 +3749,45 @@
             1,
             "Ana",
             "Prueba"
+          ]
+        ]
+      }
+    },
+    "v3": {
+      "sentencia": "CREATE VIEW tp5_detalles_productos\n    (id_pedido, id_producto, nombre_producto, cantidad, precio_unitario, subtotal)\nAS\nSELECT d.id_pedido, d.id_producto, p.nombre, d.cantidad, d.precio_unitario,\n       d.cantidad * d.precio_unitario\nFROM detalle_pedido d JOIN producto p ON p.id_producto = d.id_producto",
+      "estado": "CREATE VIEW",
+      "ensayo_revertido": true,
+      "verificacion": {
+        "diferencias": [
+          0,
+          0
+        ],
+        "filas": 600000,
+        "orden_igual": true,
+        "muestra": [
+          [
+            4,
+            11,
+            "TP3 Producto 00008",
+            1,
+            "796.00",
+            "796.00"
+          ],
+          [
+            4,
+            112,
+            "TP3 Producto 00109",
+            1,
+            "4533.00",
+            "4533.00"
+          ],
+          [
+            4,
+            213,
+            "TP3 Producto 00210",
+            1,
+            "3769.00",
+            "3769.00"
           ]
         ]
       }

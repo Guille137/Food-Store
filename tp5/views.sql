@@ -14,3 +14,12 @@ CREATE VIEW tp5_pedidos_clientes
 AS
 SELECT o.id_pedido, o.fecha, o.estado, o.forma_pago, c.id_cliente, c.nombre, c.apellido
 FROM pedido o JOIN cliente c ON c.id_cliente = o.cliente_id;
+
+-- V3: conservar detalles históricos aunque el producto esté inactivo.
+-- Un pedido sin líneas produce cero filas; el subtotal usa el precio de venta.
+CREATE VIEW tp5_detalles_productos
+    (id_pedido, id_producto, nombre_producto, cantidad, precio_unitario, subtotal)
+AS
+SELECT d.id_pedido, d.id_producto, p.nombre, d.cantidad, d.precio_unitario,
+       d.cantidad * d.precio_unitario
+FROM detalle_pedido d JOIN producto p ON p.id_producto = d.id_producto;
