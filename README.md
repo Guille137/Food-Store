@@ -8,7 +8,6 @@ Proyecto implementado y probado en **PostgreSQL 17.11** (mínimo requerido: 16+)
 
 | Documento | Contenido |
 |---|---|
-| **[Informe técnico en PDF — documento de entrega](tpi/Informe_Tecnico_TPI_Food_Store_Guillermo_Sanchez.pdf)** | Nueve páginas: portada, matriz de objetivos, modelo, resultados y enlaces a la versión técnica documentada |
 | **[Entrega integradora y mapa de los nueve objetivos](tpi/README.md)** | Cada requisito con enlaces a implementación, pruebas y reproducción |
 | **[Informe técnico](tpi/informe_tecnico.md)** | Implementación por unidad, resultados, optimizaciones antes/después y uso de IA |
 | [Modelo ER y paso al modelo relacional](tpi/modelo.md) | Diagrama, atributos, claves, cardinalidades, participación y diccionario |

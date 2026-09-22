@@ -4,11 +4,9 @@
 
 La entrega reúne el modelo, scripts SQL, objetos PL/pgSQL y evidencia de ejecución. Se reutilizan los TP anteriores y se agregan los objetos que faltaban para esta instancia. La documentación del modelo corresponde a las tablas efectivamente implementadas.
 
-**[Informe técnico en PDF para presentar](Informe_Tecnico_TPI_Food_Store_Guillermo_Sanchez.pdf):** edición de nueve páginas con navegación interna, modelo, matriz de cobertura y enlaces a los archivos de la versión técnica `bf96603`. Incluye acceso al repositorio y a la descarga ZIP de esa versión del código. La versión Markdown se conserva para lectura en GitHub.
-
 ## Recorrido de evaluación
 
-1. Leer el informe técnico en [PDF](Informe_Tecnico_TPI_Food_Store_Guillermo_Sanchez.pdf) o [Markdown](informe_tecnico.md): implementación por unidad, resultados y optimizaciones.
+1. Leer el [informe técnico](informe_tecnico.md): implementación por unidad, resultados y optimizaciones.
 2. Consultar la siguiente matriz para localizar cada requisito.
 3. Revisar el [resumen de pruebas](resultados.md) y, si se necesita el detalle, el [registro SQL completo](evidencias/20260922_204000_480700/resultado.json).
 4. Para reproducir sin bases anteriores, ejecutar el comando de instalación y verificación que aparece más abajo.
