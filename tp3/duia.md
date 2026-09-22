@@ -12,8 +12,10 @@ Herramienta utilizada: Codex de OpenAI, asistente basado en GPT-6 según la iden
 | Consultas de resumen y subconsulta | [Specs previas](spec_consultas.md): filtros de vigencia, columnas, orden y tratamiento de ausencia de ventas. | Primera versión generada sin solución previa; después se pidió una alternativa con distinta estructura. Ambas versiones tienen asistencia de IA. | EXCEPT ALL en ambas direcciones, listas ordenadas completas y casos límite con resultados esperados. |
 | Informes y defensa | Documentar resultados observados, limitaciones, decisiones e instrucciones de reproducción. | Se conservan tiempos reales, limitaciones de caché y costo de índices. Se preparó una guía de estudio. | Los informes enlazan a las evidencias de PostgreSQL; no se declara una defensa oral realizada. |
 
-## Decisiones pendientes de información externa
+## Parte 5 — Ejemplo de la competencia
 
-La Parte 5 no puede medirse como competencia oficial sin la consulta común, los datos y las condiciones de la cátedra. No se inventaron resultados de equipos. Para las otras partes se continúa el esquema propio y se utilizan variantes de consultas, posibilidad admitida expresamente en la Parte 2.
+Indicación exacta del alumno: «Hay que usar eso de ejemplo». Se concretó el listado por categoría con categoría 1, precio entre 1000 y 1500, activos y orden precio/id, LIMIT 50. Codex preparó competencia.sql y competencia.py para crear una copia nueva, medir sin índice aplicable y comparar un índice simple con un compuesto parcial.
+
+Se aceptó el compuesto tras observar medianas de 10,993 ms sin índice, 4,555 ms con índice simple y 0,039 ms con compuesto parcial. Se descartó el simple como estrategia final aunque mejoró la base; su evidencia se conserva. Las 50 filas y su orden coincidieron en las tres estrategias. Se registraron dumps previos, ensayos ROLLBACK y planes completos en [registro_competencia.md](registro_competencia.md). No se inventaron resultados de otros equipos ni una clasificación general.
 
 La revisión asistida y las pruebas automáticas no reemplazan la lectura personal ni la capacidad del alumno de explicar cada script en la defensa.

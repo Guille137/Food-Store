@@ -1,6 +1,6 @@
 # TP3 — Optimización de consultas sobre Food Store
 
-Las Partes 1 a 4 están desarrolladas y verificadas sobre el mismo proyecto Food Store de los TP anteriores. Se usan schema.sql, datos_iniciales.sql y las restricciones del TP2, documentando su correspondencia con los nombres de referencia del PDF. La Parte 5 queda pendiente de la consulta y las condiciones oficiales de la competencia.
+Las cinco partes están desarrolladas y verificadas sobre el mismo proyecto Food Store de los TP anteriores. Se usan schema.sql, datos_iniciales.sql y las restricciones del TP2, documentando su correspondencia con los nombres de referencia del PDF. La Parte 5 desarrolla el ejemplo de productos por categoría, precio y orden indicado en la consigna.
 
 ## Resolución
 
@@ -10,7 +10,7 @@ Las Partes 1 a 4 están desarrolladas y verificadas sobre el mismo proyecto Food
 | 2. Optimización | [Tabla comparativa y planes](informe_optimizacion.md), [propuestas de IA](propuestas_ia.md), [índices](indices.sql), [consultas finales](consultas_optimizadas.sql) |
 | 3. Lectura crítica | [Explicación aislada](explicacion_ia_plan.md), [tabla de contraste](lectura_critica_plan.md) |
 | 4. Equivalencia | [Especificaciones](spec_consultas.md), [consultas y resultados](informe_equivalencia.md), [verificación SQL](verificar_equivalencia.sql) |
-| 5. Competencia | [Estado y material requerido](registro_competencia.md) |
+| 5. Competencia | [Estrategias, tiempos y planes](registro_competencia.md), [consulta](competencia.sql), [ejecutor](competencia.py) |
 | Transversal | [DUIA completa de lo realizado](duia.md), [guía de defensa](guia_defensa.md) |
 
 ## Reproducción

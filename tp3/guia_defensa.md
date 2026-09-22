@@ -13,4 +13,4 @@ La defensa oral es personal. Esta guía sirve para estudiar decisiones ya medida
 9. **¿Se pueden sumar los tiempos de nodos?** No directamente: los superiores incluyen trabajo de sus descendientes, y los nodos con loops muestran promedios por ejecución. En paralelo tampoco se obtiene el tiempo de pared sumando trabajadores.
 10. **¿Por qué dos direcciones de EXCEPT ALL?** Una dirección sola no detecta filas sobrantes del otro lado. ALL conserva diferencias de duplicados; además se verifica el orden aparte.
 11. **¿Qué sacrifican los índices?** Espacio y mantenimiento en escrituras. La mejora local con caché caliente no es una promesa de velocidad universal.
-12. **¿Qué queda de la competencia?** Medir la consulta común y bajo sus condiciones cuando la cátedra entregue ese material. El laboratorio propio no reemplaza ese evento.
+12. **¿Qué se probó en la competencia?** El ejemplo de la guía: productos por categoría, precio y orden. En una copia sin el índice aplicable se midió la base y se compararon índices simple y compuesto parcial. Se eligió la menor mediana con las mismas 50 filas ordenadas; el registro no atribuye resultados a otros equipos.
