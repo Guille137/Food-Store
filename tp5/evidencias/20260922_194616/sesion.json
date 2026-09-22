@@ -28,6 +28,18 @@
       "mediana_ms": 2.776,
       "min_ms": 2.746,
       "max_ms": 2.971
+    },
+    "i3_antes": {
+      "consulta": "SELECT id_pedido, id_producto, cantidad, precio_unitario\nFROM detalle_pedido\nWHERE precio_unitario >= 4990\nORDER BY precio_unitario, id_pedido, id_producto",
+      "mediana_ms": 58.102,
+      "min_ms": 55.611,
+      "max_ms": 62.008
+    },
+    "i3_despues": {
+      "consulta": "SELECT id_pedido, id_producto, cantidad, precio_unitario\nFROM detalle_pedido\nWHERE precio_unitario >= 4990\nORDER BY precio_unitario, id_pedido, id_producto",
+      "mediana_ms": 0.311,
+      "min_ms": 0.306,
+      "max_ms": 0.465
     }
   },
   "respaldo_inicial": "backups\\food_store_tp5_20260922_194616_antes_inicial.dump",
@@ -3629,7 +3641,8 @@
   ],
   "respaldos": {
     "i1": "backups\\food_store_tp5_20260922_194616_i1.dump",
-    "i2": "backups\\food_store_tp5_20260922_194616_i2.dump"
+    "i2": "backups\\food_store_tp5_20260922_194616_i2.dump",
+    "i3": "backups\\food_store_tp5_20260922_194616_i3.dump"
   },
   "ddl": {
     "i1": {
@@ -3646,6 +3659,14 @@
       "ensayo_revertido": true,
       "verificacion": {
         "filas_iguales": 16667
+      }
+    },
+    "i3": {
+      "sentencia": "CREATE INDEX tp5_detalle_precio\nON detalle_pedido (precio_unitario, id_pedido, id_producto) INCLUDE (cantidad)",
+      "estado": "CREATE INDEX",
+      "ensayo_revertido": true,
+      "verificacion": {
+        "filas_iguales": 1464
       }
     }
   }

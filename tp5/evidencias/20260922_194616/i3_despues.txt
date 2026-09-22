@@ -1,0 +1,8 @@
+Index Only Scan using tp5_detalle_precio on detalle_pedido  (cost=0.42..56.94 rows=1401 width=17) (actual time=0.010..0.294 rows=1464 loops=1)
+  Index Cond: (precio_unitario >= '4990'::numeric)
+  Heap Fetches: 0
+  Buffers: shared hit=11
+Planning:
+  Buffers: shared hit=4
+Planning Time: 0.149 ms
+Execution Time: 0.356 ms

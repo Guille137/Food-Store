@@ -1,0 +1,16 @@
+Gather Merge  (cost=7973.86..8110.13 rows=1168 width=17) (actual time=51.361..56.349 rows=1464 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=3908
+  ->  Sort  (cost=6973.83..6975.29 rows=584 width=17) (actual time=24.222..24.242 rows=488 loops=3)
+        Sort Key: precio_unitario, id_pedido, id_producto
+        Sort Method: quicksort  Memory: 90kB
+        Buffers: shared hit=3908
+        Worker 0:  Sort Method: quicksort  Memory: 30kB
+        Worker 1:  Sort Method: quicksort  Memory: 34kB
+        ->  Parallel Seq Scan on detalle_pedido  (cost=0.00..6947.00 rows=584 width=17) (actual time=0.041..23.743 rows=488 loops=3)
+              Filter: (precio_unitario >= '4990'::numeric)
+              Rows Removed by Filter: 199512
+              Buffers: shared hit=3822
+Planning Time: 0.101 ms
+Execution Time: 56.424 ms

@@ -8,3 +8,8 @@ ON producto (lower(nombre)) WHERE activo;
 CREATE INDEX tp5_pedido_confirmado_tarjeta
 ON pedido (fecha, id_pedido) INCLUDE (estado, forma_pago, cliente_id)
 WHERE estado = 'CONFIRMADO' AND forma_pago = 'TARJETA';
+
+-- I3 / Q3: rango por precio histórico y orden determinista; cantidad cubierta.
+-- Índice completo: permite otros umbrales, con costo de mantenimiento en cada alta.
+CREATE INDEX tp5_detalle_precio
+ON detalle_pedido (precio_unitario, id_pedido, id_producto) INCLUDE (cantidad);
