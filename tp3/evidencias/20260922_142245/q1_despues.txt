@@ -1,0 +1,8 @@
+Limit  (cost=0.41..2.99 rows=50 width=28) (actual time=0.015..0.036 rows=50 loops=1)
+  Buffers: shared hit=5
+  ->  Index Only Scan using tp3_producto_categoria_precio on producto  (cost=0.41..85.65 rows=1655 width=28) (actual time=0.014..0.031 rows=50 loops=1)
+        Index Cond: ((categoria_id = 1) AND (precio_lista >= '1000'::numeric) AND (precio_lista <= '1500'::numeric))
+        Heap Fetches: 0
+        Buffers: shared hit=5
+Planning Time: 0.115 ms
+Execution Time: 0.050 ms

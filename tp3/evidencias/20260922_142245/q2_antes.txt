@@ -1,0 +1,15 @@
+Gather Merge  (cost=6027.91..6095.53 rows=588 width=20) (actual time=33.974..38.959 rows=549 loops=1)
+  Workers Planned: 1
+  Workers Launched: 1
+  Buffers: shared hit=2986
+  ->  Sort  (cost=5027.90..5029.37 rows=588 width=20) (actual time=17.539..17.553 rows=274 loops=2)
+        Sort Key: fecha, id_pedido
+        Sort Method: quicksort  Memory: 45kB
+        Buffers: shared hit=2986
+        Worker 0:  Sort Method: quicksort  Memory: 25kB
+        ->  Parallel Seq Scan on pedido  (cost=0.00..5000.85 rows=588 width=20) (actual time=0.053..17.405 rows=274 loops=2)
+              Filter: (((fecha AT TIME ZONE 'UTC'::text))::date = '2025-06-15'::date)
+              Rows Removed by Filter: 99727
+              Buffers: shared hit=2942
+Planning Time: 0.082 ms
+Execution Time: 38.998 ms

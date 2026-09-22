@@ -1,0 +1,8 @@
+GroupAggregate  (cost=0.42..4.80 rows=1 width=52) (actual time=0.037..0.037 rows=1 loops=1)
+  Buffers: shared hit=4
+  ->  Index Only Scan using tp3_detalle_producto on detalle_pedido  (cost=0.42..4.63 rows=12 width=13) (actual time=0.020..0.022 rows=12 loops=1)
+        Index Cond: (id_producto = 4)
+        Heap Fetches: 0
+        Buffers: shared hit=4
+Planning Time: 0.128 ms
+Execution Time: 0.064 ms

@@ -1,0 +1,86 @@
+{
+  "rangos_productos": {
+    "sql": "SELECT count(*), min(precio_lista), max(precio_lista), min(stock), max(stock), count(*) FILTER(WHERE NOT activo) FROM producto WHERE nombre LIKE 'TP3 Producto %'",
+    "filas": [
+      [
+        50000,
+        "500.00",
+        "5000.00",
+        1,
+        200,
+        5000
+      ]
+    ]
+  },
+  "categorias": {
+    "sql": "SELECT categoria_id,count(*) FROM producto WHERE nombre LIKE 'TP3 Producto %' GROUP BY categoria_id ORDER BY categoria_id",
+    "filas": [
+      [
+        1,
+        16667
+      ],
+      [
+        2,
+        16667
+      ],
+      [
+        3,
+        16666
+      ]
+    ]
+  },
+  "estados": {
+    "sql": "SELECT estado,count(*) FROM pedido GROUP BY estado ORDER BY estado",
+    "filas": [
+      [
+        "PENDIENTE",
+        50003
+      ],
+      [
+        "CONFIRMADO",
+        50000
+      ],
+      [
+        "ENTREGADO",
+        50000
+      ],
+      [
+        "CANCELADO",
+        50000
+      ]
+    ]
+  },
+  "clientes_generados": {
+    "sql": "SELECT count(*) FROM cliente WHERE correo_electronico LIKE 'tp3_%@example.test'",
+    "filas": [
+      [
+        20000
+      ]
+    ]
+  },
+  "detalles_invalidos": {
+    "sql": "SELECT count(*) FROM detalle_pedido d JOIN producto p ON p.id_producto=d.id_producto WHERE d.cantidad<=0 OR d.cantidad>p.stock OR d.precio_unitario<0",
+    "filas": [
+      [
+        0
+      ]
+    ]
+  },
+  "indices_tamano": {
+    "sql": "SELECT indexrelname,pg_relation_size(indexrelid) FROM pg_stat_user_indexes WHERE indexrelname LIKE 'tp3_%' ORDER BY indexrelname",
+    "filas": [
+      [
+        "tp3_detalle_producto",
+        18939904
+      ],
+      [
+        "tp3_pedido_fecha",
+        8126464
+      ],
+      [
+        "tp3_producto_categoria_precio",
+        2670592
+      ]
+    ]
+  }
+}

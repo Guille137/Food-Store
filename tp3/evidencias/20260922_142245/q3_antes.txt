@@ -1,0 +1,14 @@
+Finalize GroupAggregate  (cost=1000.00..7947.31 rows=1 width=52) (actual time=42.152..47.140 rows=1 loops=1)
+  Buffers: shared hit=3822
+  ->  Gather  (cost=1000.00..7947.27 rows=2 width=52) (actual time=40.155..47.129 rows=1 loops=1)
+        Workers Planned: 2
+        Workers Launched: 2
+        Buffers: shared hit=3822
+        ->  Partial GroupAggregate  (cost=0.00..6947.07 rows=1 width=52) (actual time=14.407..14.407 rows=0 loops=3)
+              Buffers: shared hit=3822
+              ->  Parallel Seq Scan on detalle_pedido  (cost=0.00..6947.00 rows=5 width=13) (actual time=1.496..14.375 rows=4 loops=3)
+                    Filter: (id_producto = 4)
+                    Rows Removed by Filter: 199996
+                    Buffers: shared hit=3822
+Planning Time: 0.091 ms
+Execution Time: 47.174 ms
