@@ -1,6 +1,6 @@
 # Declaración de uso de IA — primera entrega parcial
 
-Herramienta: **Codex**, en la conversación del proyecto, con acceso al repositorio y ejecución local de PostgreSQL. Se conserva la aclaración del alumno de que podía utilizarse la IA elegida. No se declara uso de Kiro/OpenCode ni un modelo específico que no se haya identificado.
+Herramienta: **Codex**, en la conversación del proyecto, con acceso al repositorio y ejecución local de PostgreSQL. No se declara uso de Kiro/OpenCode ni un modelo específico que no se haya identificado.
 
 ## Solicitud y especificación utilizadas
 

@@ -1,8 +1,10 @@
 # Food Store — Base de Datos II
 
-**Guillermo Sánchez · Primera entrega parcial del Trabajo Práctico Integrador · Unidades 1, 2 y 3**
+**Grupo: Octavio Skumanic, Sebastián Vivanco, Victoria Guzman, Daniela Sosa, Guillermo Sanchez**
 
-Proyecto implementado y probado en **PostgreSQL 17.11** (mínimo requerido: 16+). Incluye el modelo, SQL, objetos PL/pgSQL, documentación y evidencia de ejecución. El desarrollo continuará en las unidades siguientes.
+**Parcial 1 - TPI · Unidades 1, 2 y 3**
+
+Proyecto implementado y probado en **PostgreSQL 17.11** (mínimo requerido: 16+). Incluye el modelo, SQL, objetos PL/pgSQL, documentación y evidencia de ejecución.
 
 ## Entrada para la evaluación
 

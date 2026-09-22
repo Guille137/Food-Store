@@ -1,6 +1,8 @@
-# Primera entrega parcial del TPI — Food Store
+# Parcial 1 - TPI — Food Store
 
-**Alumno:** Guillermo Sánchez. **Materia:** Base de Datos II. **Alcance:** unidades 1, 2 y 3. **Motor utilizado:** PostgreSQL 17.11, compatible con el mínimo 16+ solicitado. El proyecto continúa en unidades posteriores.
+**Grupo: Octavio Skumanic, Sebastián Vivanco, Victoria Guzman, Daniela Sosa, Guillermo Sanchez**
+
+**Materia:** Base de Datos II. **Alcance:** unidades 1, 2 y 3. **Motor utilizado:** PostgreSQL 17.11, compatible con el mínimo 16+ solicitado.
 
 La entrega reúne el modelo, scripts SQL, objetos PL/pgSQL y evidencia de ejecución. Se reutilizan los TP anteriores y se agregan los objetos que faltaban para esta instancia. La documentación del modelo corresponde a las tablas efectivamente implementadas.
 

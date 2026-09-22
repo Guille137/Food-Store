@@ -1,8 +1,10 @@
-# Informe técnico — primera entrega parcial del TPI
+# Informe técnico — Parcial 1 - TPI
 
-**Guillermo Sánchez · Base de Datos II · Food Store · 22/09/2026**
+**Grupo: Octavio Skumanic, Sebastián Vivanco, Victoria Guzman, Daniela Sosa, Guillermo Sanchez**
 
-Avances de unidades 1, 2 y 3 sobre PostgreSQL 17.11: cinco tablas, modelo ER/relacional y BCNF, reglas de integridad, consultas optimizadas, vistas, funciones, procedimientos y pruebas de transacciones/borrado lógico. El [mapa de nueve objetivos](README.md#matriz-de-los-nueve-objetivos) vincula cada requisito con su implementación y evidencia. El proyecto continúa en unidades posteriores.
+**Base de Datos II · Food Store · 22/09/2026**
+
+Avances de unidades 1, 2 y 3 sobre PostgreSQL 17.11: cinco tablas, modelo ER/relacional y BCNF, reglas de integridad, consultas optimizadas, vistas, funciones, procedimientos y pruebas de transacciones/borrado lógico. El [mapa de nueve objetivos](README.md#matriz-de-los-nueve-objetivos) vincula cada requisito con su implementación y evidencia.
 
 ## 1. Implementación por unidad
 
@@ -47,7 +49,7 @@ Se propone refrescar la materializada cada 15 minutos y después del cierre mens
 
 ## 4. Uso de IA y decisiones
 
-Se utilizó **Codex**, conforme a la libertad de herramienta comunicada por el alumno, para especificar, producir SQL/Python, revisar planes, ejecutar pruebas y documentar. No se atribuye uso a Kiro/OpenCode. Las [DUIA](duia.md) registran contexto, propuestas y decisiones.
+Se utilizó **Codex** para especificar, producir SQL/Python, revisar planes, ejecutar pruebas y documentar. No se atribuye uso a Kiro/OpenCode. Las [DUIA](duia.md) registran contexto, propuestas y decisiones.
 
 Se aceptaron índices con mejora observada, vistas equivalentes y procedimientos atómicos. Se descartaron sobreindexación, una reescritura más lenta y almacenar un total redundante. Se conservó el precio de venta histórico y se rechazó transformar la baja en DELETE. El JSONB se transforma en filas normalizadas; no reemplaza las tablas.
 
