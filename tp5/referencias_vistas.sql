@@ -1,5 +1,5 @@
--- Referencias independientes para la comparación. Preparadas con Codex, no se
--- atribuyen al alumno como consultas escritas sin asistencia. Orden consumidor.
+-- Parte B: consultas de contraste sobre las tablas base, sin consultar las vistas.
+-- El ORDER BY de cada consulta coincide con el usado al verificar su vista.
 -- V1: primero limitar las categorías, después obtener sus productos vigentes.
 WITH categorias_vigentes AS (
     SELECT id_categoria, nombre FROM categoria WHERE activo

@@ -33,7 +33,9 @@ Las especificaciones completas utilizadas como contexto de generación están ve
 
 Antes de ejecutar cada objeto se revisaron columnas reales, predicados, claves, JOIN, precisión de importes y permisos. No hay ALTER TABLE ni cambio de restricciones. Todos los CREATE se ensayaron primero con ROLLBACK y respaldo previo; solo luego se aplicaron a la copia. Las pruebas de error usaron SAVEPOINT. La revisión automatizada de definiciones de columnas, restricciones y triggers confirmó que el modelo permaneció igual.
 
-Las referencias de [referencias_vistas.sql](referencias_vistas.sql) también fueron redactadas con asistencia de Codex. Para **las tres vistas**, EXCEPT ALL en ambos sentidos devolvió cero y coincidieron todas las filas ordenadas; se repitió con bordes. No se declara falsamente que el alumno escribió esas referencias sin asistencia o que ya realizó su revisión personal. La elaboración personal que pide la Parte B y la defensa oral pertenecen al estudiante.
+Las consultas de contraste de la Parte B, en [referencias_vistas.sql](referencias_vistas.sql), fueron redactadas con asistencia de Codex. Consultan directamente las tablas base mediante CTE y subconsulta escalar, sin reutilizar las vistas que se verifican. Para **las tres vistas**, EXCEPT ALL en ambos sentidos devolvió cero y coincidieron todas las filas ordenadas; se repitió con bordes. Estas consultas y sus resultados forman parte de la solución entregada.
+
+En la revisión final solicitada por el alumno se comprobó que las tres consultas ya estaban implementadas y verificadas. Se aclaró su condición de solución final en el README y el informe, conservando el SQL probado y esta declaración de asistencia. No fue necesario modificar las consultas ni repetir mediciones por cambios de documentación.
 
 Las mediciones provienen de PostgreSQL, no de estimaciones de IA. El [informe](informe_mediciones.md), los [planes](evidencias/20260922_194616) y [laboratorio.py](laboratorio.py) permiten comprobarlo. Los errores 42501 y 42703 de seguridad fueron esperados y controlados, no fallas sin resolver. No se agregaron guías personales de defensa al repositorio.
 

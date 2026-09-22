@@ -1,6 +1,6 @@
 # Especificaciones previas — vistas
 
-Generar tres vistas con nombres de columnas explícitos, sin SELECT *, sin alterar tablas. No atribuir autoría manual al alumno: las consultas de referencia y el código de verificación se preparan con Codex y quedan disponibles para su revisión personal. Comparar multiconjuntos con EXCEPT ALL en ambos sentidos; comprobar además el mismo orden explícito en la consulta consumidora. Ensayar altas, bajas del catálogo y cancelaciones dentro de una transacción revertida.
+Generar tres vistas con nombres de columnas explícitos, sin SELECT *, sin alterar tablas. Preparar consultas de contraste sobre las tablas base, independientes de las vistas, y registrar la asistencia de Codex en la DUIA. Comparar multiconjuntos con EXCEPT ALL en ambos sentidos; comprobar además el mismo orden explícito en la consulta consumidora. Ensayar altas, bajas del catálogo y cancelaciones dentro de una transacción revertida.
 
 ## V1 — tp5_productos_vigentes
 

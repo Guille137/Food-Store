@@ -19,7 +19,7 @@ Continuación del mismo repositorio y la base masiva de TP3/TP4. Contiene tres �
 
 Los nuevos archivos están en `tp5/` para conservar las entregas anteriores. El `schema.sql` heredado sigue en [la raíz](../schema.sql), sin cambios. Los datos están en [datos_iniciales.sql](../datos_iniciales.sql) y [tp3/carga_masiva.sql](../tp3/carga_masiva.sql), equivalentes al `data.sql` de referencia. Las consultas previas permanecen en [tp3/consultas_lentas.sql](../tp3/consultas_lentas.sql), [tp3/consultas_optimizadas.sql](../tp3/consultas_optimizadas.sql) y [tp4/](../tp4/); `tp5/queries.sql` amplía esa carga con filtros todavía no indexados.
 
-Nuestro esquema usa `cliente` en vez de `usuario` y no contiene contraseñas. La vista de seguridad oculta los datos de contacto existentes y se prueba con un rol sin acceso a las tablas. No se agrega una columna de contraseña para simular el ejemplo. Se empleó Codex conforme a la libertad de herramienta comunicada por el alumno, declarando el uso real. Las consultas de referencia están preparadas con asistencia: la elaboración personal solicitada al estudiante no se atribuye a la IA como si la hubiera hecho él.
+Nuestro esquema usa `cliente` en vez de `usuario` y no contiene contraseñas. La vista de seguridad oculta los datos de contacto existentes y se prueba con un rol sin acceso a las tablas. No se agrega una columna de contraseña para simular el ejemplo. Se empleó Codex conforme a la libertad de herramienta comunicada por el alumno, declarando el uso real. La Parte B incluye las tres consultas de contraste y la comprobación de equivalencia, tanto sobre la base masiva como con casos límite.
 
 ## Reproducir
 
