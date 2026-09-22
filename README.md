@@ -1,47 +1,34 @@
 # Food Store — Base de Datos II
 
-El **TP5** se encuentra en [tp5/README.md](tp5/README.md): índices con mediciones de lectura y escritura, vistas y permisos, facturación materializada, especificaciones y DUIA.
+**Guillermo Sánchez · Primera entrega parcial del Trabajo Práctico Integrador · Unidades 1, 2 y 3**
 
-El **TP4 completo** se encuentra en [tp4/README.md](tp4/README.md): reportes analíticos, planes de joins, rankings, subconsultas correlacionadas, competencia y DUIA.
+Proyecto implementado y probado en **PostgreSQL 17.11** (mínimo requerido: 16+). Incluye el modelo, SQL, objetos PL/pgSQL, documentación y evidencia de ejecución. El desarrollo continuará en las unidades siguientes.
 
-El **TP3 completo** se encuentra en [tp3/README.md](tp3/README.md): carga masiva, optimizaciones medidas, lectura crítica, consultas equivalentes y la competencia basada en el ejemplo de la consigna. El contenido siguiente corresponde al TP2.
+## Entrada para la evaluación
 
-Trabajo práctico 2: integridad, transacciones, concurrencia y lectura crítica de SQL. Resolución y evidencia ejecutada en PostgreSQL 17.11 sobre Windows.
-
-## Entregables
-
-| Parte | Archivos |
+| Documento | Contenido |
 |---|---|
-| Preparación | [Protocolo](protocolo_seguridad.md), [esquema del TP1](schema.sql), [datos iniciales](datos_iniciales.sql) |
-| Integridad | [Especificación](spec_restricciones.md), [restricciones](restricciones_Food_Store.sql), [pruebas](pruebas_restricciones.sql), [DUIA](duia_parte1.md) |
-| Concurrencia | [Informe con comandos, resultados y conclusiones](informe_concurrencia.md), [DUIA](duia_partes2y3.md) |
-| Lectura crítica | [Resolución de los dos scripts](ejercicio_lectura_critica.md), [pruebas](pruebas_lectura_critica.sql), [DUIA](duia_partes2y3.md) |
-| Evidencia | [Resumen de ejecución](evidencia_ejecucion_tp2.md) y registros en `evidencias/` |
+| **[Entrega integradora y mapa de los nueve objetivos](tpi/README.md)** | Cada requisito con enlaces a implementación, pruebas y reproducción |
+| **[Informe técnico](tpi/informe_tecnico.md)** | Implementación por unidad, resultados, optimizaciones antes/después y uso de IA |
+| [Modelo ER y paso al modelo relacional](tpi/modelo.md) | Diagrama, atributos, claves, cardinalidades, participación y diccionario |
+| [Normalización hasta BCNF](tpi/normalizacion.md) | Dependencias funcionales y justificación por tabla |
+| [Resultados del integrador](tpi/resultados.md) | 79 comprobaciones reales: objetos, atomicidad, bajas, concurrencia y vistas |
+| [Declaración de uso de IA](tpi/duia.md) | Herramienta utilizada, especificaciones y decisiones aceptadas/descartadas |
 
-Se utilizó Codex como herramienta de IA, conforme a la aclaración del alumno de que la elección de herramienta era libre. La declaración identifica el uso efectivo; no atribuye estas tareas a OpenCode ni Kiro.
+## Qué contiene el proyecto
 
-## Reproducir las pruebas
+Cinco tablas: categoría, producto, cliente, pedido y detalle de pedido. Reglas mediante CHECK, UNIQUE, FK y triggers; consultas con JOIN, agregaciones, subconsultas y ventanas; índices medidos; tres vistas y una materializada; función de total y procedimientos de alta/baja; validación con tablas de transición; pruebas de COMMIT/ROLLBACK, aislamiento, concurrencia y borrado lógico.
 
-Requisitos: Python 3.10 o posterior, un servidor PostgreSQL local para laboratorio, sus herramientas `pg_dump` y un usuario con permiso para crear bases. El ejecutor no instala el servidor. En la ejecución documentada se utilizó una instancia aislada en el puerto 55432.
+La [reproducción del integrador](tpi/README.md#reproducción-desde-cero) crea una base nueva y no depende de bases locales anteriores. Los benchmarks masivos se conservan con sus planes originales en las carpetas de los trabajos prácticos.
 
-Desde la raíz del repositorio, en PowerShell:
+## Trabajos anteriores conservados
 
-```powershell
-python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
-.\.venv\Scripts\python.exe verificar_tp2.py --host 127.0.0.1 --port 55432 --user postgres --pg-bin 'C:\ruta\a\PostgreSQL\bin'
-```
+| Trabajo | Contenido |
+|---|---|
+| Base del TP1 | [DDL](schema.sql); el modelo consolidado para esta entrega está en [tpi/modelo.md](tpi/modelo.md) |
+| [TP2](README_TP2.md) | Integridad, transacciones, concurrencia y lectura crítica |
+| [TP3](tp3/README.md) | Carga masiva, optimización y equivalencia |
+| [TP4](tp4/README.md) | Reportes, joins, rankings y subconsultas |
+| [TP5](tp5/README.md) | Índices, costo de escritura, vistas, permisos y materialización |
 
-Reemplazar la ruta de binarios y el puerto por los de la instancia de laboratorio. Si el servidor requiere contraseña, usar la configuración habitual de libpq/pgpass; no guardar credenciales en el repositorio.
-
-El ejecutor crea bases nuevas con fecha UTC, prepara la plantilla, respalda antes del DDL, ensaya con ROLLBACK y prueba las restricciones y las dos sesiones concurrentes. Termina con `OK: restricciones, concurrencia y lectura critica verificadas en PostgreSQL` y escribe un JSON en `evidencias/`. Si una comprobación falla, termina con error y guarda la ejecución como `exito: false`.
-
-Las bases de laboratorio y los dumps se conservan para inspección; no hay eliminación automática. Cada ejecución usa nombres nuevos. Los dumps y dependencias locales están excluidos de Git.
-
-## Alcance
-
-- El control de stock compara cada línea con el stock actual; no reserva ni descuenta existencias.
-- `schema.sql` recrea tablas: solo lo usa el ejecutor sobre una base nueva creada para el laboratorio.
-- Las explicaciones de concurrencia se verificaron con tres escenarios; el interbloqueo opcional no se incluyó.
-- La preparación de la defensa oral corresponde a cada integrante; las pruebas automatizadas no reemplazan su comprensión.
-- Los commits de esta revisión describen cambios concretos. Se conserva el historial anterior sin reescribir commits compartidos.
+Los scripts nuevos del TPI están en `tpi/`; reutilizan el esquema y los archivos anteriores sin reescribir su historial. Los respaldos binarios, credenciales y guías personales no forman parte de la entrega.
