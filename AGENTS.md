@@ -25,7 +25,17 @@
 - **Order State Transitions (`pedido`):**
   - Enum states: `PENDIENTE`, `CONFIRMADO`, `ENTREGADO`, `CANCELADO`.
   - Allowed transitions: `PENDIENTE` -> `CONFIRMADO` | `CANCELADO`; `CONFIRMADO` -> `ENTREGADO` | `CANCELADO`.
-  - Cannot revert to `PENDIENTE` or modify after reaching `ENTREGADO` or `CANCELADO`.
+  - Cannot revert to `PENDIENTE` or change state after reaching `ENTREGADO` or `CANCELADO`; updating to the same state is allowed.
 - **Order Details (`detalle_pedido`):**
   - Can only INSERT, UPDATE, or DELETE line items while parent order is `PENDIENTE`.
   - Products must have `activo = TRUE` and requested `cantidad <= stock`.
+  - Moving a line requires both old and new orders to be PENDIENTE. Lock their rows with FOR SHARE in ascending id order; FOR KEY SHARE does not prevent concurrent updates to estado.
+  - The stock check is per line; it does not reserve or decrement stock.
+
+## Reproducible TP2 checks
+
+- The current automated workflow is `verificar_tp2.py`; follow README.md and protocolo_seguridad.md for the actual environment and commands. It creates fresh timestamped databases from synthetic data instead of assuming the older fixed template exists.
+- Install dependencies from requirements.txt. The PostgreSQL binaries, running server and credentials are provided separately; never commit credentials or database dumps.
+- Keep the SQL test scripts inside an outer transaction. Their PL/pgSQL exception blocks are subtransactions and roll back expected failing statements, serving the same purpose as SAVEPOINT in interactive psql tests.
+- Record actual output in evidencias/, summarize it in evidencia_ejecucion_tp2.md and reference it in duia_parte1.md. The legacy file `DUIA parte 1.md` points to that canonical declaration.
+- The student confirmed freedom to choose the AI tool. Record Codex truthfully; do not claim OpenCode/Kiro or a model snapshot was used without evidence.
