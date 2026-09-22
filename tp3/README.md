@@ -11,7 +11,7 @@ Las cinco partes están desarrolladas y verificadas sobre el mismo proyecto Food
 | 3. Lectura crítica | [Explicación aislada](explicacion_ia_plan.md), [tabla de contraste](lectura_critica_plan.md) |
 | 4. Equivalencia | [Especificaciones](spec_consultas.md), [consultas y resultados](informe_equivalencia.md), [verificación SQL](verificar_equivalencia.sql) |
 | 5. Competencia | [Estrategias, tiempos y planes](registro_competencia.md), [consulta](competencia.sql), [ejecutor](competencia.py) |
-| Transversal | [DUIA completa de lo realizado](duia.md), [guía de defensa](guia_defensa.md) |
+| Transversal | [DUIA completa de lo realizado](duia.md) |
 
 ## Reproducción
 
