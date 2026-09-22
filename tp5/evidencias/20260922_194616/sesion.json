@@ -3643,7 +3643,8 @@
     "i1": "backups\\food_store_tp5_20260922_194616_i1.dump",
     "i2": "backups\\food_store_tp5_20260922_194616_i2.dump",
     "i3": "backups\\food_store_tp5_20260922_194616_i3.dump",
-    "v1": "backups\\food_store_tp5_20260922_194616_v1.dump"
+    "v1": "backups\\food_store_tp5_20260922_194616_v1.dump",
+    "v2": "backups\\food_store_tp5_20260922_194616_v2.dump"
   },
   "ddl": {
     "i1": {
@@ -3705,6 +3706,48 @@
             18,
             1,
             "Pizzas"
+          ]
+        ]
+      }
+    },
+    "v2": {
+      "sentencia": "CREATE VIEW tp5_pedidos_clientes\n    (id_pedido, fecha, estado, forma_pago, id_cliente, nombre, apellido)\nAS\nSELECT o.id_pedido, o.fecha, o.estado, o.forma_pago, c.id_cliente, c.nombre, c.apellido\nFROM pedido o JOIN cliente c ON c.id_cliente = o.cliente_id",
+      "estado": "CREATE VIEW",
+      "ensayo_revertido": true,
+      "verificacion": {
+        "diferencias": [
+          0,
+          0
+        ],
+        "filas": 200004,
+        "orden_igual": true,
+        "muestra": [
+          [
+            1,
+            "2026-09-22 14:22:46.786965+00:00",
+            "PENDIENTE",
+            "EFECTIVO",
+            1,
+            "Ana",
+            "Prueba"
+          ],
+          [
+            2,
+            "2026-09-22 14:22:46.786965+00:00",
+            "PENDIENTE",
+            "TARJETA",
+            1,
+            "Ana",
+            "Prueba"
+          ],
+          [
+            3,
+            "2026-09-22 14:22:46.786965+00:00",
+            "PENDIENTE",
+            "TRANSFERENCIA",
+            1,
+            "Ana",
+            "Prueba"
           ]
         ]
       }
