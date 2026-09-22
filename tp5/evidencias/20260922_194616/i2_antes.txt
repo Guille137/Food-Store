@@ -1,0 +1,10 @@
+Sort  (cost=7121.80..7163.82 rows=16809 width=24) (actual time=17.373..18.623 rows=16667 loops=1)
+  Sort Key: fecha, id_pedido
+  Sort Method: quicksort  Memory: 1550kB
+  Buffers: shared hit=2942
+  ->  Seq Scan on pedido  (cost=0.00..5942.06 rows=16809 width=24) (actual time=3.897..14.381 rows=16667 loops=1)
+        Filter: ((estado = 'CONFIRMADO'::estado_pedido) AND (forma_pago = 'TARJETA'::forma_pago))
+        Rows Removed by Filter: 183337
+        Buffers: shared hit=2942
+Planning Time: 0.118 ms
+Execution Time: 19.284 ms

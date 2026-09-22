@@ -1,0 +1,5 @@
+Index Only Scan using tp5_pedido_confirmado_tarjeta on pedido  (cost=0.29..599.71 rows=16809 width=24) (actual time=0.011..2.325 rows=16667 loops=1)
+  Heap Fetches: 0
+  Buffers: shared hit=85
+Planning Time: 0.118 ms
+Execution Time: 2.770 ms

@@ -16,6 +16,18 @@
       "mediana_ms": 0.024,
       "min_ms": 0.023,
       "max_ms": 0.028
+    },
+    "i2_antes": {
+      "consulta": "SELECT id_pedido, fecha, estado, forma_pago, cliente_id\nFROM pedido\nWHERE estado = 'CONFIRMADO' AND forma_pago = 'TARJETA'\nORDER BY fecha, id_pedido",
+      "mediana_ms": 19.342,
+      "min_ms": 19.068,
+      "max_ms": 22.577
+    },
+    "i2_despues": {
+      "consulta": "SELECT id_pedido, fecha, estado, forma_pago, cliente_id\nFROM pedido\nWHERE estado = 'CONFIRMADO' AND forma_pago = 'TARJETA'\nORDER BY fecha, id_pedido",
+      "mediana_ms": 2.776,
+      "min_ms": 2.746,
+      "max_ms": 2.971
     }
   },
   "respaldo_inicial": "backups\\food_store_tp5_20260922_194616_antes_inicial.dump",
@@ -3616,7 +3628,8 @@
     ]
   ],
   "respaldos": {
-    "i1": "backups\\food_store_tp5_20260922_194616_i1.dump"
+    "i1": "backups\\food_store_tp5_20260922_194616_i1.dump",
+    "i2": "backups\\food_store_tp5_20260922_194616_i2.dump"
   },
   "ddl": {
     "i1": {
@@ -3625,6 +3638,14 @@
       "ensayo_revertido": true,
       "verificacion": {
         "filas_iguales": 1
+      }
+    },
+    "i2": {
+      "sentencia": "CREATE INDEX tp5_pedido_confirmado_tarjeta\nON pedido (fecha, id_pedido) INCLUDE (estado, forma_pago, cliente_id)\nWHERE estado = 'CONFIRMADO' AND forma_pago = 'TARJETA'",
+      "estado": "CREATE INDEX",
+      "ensayo_revertido": true,
+      "verificacion": {
+        "filas_iguales": 16667
       }
     }
   }
