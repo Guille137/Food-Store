@@ -1,0 +1,816 @@
+{
+  "fecha_utc": "20260922_135041_693717",
+  "exito": false,
+  "resultados": {},
+  "registro": [
+    {
+      "sesion": "ADMIN",
+      "sql": "SELECT current_database(), current_user, version()",
+      "resultado": [
+        [
+          "postgres",
+          "postgres",
+          "PostgreSQL 17.11 on x86_64-windows, compiled by msvc-19.44.35228, 64-bit"
+        ]
+      ]
+    },
+    {
+      "sesion": "ADMIN",
+      "sql": "CREATE DATABASE \"food_store_tp2_20260922_135041_693717_base\"",
+      "resultado": "CREATE DATABASE"
+    },
+    {
+      "sesion": "BASE",
+      "sql": "SELECT current_database(), current_user, version()",
+      "resultado": [
+        [
+          "food_store_tp2_20260922_135041_693717_base",
+          "postgres",
+          "PostgreSQL 17.11 on x86_64-windows, compiled by msvc-19.44.35228, 64-bit"
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pg_dump -Fc food_store_tp2_20260922_135041_693717_base",
+      "resultado": "backups\\food_store_tp2_20260922_135041_693717_base_pre_ddl.dump"
+    },
+    {
+      "sesion": "BASE",
+      "sql": "BEGIN",
+      "resultado": "BEGIN"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "Archivo: schema.sql",
+      "resultado": "Inicio"
+    },
+    {
+      "sesion": "BASE",
+      "sql": "NOTICE",
+      "resultado": "table \"detalle_pedido\" does not exist, skipping"
+    },
+    {
+      "sesion": "BASE",
+      "sql": "NOTICE",
+      "resultado": "table \"pedido\" does not exist, skipping"
+    },
+    {
+      "sesion": "BASE",
+      "sql": "NOTICE",
+      "resultado": "table \"producto\" does not exist, skipping"
+    },
+    {
+      "sesion": "BASE",
+      "sql": "NOTICE",
+      "resultado": "table \"cliente\" does not exist, skipping"
+    },
+    {
+      "sesion": "BASE",
+      "sql": "NOTICE",
+      "resultado": "table \"categoria\" does not exist, skipping"
+    },
+    {
+      "sesion": "BASE",
+      "sql": "NOTICE",
+      "resultado": "type \"estado_pedido\" does not exist, skipping"
+    },
+    {
+      "sesion": "BASE",
+      "sql": "NOTICE",
+      "resultado": "type \"forma_pago\" does not exist, skipping"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "DROP TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "DROP TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "DROP TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "DROP TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "DROP TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "DROP TYPE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "DROP TYPE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "CREATE TYPE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "CREATE TYPE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "CREATE TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "CREATE TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "CREATE TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "CREATE TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "CREATE TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "CREATE INDEX"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "CREATE INDEX"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": [
+        [
+          "categoria"
+        ],
+        [
+          "cliente"
+        ],
+        [
+          "detalle_pedido"
+        ],
+        [
+          "pedido"
+        ],
+        [
+          "producto"
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": [
+        [
+          "categoria",
+          "id_categoria",
+          "integer"
+        ],
+        [
+          "categoria",
+          "nombre",
+          "character varying"
+        ],
+        [
+          "categoria",
+          "activo",
+          "boolean"
+        ],
+        [
+          "cliente",
+          "id_cliente",
+          "integer"
+        ],
+        [
+          "cliente",
+          "correo_electronico",
+          "character varying"
+        ],
+        [
+          "cliente",
+          "nro_telefono",
+          "character varying"
+        ],
+        [
+          "cliente",
+          "nombre",
+          "character varying"
+        ],
+        [
+          "cliente",
+          "apellido",
+          "character varying"
+        ],
+        [
+          "detalle_pedido",
+          "id_pedido",
+          "integer"
+        ],
+        [
+          "detalle_pedido",
+          "id_producto",
+          "integer"
+        ],
+        [
+          "detalle_pedido",
+          "precio_unitario",
+          "numeric"
+        ],
+        [
+          "detalle_pedido",
+          "cantidad",
+          "integer"
+        ],
+        [
+          "pedido",
+          "id_pedido",
+          "integer"
+        ],
+        [
+          "pedido",
+          "fecha",
+          "timestamp with time zone"
+        ],
+        [
+          "pedido",
+          "estado",
+          "USER-DEFINED"
+        ],
+        [
+          "pedido",
+          "forma_pago",
+          "USER-DEFINED"
+        ],
+        [
+          "pedido",
+          "cliente_id",
+          "integer"
+        ],
+        [
+          "producto",
+          "id_producto",
+          "integer"
+        ],
+        [
+          "producto",
+          "nombre",
+          "character varying"
+        ],
+        [
+          "producto",
+          "precio_lista",
+          "numeric"
+        ],
+        [
+          "producto",
+          "stock",
+          "integer"
+        ],
+        [
+          "producto",
+          "activo",
+          "boolean"
+        ],
+        [
+          "producto",
+          "categoria_id",
+          "integer"
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "Archivo: datos_iniciales.sql",
+      "resultado": "Inicio"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "datos_iniciales.sql",
+      "resultado": "INSERT 0 3"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "datos_iniciales.sql",
+      "resultado": "INSERT 0 1"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "datos_iniciales.sql",
+      "resultado": "INSERT 0 3"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "datos_iniciales.sql",
+      "resultado": "INSERT 0 3"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "datos_iniciales.sql",
+      "resultado": [
+        [
+          3
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "datos_iniciales.sql",
+      "resultado": [
+        [
+          1
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "datos_iniciales.sql",
+      "resultado": [
+        [
+          3
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "datos_iniciales.sql",
+      "resultado": [
+        [
+          3
+        ]
+      ]
+    },
+    {
+      "sesion": "BASE",
+      "sql": "ROLLBACK",
+      "resultado": "ROLLBACK"
+    },
+    {
+      "sesion": "BASE",
+      "sql": "BEGIN",
+      "resultado": "BEGIN"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "Archivo: schema.sql",
+      "resultado": "Inicio"
+    },
+    {
+      "sesion": "BASE",
+      "sql": "NOTICE",
+      "resultado": "table \"detalle_pedido\" does not exist, skipping"
+    },
+    {
+      "sesion": "BASE",
+      "sql": "NOTICE",
+      "resultado": "table \"pedido\" does not exist, skipping"
+    },
+    {
+      "sesion": "BASE",
+      "sql": "NOTICE",
+      "resultado": "table \"producto\" does not exist, skipping"
+    },
+    {
+      "sesion": "BASE",
+      "sql": "NOTICE",
+      "resultado": "table \"cliente\" does not exist, skipping"
+    },
+    {
+      "sesion": "BASE",
+      "sql": "NOTICE",
+      "resultado": "table \"categoria\" does not exist, skipping"
+    },
+    {
+      "sesion": "BASE",
+      "sql": "NOTICE",
+      "resultado": "type \"estado_pedido\" does not exist, skipping"
+    },
+    {
+      "sesion": "BASE",
+      "sql": "NOTICE",
+      "resultado": "type \"forma_pago\" does not exist, skipping"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "DROP TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "DROP TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "DROP TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "DROP TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "DROP TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "DROP TYPE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "DROP TYPE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "CREATE TYPE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "CREATE TYPE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "CREATE TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "CREATE TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "CREATE TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "CREATE TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "CREATE TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "CREATE INDEX"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "CREATE INDEX"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": [
+        [
+          "categoria"
+        ],
+        [
+          "cliente"
+        ],
+        [
+          "detalle_pedido"
+        ],
+        [
+          "pedido"
+        ],
+        [
+          "producto"
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": [
+        [
+          "categoria",
+          "id_categoria",
+          "integer"
+        ],
+        [
+          "categoria",
+          "nombre",
+          "character varying"
+        ],
+        [
+          "categoria",
+          "activo",
+          "boolean"
+        ],
+        [
+          "cliente",
+          "id_cliente",
+          "integer"
+        ],
+        [
+          "cliente",
+          "correo_electronico",
+          "character varying"
+        ],
+        [
+          "cliente",
+          "nro_telefono",
+          "character varying"
+        ],
+        [
+          "cliente",
+          "nombre",
+          "character varying"
+        ],
+        [
+          "cliente",
+          "apellido",
+          "character varying"
+        ],
+        [
+          "detalle_pedido",
+          "id_pedido",
+          "integer"
+        ],
+        [
+          "detalle_pedido",
+          "id_producto",
+          "integer"
+        ],
+        [
+          "detalle_pedido",
+          "precio_unitario",
+          "numeric"
+        ],
+        [
+          "detalle_pedido",
+          "cantidad",
+          "integer"
+        ],
+        [
+          "pedido",
+          "id_pedido",
+          "integer"
+        ],
+        [
+          "pedido",
+          "fecha",
+          "timestamp with time zone"
+        ],
+        [
+          "pedido",
+          "estado",
+          "USER-DEFINED"
+        ],
+        [
+          "pedido",
+          "forma_pago",
+          "USER-DEFINED"
+        ],
+        [
+          "pedido",
+          "cliente_id",
+          "integer"
+        ],
+        [
+          "producto",
+          "id_producto",
+          "integer"
+        ],
+        [
+          "producto",
+          "nombre",
+          "character varying"
+        ],
+        [
+          "producto",
+          "precio_lista",
+          "numeric"
+        ],
+        [
+          "producto",
+          "stock",
+          "integer"
+        ],
+        [
+          "producto",
+          "activo",
+          "boolean"
+        ],
+        [
+          "producto",
+          "categoria_id",
+          "integer"
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "Archivo: datos_iniciales.sql",
+      "resultado": "Inicio"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "datos_iniciales.sql",
+      "resultado": "INSERT 0 3"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "datos_iniciales.sql",
+      "resultado": "INSERT 0 1"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "datos_iniciales.sql",
+      "resultado": "INSERT 0 3"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "datos_iniciales.sql",
+      "resultado": "INSERT 0 3"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "datos_iniciales.sql",
+      "resultado": [
+        [
+          3
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "datos_iniciales.sql",
+      "resultado": [
+        [
+          1
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "datos_iniciales.sql",
+      "resultado": [
+        [
+          3
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "datos_iniciales.sql",
+      "resultado": [
+        [
+          3
+        ]
+      ]
+    },
+    {
+      "sesion": "BASE",
+      "sql": "COMMIT",
+      "resultado": "COMMIT"
+    },
+    {
+      "sesion": "ADMIN",
+      "sql": "CREATE DATABASE \"food_store_tp2_20260922_135041_693717_trabajo\" TEMPLATE \"food_store_tp2_20260922_135041_693717_base\"",
+      "resultado": "CREATE DATABASE"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "SELECT current_database(), current_user, version()",
+      "resultado": [
+        [
+          "food_store_tp2_20260922_135041_693717_trabajo",
+          "postgres",
+          "PostgreSQL 17.11 on x86_64-windows, compiled by msvc-19.44.35228, 64-bit"
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pg_dump -Fc food_store_tp2_20260922_135041_693717_trabajo",
+      "resultado": "backups\\food_store_tp2_20260922_135041_693717_trabajo_pre_ddl.dump"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "BEGIN",
+      "resultado": "BEGIN"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "Archivo: restricciones_Food_Store.sql",
+      "resultado": "Inicio"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "trigger \"trg_validar_transicion_estado_pedido\" for relation \"pedido\" does not exist, skipping"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "trigger \"trg_validar_edicion_detalle_pedido\" for relation \"detalle_pedido\" does not exist, skipping"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "trigger \"trg_validar_producto_y_stock_detalle\" for relation \"detalle_pedido\" does not exist, skipping"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "restricciones_Food_Store.sql",
+      "resultado": "CREATE FUNCTION"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "restricciones_Food_Store.sql",
+      "resultado": "DROP TRIGGER"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "restricciones_Food_Store.sql",
+      "resultado": "CREATE TRIGGER"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "restricciones_Food_Store.sql",
+      "resultado": "CREATE FUNCTION"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "restricciones_Food_Store.sql",
+      "resultado": "DROP TRIGGER"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "restricciones_Food_Store.sql",
+      "resultado": "CREATE TRIGGER"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "restricciones_Food_Store.sql",
+      "resultado": "CREATE FUNCTION"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "restricciones_Food_Store.sql",
+      "resultado": "DROP TRIGGER"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "restricciones_Food_Store.sql",
+      "resultado": "CREATE TRIGGER"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "Archivo: pruebas_restricciones.sql",
+      "resultado": "Inicio"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK: Traslado entre pedidos pendientes"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK: Cantidad editable mientras el pedido esta pendiente"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK: PENDIENTE a CONFIRMADO"
+    }
+  ]
+}

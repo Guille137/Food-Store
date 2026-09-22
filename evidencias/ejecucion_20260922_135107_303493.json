@@ -1,0 +1,2386 @@
+{
+  "fecha_utc": "20260922_135107_303493",
+  "exito": true,
+  "resultados": {
+    "restricciones": "Pruebas validas e invalidas confirmadas; cambios de prueba revertidos",
+    "lectura_rc": {
+      "primera": 10,
+      "segunda": 11,
+      "aislamiento": "READ COMMITTED"
+    },
+    "lectura_rr": {
+      "primera": 10,
+      "segunda": 10,
+      "aislamiento": "REPEATABLE READ"
+    },
+    "fantasma_rc": {
+      "primera": 3,
+      "segunda": 4,
+      "aislamiento": "READ COMMITTED"
+    },
+    "fantasma_rr": {
+      "primera": 3,
+      "segunda": 3,
+      "aislamiento": "REPEATABLE READ"
+    },
+    "bloqueo": {
+      "espera_observada": true,
+      "segundos": 0.016,
+      "nowait_sqlstate": "55P03"
+    },
+    "detalle_primero": "El cambio de estado espera al cierre de la edicion",
+    "estado_primero": "La insercion espera y luego rechaza el pedido confirmado",
+    "lectura_critica": "Scripts originales y corregidos comprobados con tablas temporales"
+  },
+  "registro": [
+    {
+      "sesion": "ADMIN",
+      "sql": "SELECT current_database(), current_user, version()",
+      "resultado": [
+        [
+          "postgres",
+          "postgres",
+          "PostgreSQL 17.11 on x86_64-windows, compiled by msvc-19.44.35228, 64-bit"
+        ]
+      ]
+    },
+    {
+      "sesion": "ADMIN",
+      "sql": "CREATE DATABASE \"food_store_tp2_20260922_135107_303493_base\"",
+      "resultado": "CREATE DATABASE"
+    },
+    {
+      "sesion": "BASE",
+      "sql": "SELECT current_database(), current_user, version()",
+      "resultado": [
+        [
+          "food_store_tp2_20260922_135107_303493_base",
+          "postgres",
+          "PostgreSQL 17.11 on x86_64-windows, compiled by msvc-19.44.35228, 64-bit"
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pg_dump -Fc food_store_tp2_20260922_135107_303493_base",
+      "resultado": "backups\\food_store_tp2_20260922_135107_303493_base_pre_ddl.dump"
+    },
+    {
+      "sesion": "BASE",
+      "sql": "BEGIN",
+      "resultado": "BEGIN"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "Archivo: schema.sql",
+      "resultado": "Inicio"
+    },
+    {
+      "sesion": "BASE",
+      "sql": "NOTICE",
+      "resultado": "table \"detalle_pedido\" does not exist, skipping"
+    },
+    {
+      "sesion": "BASE",
+      "sql": "NOTICE",
+      "resultado": "table \"pedido\" does not exist, skipping"
+    },
+    {
+      "sesion": "BASE",
+      "sql": "NOTICE",
+      "resultado": "table \"producto\" does not exist, skipping"
+    },
+    {
+      "sesion": "BASE",
+      "sql": "NOTICE",
+      "resultado": "table \"cliente\" does not exist, skipping"
+    },
+    {
+      "sesion": "BASE",
+      "sql": "NOTICE",
+      "resultado": "table \"categoria\" does not exist, skipping"
+    },
+    {
+      "sesion": "BASE",
+      "sql": "NOTICE",
+      "resultado": "type \"estado_pedido\" does not exist, skipping"
+    },
+    {
+      "sesion": "BASE",
+      "sql": "NOTICE",
+      "resultado": "type \"forma_pago\" does not exist, skipping"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "DROP TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "DROP TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "DROP TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "DROP TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "DROP TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "DROP TYPE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "DROP TYPE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "CREATE TYPE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "CREATE TYPE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "CREATE TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "CREATE TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "CREATE TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "CREATE TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "CREATE TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "CREATE INDEX"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "CREATE INDEX"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": [
+        [
+          "categoria"
+        ],
+        [
+          "cliente"
+        ],
+        [
+          "detalle_pedido"
+        ],
+        [
+          "pedido"
+        ],
+        [
+          "producto"
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": [
+        [
+          "categoria",
+          "id_categoria",
+          "integer"
+        ],
+        [
+          "categoria",
+          "nombre",
+          "character varying"
+        ],
+        [
+          "categoria",
+          "activo",
+          "boolean"
+        ],
+        [
+          "cliente",
+          "id_cliente",
+          "integer"
+        ],
+        [
+          "cliente",
+          "correo_electronico",
+          "character varying"
+        ],
+        [
+          "cliente",
+          "nro_telefono",
+          "character varying"
+        ],
+        [
+          "cliente",
+          "nombre",
+          "character varying"
+        ],
+        [
+          "cliente",
+          "apellido",
+          "character varying"
+        ],
+        [
+          "detalle_pedido",
+          "id_pedido",
+          "integer"
+        ],
+        [
+          "detalle_pedido",
+          "id_producto",
+          "integer"
+        ],
+        [
+          "detalle_pedido",
+          "precio_unitario",
+          "numeric"
+        ],
+        [
+          "detalle_pedido",
+          "cantidad",
+          "integer"
+        ],
+        [
+          "pedido",
+          "id_pedido",
+          "integer"
+        ],
+        [
+          "pedido",
+          "fecha",
+          "timestamp with time zone"
+        ],
+        [
+          "pedido",
+          "estado",
+          "USER-DEFINED"
+        ],
+        [
+          "pedido",
+          "forma_pago",
+          "USER-DEFINED"
+        ],
+        [
+          "pedido",
+          "cliente_id",
+          "integer"
+        ],
+        [
+          "producto",
+          "id_producto",
+          "integer"
+        ],
+        [
+          "producto",
+          "nombre",
+          "character varying"
+        ],
+        [
+          "producto",
+          "precio_lista",
+          "numeric"
+        ],
+        [
+          "producto",
+          "stock",
+          "integer"
+        ],
+        [
+          "producto",
+          "activo",
+          "boolean"
+        ],
+        [
+          "producto",
+          "categoria_id",
+          "integer"
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "Archivo: datos_iniciales.sql",
+      "resultado": "Inicio"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "datos_iniciales.sql",
+      "resultado": "INSERT 0 3"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "datos_iniciales.sql",
+      "resultado": "INSERT 0 1"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "datos_iniciales.sql",
+      "resultado": "INSERT 0 3"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "datos_iniciales.sql",
+      "resultado": "INSERT 0 3"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "datos_iniciales.sql",
+      "resultado": [
+        [
+          3
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "datos_iniciales.sql",
+      "resultado": [
+        [
+          1
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "datos_iniciales.sql",
+      "resultado": [
+        [
+          3
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "datos_iniciales.sql",
+      "resultado": [
+        [
+          3
+        ]
+      ]
+    },
+    {
+      "sesion": "BASE",
+      "sql": "ROLLBACK",
+      "resultado": "ROLLBACK"
+    },
+    {
+      "sesion": "BASE",
+      "sql": "BEGIN",
+      "resultado": "BEGIN"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "Archivo: schema.sql",
+      "resultado": "Inicio"
+    },
+    {
+      "sesion": "BASE",
+      "sql": "NOTICE",
+      "resultado": "table \"detalle_pedido\" does not exist, skipping"
+    },
+    {
+      "sesion": "BASE",
+      "sql": "NOTICE",
+      "resultado": "table \"pedido\" does not exist, skipping"
+    },
+    {
+      "sesion": "BASE",
+      "sql": "NOTICE",
+      "resultado": "table \"producto\" does not exist, skipping"
+    },
+    {
+      "sesion": "BASE",
+      "sql": "NOTICE",
+      "resultado": "table \"cliente\" does not exist, skipping"
+    },
+    {
+      "sesion": "BASE",
+      "sql": "NOTICE",
+      "resultado": "table \"categoria\" does not exist, skipping"
+    },
+    {
+      "sesion": "BASE",
+      "sql": "NOTICE",
+      "resultado": "type \"estado_pedido\" does not exist, skipping"
+    },
+    {
+      "sesion": "BASE",
+      "sql": "NOTICE",
+      "resultado": "type \"forma_pago\" does not exist, skipping"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "DROP TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "DROP TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "DROP TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "DROP TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "DROP TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "DROP TYPE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "DROP TYPE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "CREATE TYPE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "CREATE TYPE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "CREATE TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "CREATE TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "CREATE TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "CREATE TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "CREATE TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "CREATE INDEX"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": "CREATE INDEX"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": [
+        [
+          "categoria"
+        ],
+        [
+          "cliente"
+        ],
+        [
+          "detalle_pedido"
+        ],
+        [
+          "pedido"
+        ],
+        [
+          "producto"
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "schema.sql",
+      "resultado": [
+        [
+          "categoria",
+          "id_categoria",
+          "integer"
+        ],
+        [
+          "categoria",
+          "nombre",
+          "character varying"
+        ],
+        [
+          "categoria",
+          "activo",
+          "boolean"
+        ],
+        [
+          "cliente",
+          "id_cliente",
+          "integer"
+        ],
+        [
+          "cliente",
+          "correo_electronico",
+          "character varying"
+        ],
+        [
+          "cliente",
+          "nro_telefono",
+          "character varying"
+        ],
+        [
+          "cliente",
+          "nombre",
+          "character varying"
+        ],
+        [
+          "cliente",
+          "apellido",
+          "character varying"
+        ],
+        [
+          "detalle_pedido",
+          "id_pedido",
+          "integer"
+        ],
+        [
+          "detalle_pedido",
+          "id_producto",
+          "integer"
+        ],
+        [
+          "detalle_pedido",
+          "precio_unitario",
+          "numeric"
+        ],
+        [
+          "detalle_pedido",
+          "cantidad",
+          "integer"
+        ],
+        [
+          "pedido",
+          "id_pedido",
+          "integer"
+        ],
+        [
+          "pedido",
+          "fecha",
+          "timestamp with time zone"
+        ],
+        [
+          "pedido",
+          "estado",
+          "USER-DEFINED"
+        ],
+        [
+          "pedido",
+          "forma_pago",
+          "USER-DEFINED"
+        ],
+        [
+          "pedido",
+          "cliente_id",
+          "integer"
+        ],
+        [
+          "producto",
+          "id_producto",
+          "integer"
+        ],
+        [
+          "producto",
+          "nombre",
+          "character varying"
+        ],
+        [
+          "producto",
+          "precio_lista",
+          "numeric"
+        ],
+        [
+          "producto",
+          "stock",
+          "integer"
+        ],
+        [
+          "producto",
+          "activo",
+          "boolean"
+        ],
+        [
+          "producto",
+          "categoria_id",
+          "integer"
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "Archivo: datos_iniciales.sql",
+      "resultado": "Inicio"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "datos_iniciales.sql",
+      "resultado": "INSERT 0 3"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "datos_iniciales.sql",
+      "resultado": "INSERT 0 1"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "datos_iniciales.sql",
+      "resultado": "INSERT 0 3"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "datos_iniciales.sql",
+      "resultado": "INSERT 0 3"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "datos_iniciales.sql",
+      "resultado": [
+        [
+          3
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "datos_iniciales.sql",
+      "resultado": [
+        [
+          1
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "datos_iniciales.sql",
+      "resultado": [
+        [
+          3
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "datos_iniciales.sql",
+      "resultado": [
+        [
+          3
+        ]
+      ]
+    },
+    {
+      "sesion": "BASE",
+      "sql": "COMMIT",
+      "resultado": "COMMIT"
+    },
+    {
+      "sesion": "ADMIN",
+      "sql": "CREATE DATABASE \"food_store_tp2_20260922_135107_303493_trabajo\" TEMPLATE \"food_store_tp2_20260922_135107_303493_base\"",
+      "resultado": "CREATE DATABASE"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "SELECT current_database(), current_user, version()",
+      "resultado": [
+        [
+          "food_store_tp2_20260922_135107_303493_trabajo",
+          "postgres",
+          "PostgreSQL 17.11 on x86_64-windows, compiled by msvc-19.44.35228, 64-bit"
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pg_dump -Fc food_store_tp2_20260922_135107_303493_trabajo",
+      "resultado": "backups\\food_store_tp2_20260922_135107_303493_trabajo_pre_ddl.dump"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "BEGIN",
+      "resultado": "BEGIN"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "Archivo: restricciones_Food_Store.sql",
+      "resultado": "Inicio"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "trigger \"trg_validar_transicion_estado_pedido\" for relation \"pedido\" does not exist, skipping"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "trigger \"trg_validar_edicion_detalle_pedido\" for relation \"detalle_pedido\" does not exist, skipping"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "trigger \"trg_validar_producto_y_stock_detalle\" for relation \"detalle_pedido\" does not exist, skipping"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "restricciones_Food_Store.sql",
+      "resultado": "CREATE FUNCTION"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "restricciones_Food_Store.sql",
+      "resultado": "DROP TRIGGER"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "restricciones_Food_Store.sql",
+      "resultado": "CREATE TRIGGER"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "restricciones_Food_Store.sql",
+      "resultado": "CREATE FUNCTION"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "restricciones_Food_Store.sql",
+      "resultado": "DROP TRIGGER"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "restricciones_Food_Store.sql",
+      "resultado": "CREATE TRIGGER"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "restricciones_Food_Store.sql",
+      "resultado": "CREATE FUNCTION"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "restricciones_Food_Store.sql",
+      "resultado": "DROP TRIGGER"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "restricciones_Food_Store.sql",
+      "resultado": "CREATE TRIGGER"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "Archivo: pruebas_restricciones.sql",
+      "resultado": "Inicio"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK: Traslado entre pedidos pendientes"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK: Cantidad editable mientras el pedido esta pendiente"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK: PENDIENTE a CONFIRMADO"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK error esperado [23514]: Transición de estado no permitida: CONFIRMADO -> PENDIENTE"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK error esperado [23514]: No se puede editar el detalle del pedido 1 porque está CONFIRMADO"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK error esperado [23514]: No se puede editar el detalle del pedido 1 porque está CONFIRMADO"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK error esperado [23514]: No se puede editar el detalle del pedido 1 porque está CONFIRMADO"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK error esperado [23514]: No se puede editar el detalle del pedido 1 porque está CONFIRMADO"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK error esperado [23514]: No se puede editar el detalle del pedido 1 porque está CONFIRMADO"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK: Borrado permitido en pedido pendiente"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK error esperado [23514]: El producto 2 está inactivo"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK error esperado [23514]: Stock insuficiente para el producto 3: solicitado 6, disponible 5"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK: Cantidad igual al stock aceptada"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK error esperado [23514]: Stock insuficiente para el producto 3: solicitado 6, disponible 5"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK error esperado [23514]: El producto 2 está inactivo"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK error esperado [23514]: new row for relation \"detalle_pedido\" violates check constraint \"chk_detalle_cantidad\""
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK: CONFIRMADO a ENTREGADO"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK error esperado [23514]: Transición de estado no permitida: ENTREGADO -> CANCELADO"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK: CONFIRMADO a CANCELADO"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK error esperado [23514]: Transición de estado no permitida: CANCELADO -> PENDIENTE"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK error esperado [23514]: Transición de estado no permitida: PENDIENTE -> ENTREGADO"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK: PENDIENTE a CANCELADO"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": "CREATE FUNCTION"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": "CREATE FUNCTION"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": "INSERT 0 1"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": "UPDATE 1"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": "UPDATE 1"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": "UPDATE 1"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": "UPDATE 1"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": "INSERT 0 1"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": "DELETE 1"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": "INSERT 0 1"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": "UPDATE 1"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": "UPDATE 1"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": "UPDATE 1"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": "UPDATE 1"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": "UPDATE 1"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "ROLLBACK",
+      "resultado": "ROLLBACK"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "BEGIN",
+      "resultado": "BEGIN"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "Archivo: restricciones_Food_Store.sql",
+      "resultado": "Inicio"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "trigger \"trg_validar_transicion_estado_pedido\" for relation \"pedido\" does not exist, skipping"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "trigger \"trg_validar_edicion_detalle_pedido\" for relation \"detalle_pedido\" does not exist, skipping"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "trigger \"trg_validar_producto_y_stock_detalle\" for relation \"detalle_pedido\" does not exist, skipping"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "restricciones_Food_Store.sql",
+      "resultado": "CREATE FUNCTION"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "restricciones_Food_Store.sql",
+      "resultado": "DROP TRIGGER"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "restricciones_Food_Store.sql",
+      "resultado": "CREATE TRIGGER"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "restricciones_Food_Store.sql",
+      "resultado": "CREATE FUNCTION"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "restricciones_Food_Store.sql",
+      "resultado": "DROP TRIGGER"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "restricciones_Food_Store.sql",
+      "resultado": "CREATE TRIGGER"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "restricciones_Food_Store.sql",
+      "resultado": "CREATE FUNCTION"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "restricciones_Food_Store.sql",
+      "resultado": "DROP TRIGGER"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "restricciones_Food_Store.sql",
+      "resultado": "CREATE TRIGGER"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "COMMIT",
+      "resultado": "COMMIT"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "BEGIN",
+      "resultado": "BEGIN"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "Archivo: pruebas_restricciones.sql",
+      "resultado": "Inicio"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK: Traslado entre pedidos pendientes"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK: Cantidad editable mientras el pedido esta pendiente"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK: PENDIENTE a CONFIRMADO"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK error esperado [23514]: Transición de estado no permitida: CONFIRMADO -> PENDIENTE"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK error esperado [23514]: No se puede editar el detalle del pedido 1 porque está CONFIRMADO"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK error esperado [23514]: No se puede editar el detalle del pedido 1 porque está CONFIRMADO"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK error esperado [23514]: No se puede editar el detalle del pedido 1 porque está CONFIRMADO"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK error esperado [23514]: No se puede editar el detalle del pedido 1 porque está CONFIRMADO"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK error esperado [23514]: No se puede editar el detalle del pedido 1 porque está CONFIRMADO"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK: Borrado permitido en pedido pendiente"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK error esperado [23514]: El producto 2 está inactivo"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK error esperado [23514]: Stock insuficiente para el producto 3: solicitado 6, disponible 5"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK: Cantidad igual al stock aceptada"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK error esperado [23514]: Stock insuficiente para el producto 3: solicitado 6, disponible 5"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK error esperado [23514]: El producto 2 está inactivo"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK error esperado [23514]: new row for relation \"detalle_pedido\" violates check constraint \"chk_detalle_cantidad\""
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK: CONFIRMADO a ENTREGADO"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK error esperado [23514]: Transición de estado no permitida: ENTREGADO -> CANCELADO"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK: CONFIRMADO a CANCELADO"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK error esperado [23514]: Transición de estado no permitida: CANCELADO -> PENDIENTE"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK error esperado [23514]: Transición de estado no permitida: PENDIENTE -> ENTREGADO"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "NOTICE",
+      "resultado": "OK: PENDIENTE a CANCELADO"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": "CREATE FUNCTION"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": "CREATE FUNCTION"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": "INSERT 0 1"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": "UPDATE 1"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": "UPDATE 1"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": "UPDATE 1"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": "UPDATE 1"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": "INSERT 0 1"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": "DELETE 1"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": "INSERT 0 1"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": "UPDATE 1"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": "UPDATE 1"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": "UPDATE 1"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": "UPDATE 1"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": "UPDATE 1"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_restricciones.sql",
+      "resultado": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "ROLLBACK",
+      "resultado": "ROLLBACK"
+    },
+    {
+      "sesion": "RESTRICCIONES",
+      "sql": "SELECT count(*) FROM detalle_pedido",
+      "resultado": [
+        [
+          0
+        ]
+      ]
+    },
+    {
+      "sesion": "ADMIN",
+      "sql": "CREATE DATABASE \"food_store_tp2_20260922_135107_303493_lectura_rc\" TEMPLATE \"food_store_tp2_20260922_135107_303493_trabajo\"",
+      "resultado": "CREATE DATABASE"
+    },
+    {
+      "sesion": "lectura_rc_A",
+      "sql": "SELECT current_database(), current_user, version()",
+      "resultado": [
+        [
+          "food_store_tp2_20260922_135107_303493_lectura_rc",
+          "postgres",
+          "PostgreSQL 17.11 on x86_64-windows, compiled by msvc-19.44.35228, 64-bit"
+        ]
+      ]
+    },
+    {
+      "sesion": "lectura_rc_B",
+      "sql": "SELECT current_database(), current_user, version()",
+      "resultado": [
+        [
+          "food_store_tp2_20260922_135107_303493_lectura_rc",
+          "postgres",
+          "PostgreSQL 17.11 on x86_64-windows, compiled by msvc-19.44.35228, 64-bit"
+        ]
+      ]
+    },
+    {
+      "sesion": "lectura_rc_B",
+      "sql": "BEGIN",
+      "resultado": "BEGIN"
+    },
+    {
+      "sesion": "lectura_rc_B",
+      "sql": "UPDATE producto SET stock=stock+1 WHERE id_producto=1",
+      "resultado": "UPDATE 1"
+    },
+    {
+      "sesion": "lectura_rc_B",
+      "sql": "ROLLBACK",
+      "resultado": "ROLLBACK"
+    },
+    {
+      "sesion": "lectura_rc_A",
+      "sql": "BEGIN ISOLATION LEVEL READ COMMITTED",
+      "resultado": "BEGIN"
+    },
+    {
+      "sesion": "lectura_rc_A",
+      "sql": "SELECT stock FROM producto WHERE id_producto=1",
+      "resultado": [
+        [
+          10
+        ]
+      ]
+    },
+    {
+      "sesion": "lectura_rc_B",
+      "sql": "BEGIN",
+      "resultado": "BEGIN"
+    },
+    {
+      "sesion": "lectura_rc_B",
+      "sql": "UPDATE producto SET stock=stock+1 WHERE id_producto=1",
+      "resultado": "UPDATE 1"
+    },
+    {
+      "sesion": "lectura_rc_B",
+      "sql": "COMMIT",
+      "resultado": "COMMIT"
+    },
+    {
+      "sesion": "lectura_rc_A",
+      "sql": "SELECT stock FROM producto WHERE id_producto=1",
+      "resultado": [
+        [
+          11
+        ]
+      ]
+    },
+    {
+      "sesion": "lectura_rc_A",
+      "sql": "COMMIT",
+      "resultado": "COMMIT"
+    },
+    {
+      "sesion": "ADMIN",
+      "sql": "CREATE DATABASE \"food_store_tp2_20260922_135107_303493_lectura_rr\" TEMPLATE \"food_store_tp2_20260922_135107_303493_trabajo\"",
+      "resultado": "CREATE DATABASE"
+    },
+    {
+      "sesion": "lectura_rr_A",
+      "sql": "SELECT current_database(), current_user, version()",
+      "resultado": [
+        [
+          "food_store_tp2_20260922_135107_303493_lectura_rr",
+          "postgres",
+          "PostgreSQL 17.11 on x86_64-windows, compiled by msvc-19.44.35228, 64-bit"
+        ]
+      ]
+    },
+    {
+      "sesion": "lectura_rr_B",
+      "sql": "SELECT current_database(), current_user, version()",
+      "resultado": [
+        [
+          "food_store_tp2_20260922_135107_303493_lectura_rr",
+          "postgres",
+          "PostgreSQL 17.11 on x86_64-windows, compiled by msvc-19.44.35228, 64-bit"
+        ]
+      ]
+    },
+    {
+      "sesion": "lectura_rr_B",
+      "sql": "BEGIN",
+      "resultado": "BEGIN"
+    },
+    {
+      "sesion": "lectura_rr_B",
+      "sql": "UPDATE producto SET stock=stock+1 WHERE id_producto=1",
+      "resultado": "UPDATE 1"
+    },
+    {
+      "sesion": "lectura_rr_B",
+      "sql": "ROLLBACK",
+      "resultado": "ROLLBACK"
+    },
+    {
+      "sesion": "lectura_rr_A",
+      "sql": "BEGIN ISOLATION LEVEL REPEATABLE READ",
+      "resultado": "BEGIN"
+    },
+    {
+      "sesion": "lectura_rr_A",
+      "sql": "SELECT stock FROM producto WHERE id_producto=1",
+      "resultado": [
+        [
+          10
+        ]
+      ]
+    },
+    {
+      "sesion": "lectura_rr_B",
+      "sql": "BEGIN",
+      "resultado": "BEGIN"
+    },
+    {
+      "sesion": "lectura_rr_B",
+      "sql": "UPDATE producto SET stock=stock+1 WHERE id_producto=1",
+      "resultado": "UPDATE 1"
+    },
+    {
+      "sesion": "lectura_rr_B",
+      "sql": "COMMIT",
+      "resultado": "COMMIT"
+    },
+    {
+      "sesion": "lectura_rr_A",
+      "sql": "SELECT stock FROM producto WHERE id_producto=1",
+      "resultado": [
+        [
+          10
+        ]
+      ]
+    },
+    {
+      "sesion": "lectura_rr_A",
+      "sql": "COMMIT",
+      "resultado": "COMMIT"
+    },
+    {
+      "sesion": "ADMIN",
+      "sql": "CREATE DATABASE \"food_store_tp2_20260922_135107_303493_fantasma_rc\" TEMPLATE \"food_store_tp2_20260922_135107_303493_trabajo\"",
+      "resultado": "CREATE DATABASE"
+    },
+    {
+      "sesion": "fantasma_rc_A",
+      "sql": "SELECT current_database(), current_user, version()",
+      "resultado": [
+        [
+          "food_store_tp2_20260922_135107_303493_fantasma_rc",
+          "postgres",
+          "PostgreSQL 17.11 on x86_64-windows, compiled by msvc-19.44.35228, 64-bit"
+        ]
+      ]
+    },
+    {
+      "sesion": "fantasma_rc_B",
+      "sql": "SELECT current_database(), current_user, version()",
+      "resultado": [
+        [
+          "food_store_tp2_20260922_135107_303493_fantasma_rc",
+          "postgres",
+          "PostgreSQL 17.11 on x86_64-windows, compiled by msvc-19.44.35228, 64-bit"
+        ]
+      ]
+    },
+    {
+      "sesion": "fantasma_rc_B",
+      "sql": "BEGIN",
+      "resultado": "BEGIN"
+    },
+    {
+      "sesion": "fantasma_rc_B",
+      "sql": "INSERT INTO pedido (forma_pago,cliente_id) VALUES ('EFECTIVO',1)",
+      "resultado": "INSERT 0 1"
+    },
+    {
+      "sesion": "fantasma_rc_B",
+      "sql": "ROLLBACK",
+      "resultado": "ROLLBACK"
+    },
+    {
+      "sesion": "fantasma_rc_A",
+      "sql": "BEGIN ISOLATION LEVEL READ COMMITTED",
+      "resultado": "BEGIN"
+    },
+    {
+      "sesion": "fantasma_rc_A",
+      "sql": "SELECT count(*) FROM pedido WHERE cliente_id=1",
+      "resultado": [
+        [
+          3
+        ]
+      ]
+    },
+    {
+      "sesion": "fantasma_rc_B",
+      "sql": "BEGIN",
+      "resultado": "BEGIN"
+    },
+    {
+      "sesion": "fantasma_rc_B",
+      "sql": "INSERT INTO pedido (forma_pago,cliente_id) VALUES ('EFECTIVO',1)",
+      "resultado": "INSERT 0 1"
+    },
+    {
+      "sesion": "fantasma_rc_B",
+      "sql": "COMMIT",
+      "resultado": "COMMIT"
+    },
+    {
+      "sesion": "fantasma_rc_A",
+      "sql": "SELECT count(*) FROM pedido WHERE cliente_id=1",
+      "resultado": [
+        [
+          4
+        ]
+      ]
+    },
+    {
+      "sesion": "fantasma_rc_A",
+      "sql": "COMMIT",
+      "resultado": "COMMIT"
+    },
+    {
+      "sesion": "ADMIN",
+      "sql": "CREATE DATABASE \"food_store_tp2_20260922_135107_303493_fantasma_rr\" TEMPLATE \"food_store_tp2_20260922_135107_303493_trabajo\"",
+      "resultado": "CREATE DATABASE"
+    },
+    {
+      "sesion": "fantasma_rr_A",
+      "sql": "SELECT current_database(), current_user, version()",
+      "resultado": [
+        [
+          "food_store_tp2_20260922_135107_303493_fantasma_rr",
+          "postgres",
+          "PostgreSQL 17.11 on x86_64-windows, compiled by msvc-19.44.35228, 64-bit"
+        ]
+      ]
+    },
+    {
+      "sesion": "fantasma_rr_B",
+      "sql": "SELECT current_database(), current_user, version()",
+      "resultado": [
+        [
+          "food_store_tp2_20260922_135107_303493_fantasma_rr",
+          "postgres",
+          "PostgreSQL 17.11 on x86_64-windows, compiled by msvc-19.44.35228, 64-bit"
+        ]
+      ]
+    },
+    {
+      "sesion": "fantasma_rr_B",
+      "sql": "BEGIN",
+      "resultado": "BEGIN"
+    },
+    {
+      "sesion": "fantasma_rr_B",
+      "sql": "INSERT INTO pedido (forma_pago,cliente_id) VALUES ('EFECTIVO',1)",
+      "resultado": "INSERT 0 1"
+    },
+    {
+      "sesion": "fantasma_rr_B",
+      "sql": "ROLLBACK",
+      "resultado": "ROLLBACK"
+    },
+    {
+      "sesion": "fantasma_rr_A",
+      "sql": "BEGIN ISOLATION LEVEL REPEATABLE READ",
+      "resultado": "BEGIN"
+    },
+    {
+      "sesion": "fantasma_rr_A",
+      "sql": "SELECT count(*) FROM pedido WHERE cliente_id=1",
+      "resultado": [
+        [
+          3
+        ]
+      ]
+    },
+    {
+      "sesion": "fantasma_rr_B",
+      "sql": "BEGIN",
+      "resultado": "BEGIN"
+    },
+    {
+      "sesion": "fantasma_rr_B",
+      "sql": "INSERT INTO pedido (forma_pago,cliente_id) VALUES ('EFECTIVO',1)",
+      "resultado": "INSERT 0 1"
+    },
+    {
+      "sesion": "fantasma_rr_B",
+      "sql": "COMMIT",
+      "resultado": "COMMIT"
+    },
+    {
+      "sesion": "fantasma_rr_A",
+      "sql": "SELECT count(*) FROM pedido WHERE cliente_id=1",
+      "resultado": [
+        [
+          3
+        ]
+      ]
+    },
+    {
+      "sesion": "fantasma_rr_A",
+      "sql": "COMMIT",
+      "resultado": "COMMIT"
+    },
+    {
+      "sesion": "ADMIN",
+      "sql": "CREATE DATABASE \"food_store_tp2_20260922_135107_303493_bloqueo\" TEMPLATE \"food_store_tp2_20260922_135107_303493_trabajo\"",
+      "resultado": "CREATE DATABASE"
+    },
+    {
+      "sesion": "bloqueo_A",
+      "sql": "SELECT current_database(), current_user, version()",
+      "resultado": [
+        [
+          "food_store_tp2_20260922_135107_303493_bloqueo",
+          "postgres",
+          "PostgreSQL 17.11 on x86_64-windows, compiled by msvc-19.44.35228, 64-bit"
+        ]
+      ]
+    },
+    {
+      "sesion": "bloqueo_B",
+      "sql": "SELECT current_database(), current_user, version()",
+      "resultado": [
+        [
+          "food_store_tp2_20260922_135107_303493_bloqueo",
+          "postgres",
+          "PostgreSQL 17.11 on x86_64-windows, compiled by msvc-19.44.35228, 64-bit"
+        ]
+      ]
+    },
+    {
+      "sesion": "bloqueo_A",
+      "sql": "BEGIN",
+      "resultado": "BEGIN"
+    },
+    {
+      "sesion": "bloqueo_A",
+      "sql": "SELECT id_producto FROM producto WHERE id_producto=1 FOR UPDATE",
+      "resultado": [
+        [
+          1
+        ]
+      ]
+    },
+    {
+      "sesion": "bloqueo_B",
+      "sql": "BEGIN",
+      "resultado": "BEGIN"
+    },
+    {
+      "sesion": "OBSERVADOR",
+      "sql": "pg_stat_activity WHERE pid=15572",
+      "resultado": [
+        [
+          "Lock",
+          "transactionid"
+        ]
+      ]
+    },
+    {
+      "sesion": "bloqueo_A",
+      "sql": "COMMIT",
+      "resultado": "COMMIT"
+    },
+    {
+      "sesion": "bloqueo_B",
+      "sql": "SELECT id_producto FROM producto WHERE id_producto=1 FOR UPDATE",
+      "resultado": [
+        [
+          1
+        ]
+      ]
+    },
+    {
+      "sesion": "bloqueo_B",
+      "sql": "COMMIT",
+      "resultado": "COMMIT"
+    },
+    {
+      "sesion": "bloqueo_A",
+      "sql": "BEGIN",
+      "resultado": "BEGIN"
+    },
+    {
+      "sesion": "bloqueo_A",
+      "sql": "SELECT id_producto FROM producto WHERE id_producto=1 FOR UPDATE",
+      "resultado": [
+        [
+          1
+        ]
+      ]
+    },
+    {
+      "sesion": "bloqueo_B",
+      "sql": "BEGIN",
+      "resultado": "BEGIN"
+    },
+    {
+      "sesion": "bloqueo_B",
+      "sql": "SELECT id_producto FROM producto WHERE id_producto=1 FOR UPDATE NOWAIT",
+      "resultado": {
+        "sqlstate": "55P03",
+        "mensaje": "could not obtain lock on row in relation \"producto\""
+      }
+    },
+    {
+      "sesion": "bloqueo_B",
+      "sql": "ROLLBACK",
+      "resultado": "ROLLBACK"
+    },
+    {
+      "sesion": "bloqueo_A",
+      "sql": "ROLLBACK",
+      "resultado": "ROLLBACK"
+    },
+    {
+      "sesion": "ADMIN",
+      "sql": "CREATE DATABASE \"food_store_tp2_20260922_135107_303493_detalle_primero\" TEMPLATE \"food_store_tp2_20260922_135107_303493_trabajo\"",
+      "resultado": "CREATE DATABASE"
+    },
+    {
+      "sesion": "detalle_primero_A",
+      "sql": "SELECT current_database(), current_user, version()",
+      "resultado": [
+        [
+          "food_store_tp2_20260922_135107_303493_detalle_primero",
+          "postgres",
+          "PostgreSQL 17.11 on x86_64-windows, compiled by msvc-19.44.35228, 64-bit"
+        ]
+      ]
+    },
+    {
+      "sesion": "detalle_primero_B",
+      "sql": "SELECT current_database(), current_user, version()",
+      "resultado": [
+        [
+          "food_store_tp2_20260922_135107_303493_detalle_primero",
+          "postgres",
+          "PostgreSQL 17.11 on x86_64-windows, compiled by msvc-19.44.35228, 64-bit"
+        ]
+      ]
+    },
+    {
+      "sesion": "detalle_A",
+      "sql": "BEGIN",
+      "resultado": "BEGIN"
+    },
+    {
+      "sesion": "detalle_A",
+      "sql": "INSERT INTO detalle_pedido VALUES (1,1,1000,1)",
+      "resultado": "INSERT 0 1"
+    },
+    {
+      "sesion": "detalle_B",
+      "sql": "BEGIN",
+      "resultado": "BEGIN"
+    },
+    {
+      "sesion": "OBSERVADOR",
+      "sql": "pg_stat_activity WHERE pid=7520",
+      "resultado": [
+        [
+          "Lock",
+          "transactionid"
+        ]
+      ]
+    },
+    {
+      "sesion": "detalle_A",
+      "sql": "ROLLBACK",
+      "resultado": "ROLLBACK"
+    },
+    {
+      "sesion": "detalle_B",
+      "sql": "UPDATE pedido SET estado='CONFIRMADO' WHERE id_pedido=1",
+      "resultado": "UPDATE 1"
+    },
+    {
+      "sesion": "detalle_B",
+      "sql": "ROLLBACK",
+      "resultado": "ROLLBACK"
+    },
+    {
+      "sesion": "ADMIN",
+      "sql": "CREATE DATABASE \"food_store_tp2_20260922_135107_303493_estado_primero\" TEMPLATE \"food_store_tp2_20260922_135107_303493_trabajo\"",
+      "resultado": "CREATE DATABASE"
+    },
+    {
+      "sesion": "estado_primero_A",
+      "sql": "SELECT current_database(), current_user, version()",
+      "resultado": [
+        [
+          "food_store_tp2_20260922_135107_303493_estado_primero",
+          "postgres",
+          "PostgreSQL 17.11 on x86_64-windows, compiled by msvc-19.44.35228, 64-bit"
+        ]
+      ]
+    },
+    {
+      "sesion": "estado_primero_B",
+      "sql": "SELECT current_database(), current_user, version()",
+      "resultado": [
+        [
+          "food_store_tp2_20260922_135107_303493_estado_primero",
+          "postgres",
+          "PostgreSQL 17.11 on x86_64-windows, compiled by msvc-19.44.35228, 64-bit"
+        ]
+      ]
+    },
+    {
+      "sesion": "estado_A",
+      "sql": "BEGIN",
+      "resultado": "BEGIN"
+    },
+    {
+      "sesion": "estado_A",
+      "sql": "UPDATE pedido SET estado='CONFIRMADO' WHERE id_pedido=1",
+      "resultado": "UPDATE 1"
+    },
+    {
+      "sesion": "estado_A",
+      "sql": "ROLLBACK",
+      "resultado": "ROLLBACK"
+    },
+    {
+      "sesion": "estado_A",
+      "sql": "BEGIN",
+      "resultado": "BEGIN"
+    },
+    {
+      "sesion": "estado_A",
+      "sql": "UPDATE pedido SET estado='CONFIRMADO' WHERE id_pedido=1",
+      "resultado": "UPDATE 1"
+    },
+    {
+      "sesion": "estado_B",
+      "sql": "BEGIN",
+      "resultado": "BEGIN"
+    },
+    {
+      "sesion": "OBSERVADOR",
+      "sql": "pg_stat_activity WHERE pid=20728",
+      "resultado": [
+        [
+          "Lock",
+          "transactionid"
+        ]
+      ]
+    },
+    {
+      "sesion": "estado_A",
+      "sql": "COMMIT",
+      "resultado": "COMMIT"
+    },
+    {
+      "sesion": "estado_B",
+      "sql": "INSERT INTO detalle_pedido VALUES (1,1,1000,1)",
+      "resultado": {
+        "sqlstate": "23514",
+        "mensaje": "No se puede editar el detalle del pedido 1 porque está CONFIRMADO"
+      }
+    },
+    {
+      "sesion": "estado_B",
+      "sql": "ROLLBACK",
+      "resultado": "ROLLBACK"
+    },
+    {
+      "sesion": "LECTURA_CRITICA",
+      "sql": "SELECT current_database(), current_user, version()",
+      "resultado": [
+        [
+          "food_store_tp2_20260922_135107_303493_trabajo",
+          "postgres",
+          "PostgreSQL 17.11 on x86_64-windows, compiled by msvc-19.44.35228, 64-bit"
+        ]
+      ]
+    },
+    {
+      "sesion": "LECTURA_CRITICA",
+      "sql": "BEGIN",
+      "resultado": "BEGIN"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "Archivo: pruebas_lectura_critica.sql",
+      "resultado": "Inicio"
+    },
+    {
+      "sesion": "LECTURA_CRITICA",
+      "sql": "NOTICE",
+      "resultado": "OK: UPDATE sin WHERE afecta las 3 funciones"
+    },
+    {
+      "sesion": "LECTURA_CRITICA",
+      "sql": "NOTICE",
+      "resultado": "OK: UPDATE corregido afecta 1 funcion; la vigente sigue activa"
+    },
+    {
+      "sesion": "LECTURA_CRITICA",
+      "sql": "NOTICE",
+      "resultado": "OK: NOT IN con NULL afecta 0 categorias"
+    },
+    {
+      "sesion": "LECTURA_CRITICA",
+      "sql": "NOTICE",
+      "resultado": "OK: NOT EXISTS afecta 2 categorias; conserva la referenciada"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_lectura_critica.sql",
+      "resultado": "CREATE TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_lectura_critica.sql",
+      "resultado": "INSERT 0 3"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_lectura_critica.sql",
+      "resultado": "CREATE TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_lectura_critica.sql",
+      "resultado": "CREATE TABLE"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_lectura_critica.sql",
+      "resultado": "INSERT 0 3"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_lectura_critica.sql",
+      "resultado": "INSERT 0 2"
+    },
+    {
+      "sesion": "PREPARACION",
+      "sql": "pruebas_lectura_critica.sql",
+      "resultado": "DO"
+    },
+    {
+      "sesion": "LECTURA_CRITICA",
+      "sql": "ROLLBACK",
+      "resultado": "ROLLBACK"
+    }
+  ]
+}

@@ -1,69 +1,27 @@
-# Evidencia real de ejecución - TP2 Food Store
+# Evidencia de ejecución — TP2 Food Store
 
-Fecha: 17/09/2026. Base de trabajo: `food_store_tp2` en PostgreSQL local. La base original no fue modificada.
+Ejecución actual: 22/09/2026, PostgreSQL 17.11 en Windows, psycopg 3.3.6. Instancia aislada local, usuario postgres, puerto 55432. Se utilizaron únicamente bases nuevas y datos sintéticos.
 
-## Esquema y datos de prueba
+## Resultados comprobados
 
-Se aplicó `schema.sql` y se verificó la existencia de las cinco tablas: `categoria`, `cliente`, `producto`, `pedido` y `detalle_pedido`.
+| Prueba | Resultado real |
+|---|---|
+| Restricciones | Pruebas válidas e inválidas aprobadas antes y después de instalar la migración; ensayos revertidos. |
+| Traslado de detalles | Permitido entre pendientes; rechazado con origen o destino confirmado. |
+| Edición y confirmación simultáneas | Espera observada en ambos órdenes; inserción rechazada después de la confirmación. |
+| Lectura no repetible | READ COMMITTED: 10, 11. REPEATABLE READ: 10, 10. |
+| Lectura fantasma | READ COMMITTED: 3, 4. REPEATABLE READ: 3, 3. |
+| Bloqueo de fila | B esperó hasta COMMIT de A. NOWAIT devolvió 55P03. |
+| Lectura crítica | UPDATE sin filtro: 3 filas; corregido: 1. NOT IN con NULL: 0; NOT EXISTS: 2. |
 
-Se cargaron dos productos de prueba, uno activo con stock 10 y otro inactivo; un cliente; y dos pedidos en estado `PENDIENTE`.
+## Registro reproducible
 
-## Restricciones - resultados observados
+- [Salida íntegra y comandos](evidencias/ejecucion_20260922_135107_303493.json), con `exito: true`.
+- [Ejecutor](verificar_tp2.py), [pruebas de restricciones](pruebas_restricciones.sql) y [lectura crítica](pruebas_lectura_critica.sql).
+- [Informe de concurrencia](informe_concurrencia.md), [DUIA Parte 1](duia_parte1.md) y [DUIA Partes 2 y 3](duia_partes2y3.md).
 
-La transición válida `PENDIENTE -> CONFIRMADO` afectó una fila. Las pruebas inválidas produjeron estos mensajes:
+Los JSON registran consultas, respuestas del servidor, SQLSTATE y mensajes; no son resultados simulados. Las etiquetas de sesión permiten distinguir conexiones. En operaciones bloqueadas, el resultado se registra al finalizar la sentencia; el orden de lanzamiento está explícito en el ejecutor.
 
-```text
-ERROR: Transición de estado no permitida: CONFIRMADO -> PENDIENTE
-ERROR: No se puede editar el detalle del pedido 1 porque está CONFIRMADO
-ERROR: El producto 2 está inactivo
-ERROR: Stock insuficiente para el producto 1: solicitado 999999, disponible 10
-```
+El primer ensayo de esta revisión se interrumpió por una tilde mal codificada en un mensaje esperado del verificador. Se conserva `evidencias/ejecucion_20260922_135041_693717.json` con `exito: false`. Tras corregirlo se ejecutó nuevamente todo el laboratorio con éxito.
 
-La inserción válida de un detalle en el pedido 2 con un producto activo y cantidad 1 fue aceptada. Todas las pruebas se ejecutaron dentro de una transacción y finalizaron con `ROLLBACK`.
-
-## Escenario 1 - Lectura no repetible
-
-Con Sesión A en `READ COMMITTED`, se obtuvo:
-
-```text
-primera_lectura: 10
-segunda_lectura: 11
-```
-
-Entre ambas lecturas, Sesión B ejecutó `UPDATE producto SET stock = stock + 1 WHERE id_producto = 1` y confirmó. La lectura no repetible quedó demostrada.
-
-Al repetir con Sesión A en `REPEATABLE READ`, se obtuvo:
-
-```text
-primera_lectura: 11
-segunda_lectura: 11
-```
-
-Sesión B volvió a actualizar y confirmó, pero A mantuvo su snapshot. La explicación de la IA se confirmó.
-
-## Escenario 2 - Lectura fantasma
-
-Con Sesión A en `READ COMMITTED`, se obtuvo:
-
-```text
-primer_conteo: 2
-segundo_conteo: 3
-```
-
-Entre ambos conteos, Sesión B insertó un pedido para el mismo cliente y confirmó. La nueva fila pasó a cumplir el `WHERE cliente_id = 1`, por lo cual la lectura fantasma quedó demostrada. La solución a verificar adicionalmente es repetir con `REPEATABLE READ`, donde A conserva su snapshot.
-
-## Escenario 3 - Espera por bloqueo
-
-Sesión A ejecutó `SELECT ... FOR UPDATE` sobre `producto.id_producto = 1` y mantuvo la transacción abierta. Sesión B intentó el mismo `FOR UPDATE` y quedó esperando aproximadamente **2,54 segundos**, hasta que A confirmó.
-
-Al repetir con `FOR UPDATE NOWAIT` en B, PostgreSQL devolvió inmediatamente:
-
-```text
-ERROR: no se pudo bloquear un “lock” en la fila de la relación «producto»
-```
-
-La explicación de la IA se confirmó: el mecanismo que evita la espera es `NOWAIT`; el bloqueo se libera cuando la sesión que lo tomó hace `COMMIT` o `ROLLBACK`.
-
-## Conclusión
-
-Se reprodujeron tres escenarios exigidos por la consigna y se verificaron contra el motor PostgreSQL real. `REPEATABLE READ` evitó la lectura no repetible y el bloqueo de fila fue observado y comprobado con `NOWAIT`.
+Los resultados del 17/09 presentes en la versión anterior se conservan en el historial Git; la presente evidencia corresponde a una nueva ejecución reproducible y reemplaza el resumen incompleto anterior. No se afirma haber restaurado los dumps ni realizado la defensa oral.
