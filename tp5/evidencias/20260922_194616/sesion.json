@@ -3642,7 +3642,8 @@
   "respaldos": {
     "i1": "backups\\food_store_tp5_20260922_194616_i1.dump",
     "i2": "backups\\food_store_tp5_20260922_194616_i2.dump",
-    "i3": "backups\\food_store_tp5_20260922_194616_i3.dump"
+    "i3": "backups\\food_store_tp5_20260922_194616_i3.dump",
+    "v1": "backups\\food_store_tp5_20260922_194616_v1.dump"
   },
   "ddl": {
     "i1": {
@@ -3667,6 +3668,71 @@
       "ensayo_revertido": true,
       "verificacion": {
         "filas_iguales": 1464
+      }
+    },
+    "v1": {
+      "sentencia": "CREATE VIEW tp5_productos_vigentes\n    (id_producto, nombre_producto, precio_lista, stock, id_categoria, nombre_categoria)\nAS\nSELECT p.id_producto, p.nombre, p.precio_lista, p.stock, c.id_categoria, c.nombre\nFROM producto p JOIN categoria c ON c.id_categoria = p.categoria_id\nWHERE p.activo AND c.activo",
+      "estado": "CREATE VIEW",
+      "ensayo_revertido": true,
+      "verificacion": {
+        "diferencias": [
+          0,
+          0
+        ],
+        "filas": 45002,
+        "orden_igual": true,
+        "muestra": [
+          [
+            1,
+            "Muzzarella de prueba",
+            "1000.00",
+            10,
+            1,
+            "Pizzas"
+          ],
+          [
+            3,
+            "Bebida activa de prueba",
+            "900.00",
+            5,
+            2,
+            "Bebidas"
+          ],
+          [
+            4,
+            "TP3 Producto 00001",
+            "537.00",
+            18,
+            1,
+            "Pizzas"
+          ]
+        ]
+      }
+    }
+  },
+  "escritura": {
+    "individuales": {
+      "antes": {
+        "mediana_ms": 180.26930000633,
+        "min_ms": 178.63059998489916,
+        "max_ms": 200.5206000758335
+      },
+      "despues": {
+        "mediana_ms": 188.84359998628497,
+        "min_ms": 186.83420005254447,
+        "max_ms": 198.41049995739013
+      }
+    },
+    "lote": {
+      "antes": {
+        "mediana_ms": 47.392,
+        "min_ms": 46.986,
+        "max_ms": 52.739
+      },
+      "despues": {
+        "mediana_ms": 50.96,
+        "min_ms": 50.239,
+        "max_ms": 56.302
       }
     }
   }

@@ -1,0 +1,2069 @@
+{
+  "metodo": "Un calentamiento y siete pares alternados. Cada carga se revierte.",
+  "individuales": {
+    "antes": [
+      {
+        "ms": 200.5206000758335,
+        "filas": 800
+      },
+      {
+        "ms": 180.81739998888224,
+        "filas": 800
+      },
+      {
+        "ms": 179.7442000824958,
+        "filas": 800
+      },
+      {
+        "ms": 180.26930000633,
+        "filas": 800
+      },
+      {
+        "ms": 180.47350004781038,
+        "filas": 800
+      },
+      {
+        "ms": 179.89209992811084,
+        "filas": 800
+      },
+      {
+        "ms": 178.63059998489916,
+        "filas": 800
+      }
+    ],
+    "despues": [
+      {
+        "ms": 187.88059998769313,
+        "filas": 800
+      },
+      {
+        "ms": 192.12729996070266,
+        "filas": 800
+      },
+      {
+        "ms": 186.83420005254447,
+        "filas": 800
+      },
+      {
+        "ms": 190.1621000142768,
+        "filas": 800
+      },
+      {
+        "ms": 198.41049995739013,
+        "filas": 800
+      },
+      {
+        "ms": 188.84359998628497,
+        "filas": 800
+      },
+      {
+        "ms": 188.83709993679076,
+        "filas": 800
+      }
+    ],
+    "resumen": {
+      "antes": {
+        "mediana_ms": 180.26930000633,
+        "min_ms": 178.63059998489916,
+        "max_ms": 200.5206000758335
+      },
+      "despues": {
+        "mediana_ms": 188.84359998628497,
+        "min_ms": 186.83420005254447,
+        "max_ms": 198.41049995739013
+      }
+    }
+  },
+  "lote": {
+    "antes": [
+      {
+        "ms": 46.986,
+        "plan": {
+          "Plan": {
+            "Node Type": "ModifyTable",
+            "Operation": "Insert",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Relation Name": "detalle_pedido",
+            "Alias": "detalle_pedido",
+            "Startup Cost": 0.29,
+            "Total Cost": 41.77,
+            "Plan Rows": 0,
+            "Plan Width": 0,
+            "Actual Startup Time": 35.242,
+            "Actual Total Time": 35.242,
+            "Actual Rows": 0,
+            "Actual Loops": 1,
+            "Shared Hit Blocks": 14435,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 9,
+            "Shared Written Blocks": 9,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0,
+            "WAL Records": 4011,
+            "WAL FPI": 0,
+            "WAL Bytes": 279931,
+            "Plans": [
+              {
+                "Node Type": "Limit",
+                "Parent Relationship": "Outer",
+                "Parallel Aware": false,
+                "Async Capable": false,
+                "Startup Cost": 0.29,
+                "Total Cost": 41.77,
+                "Plan Rows": 800,
+                "Plan Width": 17,
+                "Actual Startup Time": 0.013,
+                "Actual Total Time": 0.675,
+                "Actual Rows": 800,
+                "Actual Loops": 1,
+                "Shared Hit Blocks": 188,
+                "Shared Read Blocks": 0,
+                "Shared Dirtied Blocks": 0,
+                "Shared Written Blocks": 0,
+                "Local Hit Blocks": 0,
+                "Local Read Blocks": 0,
+                "Local Dirtied Blocks": 0,
+                "Local Written Blocks": 0,
+                "Temp Read Blocks": 0,
+                "Temp Written Blocks": 0,
+                "WAL Records": 0,
+                "WAL FPI": 0,
+                "WAL Bytes": 0,
+                "Plans": [
+                  {
+                    "Node Type": "Index Scan",
+                    "Parent Relationship": "Outer",
+                    "Parallel Aware": false,
+                    "Async Capable": false,
+                    "Scan Direction": "Forward",
+                    "Index Name": "pk_producto",
+                    "Relation Name": "producto",
+                    "Alias": "producto",
+                    "Startup Cost": 0.29,
+                    "Total Cost": 2336.25,
+                    "Plan Rows": 45053,
+                    "Plan Width": 17,
+                    "Actual Startup Time": 0.012,
+                    "Actual Total Time": 0.548,
+                    "Actual Rows": 800,
+                    "Actual Loops": 1,
+                    "Filter": "(activo AND (stock >= 1))",
+                    "Rows Removed by Filter": 89,
+                    "Shared Hit Blocks": 188,
+                    "Shared Read Blocks": 0,
+                    "Shared Dirtied Blocks": 0,
+                    "Shared Written Blocks": 0,
+                    "Local Hit Blocks": 0,
+                    "Local Read Blocks": 0,
+                    "Local Dirtied Blocks": 0,
+                    "Local Written Blocks": 0,
+                    "Temp Read Blocks": 0,
+                    "Temp Written Blocks": 0,
+                    "WAL Records": 0,
+                    "WAL FPI": 0,
+                    "WAL Bytes": 0
+                  }
+                ]
+              }
+            ]
+          },
+          "Planning": {
+            "Shared Hit Blocks": 0,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          },
+          "Planning Time": 0.082,
+          "Triggers": [
+            {
+              "Trigger Name": "RI_ConstraintTrigger_c_16946",
+              "Constraint Name": "fk_detalle_pedido_pedido",
+              "Relation": "detalle_pedido",
+              "Time": 5.754,
+              "Calls": 800
+            },
+            {
+              "Trigger Name": "RI_ConstraintTrigger_c_16951",
+              "Constraint Name": "fk_detalle_pedido_producto",
+              "Relation": "detalle_pedido",
+              "Time": 5.813,
+              "Calls": 800
+            },
+            {
+              "Trigger Name": "trg_validar_edicion_detalle_pedido",
+              "Relation": "detalle_pedido",
+              "Time": 17.867,
+              "Calls": 800
+            },
+            {
+              "Trigger Name": "trg_validar_producto_y_stock_detalle",
+              "Relation": "detalle_pedido",
+              "Time": 9.044,
+              "Calls": 800
+            }
+          ],
+          "Execution Time": 46.986
+        },
+        "filas": 800
+      },
+      {
+        "ms": 47.224,
+        "plan": {
+          "Plan": {
+            "Node Type": "ModifyTable",
+            "Operation": "Insert",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Relation Name": "detalle_pedido",
+            "Alias": "detalle_pedido",
+            "Startup Cost": 0.29,
+            "Total Cost": 41.77,
+            "Plan Rows": 0,
+            "Plan Width": 0,
+            "Actual Startup Time": 35.757,
+            "Actual Total Time": 35.758,
+            "Actual Rows": 0,
+            "Actual Loops": 1,
+            "Shared Hit Blocks": 14395,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 8,
+            "Shared Written Blocks": 8,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0,
+            "WAL Records": 4011,
+            "WAL FPI": 0,
+            "WAL Bytes": 280007,
+            "Plans": [
+              {
+                "Node Type": "Limit",
+                "Parent Relationship": "Outer",
+                "Parallel Aware": false,
+                "Async Capable": false,
+                "Startup Cost": 0.29,
+                "Total Cost": 41.77,
+                "Plan Rows": 800,
+                "Plan Width": 17,
+                "Actual Startup Time": 0.01,
+                "Actual Total Time": 0.683,
+                "Actual Rows": 800,
+                "Actual Loops": 1,
+                "Shared Hit Blocks": 188,
+                "Shared Read Blocks": 0,
+                "Shared Dirtied Blocks": 0,
+                "Shared Written Blocks": 0,
+                "Local Hit Blocks": 0,
+                "Local Read Blocks": 0,
+                "Local Dirtied Blocks": 0,
+                "Local Written Blocks": 0,
+                "Temp Read Blocks": 0,
+                "Temp Written Blocks": 0,
+                "WAL Records": 0,
+                "WAL FPI": 0,
+                "WAL Bytes": 0,
+                "Plans": [
+                  {
+                    "Node Type": "Index Scan",
+                    "Parent Relationship": "Outer",
+                    "Parallel Aware": false,
+                    "Async Capable": false,
+                    "Scan Direction": "Forward",
+                    "Index Name": "pk_producto",
+                    "Relation Name": "producto",
+                    "Alias": "producto",
+                    "Startup Cost": 0.29,
+                    "Total Cost": 2336.25,
+                    "Plan Rows": 45053,
+                    "Plan Width": 17,
+                    "Actual Startup Time": 0.01,
+                    "Actual Total Time": 0.55,
+                    "Actual Rows": 800,
+                    "Actual Loops": 1,
+                    "Filter": "(activo AND (stock >= 1))",
+                    "Rows Removed by Filter": 89,
+                    "Shared Hit Blocks": 188,
+                    "Shared Read Blocks": 0,
+                    "Shared Dirtied Blocks": 0,
+                    "Shared Written Blocks": 0,
+                    "Local Hit Blocks": 0,
+                    "Local Read Blocks": 0,
+                    "Local Dirtied Blocks": 0,
+                    "Local Written Blocks": 0,
+                    "Temp Read Blocks": 0,
+                    "Temp Written Blocks": 0,
+                    "WAL Records": 0,
+                    "WAL FPI": 0,
+                    "WAL Bytes": 0
+                  }
+                ]
+              }
+            ]
+          },
+          "Planning": {
+            "Shared Hit Blocks": 0,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          },
+          "Planning Time": 0.105,
+          "Triggers": [
+            {
+              "Trigger Name": "RI_ConstraintTrigger_c_16946",
+              "Constraint Name": "fk_detalle_pedido_pedido",
+              "Relation": "detalle_pedido",
+              "Time": 5.629,
+              "Calls": 800
+            },
+            {
+              "Trigger Name": "RI_ConstraintTrigger_c_16951",
+              "Constraint Name": "fk_detalle_pedido_producto",
+              "Relation": "detalle_pedido",
+              "Time": 5.679,
+              "Calls": 800
+            },
+            {
+              "Trigger Name": "trg_validar_edicion_detalle_pedido",
+              "Relation": "detalle_pedido",
+              "Time": 18.021,
+              "Calls": 800
+            },
+            {
+              "Trigger Name": "trg_validar_producto_y_stock_detalle",
+              "Relation": "detalle_pedido",
+              "Time": 9.146,
+              "Calls": 800
+            }
+          ],
+          "Execution Time": 47.224
+        },
+        "filas": 800
+      },
+      {
+        "ms": 46.995,
+        "plan": {
+          "Plan": {
+            "Node Type": "ModifyTable",
+            "Operation": "Insert",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Relation Name": "detalle_pedido",
+            "Alias": "detalle_pedido",
+            "Startup Cost": 0.29,
+            "Total Cost": 41.77,
+            "Plan Rows": 0,
+            "Plan Width": 0,
+            "Actual Startup Time": 35.096,
+            "Actual Total Time": 35.096,
+            "Actual Rows": 0,
+            "Actual Loops": 1,
+            "Shared Hit Blocks": 14511,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 8,
+            "Shared Written Blocks": 8,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0,
+            "WAL Records": 4009,
+            "WAL FPI": 0,
+            "WAL Bytes": 279135,
+            "Plans": [
+              {
+                "Node Type": "Limit",
+                "Parent Relationship": "Outer",
+                "Parallel Aware": false,
+                "Async Capable": false,
+                "Startup Cost": 0.29,
+                "Total Cost": 41.77,
+                "Plan Rows": 800,
+                "Plan Width": 17,
+                "Actual Startup Time": 0.012,
+                "Actual Total Time": 0.667,
+                "Actual Rows": 800,
+                "Actual Loops": 1,
+                "Shared Hit Blocks": 188,
+                "Shared Read Blocks": 0,
+                "Shared Dirtied Blocks": 0,
+                "Shared Written Blocks": 0,
+                "Local Hit Blocks": 0,
+                "Local Read Blocks": 0,
+                "Local Dirtied Blocks": 0,
+                "Local Written Blocks": 0,
+                "Temp Read Blocks": 0,
+                "Temp Written Blocks": 0,
+                "WAL Records": 0,
+                "WAL FPI": 0,
+                "WAL Bytes": 0,
+                "Plans": [
+                  {
+                    "Node Type": "Index Scan",
+                    "Parent Relationship": "Outer",
+                    "Parallel Aware": false,
+                    "Async Capable": false,
+                    "Scan Direction": "Forward",
+                    "Index Name": "pk_producto",
+                    "Relation Name": "producto",
+                    "Alias": "producto",
+                    "Startup Cost": 0.29,
+                    "Total Cost": 2336.25,
+                    "Plan Rows": 45053,
+                    "Plan Width": 17,
+                    "Actual Startup Time": 0.011,
+                    "Actual Total Time": 0.544,
+                    "Actual Rows": 800,
+                    "Actual Loops": 1,
+                    "Filter": "(activo AND (stock >= 1))",
+                    "Rows Removed by Filter": 89,
+                    "Shared Hit Blocks": 188,
+                    "Shared Read Blocks": 0,
+                    "Shared Dirtied Blocks": 0,
+                    "Shared Written Blocks": 0,
+                    "Local Hit Blocks": 0,
+                    "Local Read Blocks": 0,
+                    "Local Dirtied Blocks": 0,
+                    "Local Written Blocks": 0,
+                    "Temp Read Blocks": 0,
+                    "Temp Written Blocks": 0,
+                    "WAL Records": 0,
+                    "WAL FPI": 0,
+                    "WAL Bytes": 0
+                  }
+                ]
+              }
+            ]
+          },
+          "Planning": {
+            "Shared Hit Blocks": 0,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          },
+          "Planning Time": 0.109,
+          "Triggers": [
+            {
+              "Trigger Name": "RI_ConstraintTrigger_c_16946",
+              "Constraint Name": "fk_detalle_pedido_pedido",
+              "Relation": "detalle_pedido",
+              "Time": 5.868,
+              "Calls": 800
+            },
+            {
+              "Trigger Name": "RI_ConstraintTrigger_c_16951",
+              "Constraint Name": "fk_detalle_pedido_producto",
+              "Relation": "detalle_pedido",
+              "Time": 5.862,
+              "Calls": 800
+            },
+            {
+              "Trigger Name": "trg_validar_edicion_detalle_pedido",
+              "Relation": "detalle_pedido",
+              "Time": 17.852,
+              "Calls": 800
+            },
+            {
+              "Trigger Name": "trg_validar_producto_y_stock_detalle",
+              "Relation": "detalle_pedido",
+              "Time": 9.099,
+              "Calls": 800
+            }
+          ],
+          "Execution Time": 46.995
+        },
+        "filas": 800
+      },
+      {
+        "ms": 48.995,
+        "plan": {
+          "Plan": {
+            "Node Type": "ModifyTable",
+            "Operation": "Insert",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Relation Name": "detalle_pedido",
+            "Alias": "detalle_pedido",
+            "Startup Cost": 0.29,
+            "Total Cost": 41.77,
+            "Plan Rows": 0,
+            "Plan Width": 0,
+            "Actual Startup Time": 37.515,
+            "Actual Total Time": 37.515,
+            "Actual Rows": 0,
+            "Actual Loops": 1,
+            "Shared Hit Blocks": 14470,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 8,
+            "Shared Written Blocks": 8,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0,
+            "WAL Records": 4011,
+            "WAL FPI": 0,
+            "WAL Bytes": 279857,
+            "Plans": [
+              {
+                "Node Type": "Limit",
+                "Parent Relationship": "Outer",
+                "Parallel Aware": false,
+                "Async Capable": false,
+                "Startup Cost": 0.29,
+                "Total Cost": 41.77,
+                "Plan Rows": 800,
+                "Plan Width": 17,
+                "Actual Startup Time": 0.011,
+                "Actual Total Time": 0.702,
+                "Actual Rows": 800,
+                "Actual Loops": 1,
+                "Shared Hit Blocks": 188,
+                "Shared Read Blocks": 0,
+                "Shared Dirtied Blocks": 0,
+                "Shared Written Blocks": 0,
+                "Local Hit Blocks": 0,
+                "Local Read Blocks": 0,
+                "Local Dirtied Blocks": 0,
+                "Local Written Blocks": 0,
+                "Temp Read Blocks": 0,
+                "Temp Written Blocks": 0,
+                "WAL Records": 0,
+                "WAL FPI": 0,
+                "WAL Bytes": 0,
+                "Plans": [
+                  {
+                    "Node Type": "Index Scan",
+                    "Parent Relationship": "Outer",
+                    "Parallel Aware": false,
+                    "Async Capable": false,
+                    "Scan Direction": "Forward",
+                    "Index Name": "pk_producto",
+                    "Relation Name": "producto",
+                    "Alias": "producto",
+                    "Startup Cost": 0.29,
+                    "Total Cost": 2336.25,
+                    "Plan Rows": 45053,
+                    "Plan Width": 17,
+                    "Actual Startup Time": 0.011,
+                    "Actual Total Time": 0.568,
+                    "Actual Rows": 800,
+                    "Actual Loops": 1,
+                    "Filter": "(activo AND (stock >= 1))",
+                    "Rows Removed by Filter": 89,
+                    "Shared Hit Blocks": 188,
+                    "Shared Read Blocks": 0,
+                    "Shared Dirtied Blocks": 0,
+                    "Shared Written Blocks": 0,
+                    "Local Hit Blocks": 0,
+                    "Local Read Blocks": 0,
+                    "Local Dirtied Blocks": 0,
+                    "Local Written Blocks": 0,
+                    "Temp Read Blocks": 0,
+                    "Temp Written Blocks": 0,
+                    "WAL Records": 0,
+                    "WAL FPI": 0,
+                    "WAL Bytes": 0
+                  }
+                ]
+              }
+            ]
+          },
+          "Planning": {
+            "Shared Hit Blocks": 0,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          },
+          "Planning Time": 0.108,
+          "Triggers": [
+            {
+              "Trigger Name": "RI_ConstraintTrigger_c_16946",
+              "Constraint Name": "fk_detalle_pedido_pedido",
+              "Relation": "detalle_pedido",
+              "Time": 5.623,
+              "Calls": 800
+            },
+            {
+              "Trigger Name": "RI_ConstraintTrigger_c_16951",
+              "Constraint Name": "fk_detalle_pedido_producto",
+              "Relation": "detalle_pedido",
+              "Time": 5.692,
+              "Calls": 800
+            },
+            {
+              "Trigger Name": "trg_validar_edicion_detalle_pedido",
+              "Relation": "detalle_pedido",
+              "Time": 18.977,
+              "Calls": 800
+            },
+            {
+              "Trigger Name": "trg_validar_producto_y_stock_detalle",
+              "Relation": "detalle_pedido",
+              "Time": 9.689,
+              "Calls": 800
+            }
+          ],
+          "Execution Time": 48.995
+        },
+        "filas": 800
+      },
+      {
+        "ms": 48.867,
+        "plan": {
+          "Plan": {
+            "Node Type": "ModifyTable",
+            "Operation": "Insert",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Relation Name": "detalle_pedido",
+            "Alias": "detalle_pedido",
+            "Startup Cost": 0.29,
+            "Total Cost": 41.77,
+            "Plan Rows": 0,
+            "Plan Width": 0,
+            "Actual Startup Time": 35.51,
+            "Actual Total Time": 35.51,
+            "Actual Rows": 0,
+            "Actual Loops": 1,
+            "Shared Hit Blocks": 14500,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 8,
+            "Shared Written Blocks": 8,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0,
+            "WAL Records": 4011,
+            "WAL FPI": 0,
+            "WAL Bytes": 279797,
+            "Plans": [
+              {
+                "Node Type": "Limit",
+                "Parent Relationship": "Outer",
+                "Parallel Aware": false,
+                "Async Capable": false,
+                "Startup Cost": 0.29,
+                "Total Cost": 41.77,
+                "Plan Rows": 800,
+                "Plan Width": 17,
+                "Actual Startup Time": 0.012,
+                "Actual Total Time": 0.682,
+                "Actual Rows": 800,
+                "Actual Loops": 1,
+                "Shared Hit Blocks": 188,
+                "Shared Read Blocks": 0,
+                "Shared Dirtied Blocks": 0,
+                "Shared Written Blocks": 0,
+                "Local Hit Blocks": 0,
+                "Local Read Blocks": 0,
+                "Local Dirtied Blocks": 0,
+                "Local Written Blocks": 0,
+                "Temp Read Blocks": 0,
+                "Temp Written Blocks": 0,
+                "WAL Records": 0,
+                "WAL FPI": 0,
+                "WAL Bytes": 0,
+                "Plans": [
+                  {
+                    "Node Type": "Index Scan",
+                    "Parent Relationship": "Outer",
+                    "Parallel Aware": false,
+                    "Async Capable": false,
+                    "Scan Direction": "Forward",
+                    "Index Name": "pk_producto",
+                    "Relation Name": "producto",
+                    "Alias": "producto",
+                    "Startup Cost": 0.29,
+                    "Total Cost": 2336.25,
+                    "Plan Rows": 45053,
+                    "Plan Width": 17,
+                    "Actual Startup Time": 0.011,
+                    "Actual Total Time": 0.555,
+                    "Actual Rows": 800,
+                    "Actual Loops": 1,
+                    "Filter": "(activo AND (stock >= 1))",
+                    "Rows Removed by Filter": 89,
+                    "Shared Hit Blocks": 188,
+                    "Shared Read Blocks": 0,
+                    "Shared Dirtied Blocks": 0,
+                    "Shared Written Blocks": 0,
+                    "Local Hit Blocks": 0,
+                    "Local Read Blocks": 0,
+                    "Local Dirtied Blocks": 0,
+                    "Local Written Blocks": 0,
+                    "Temp Read Blocks": 0,
+                    "Temp Written Blocks": 0,
+                    "WAL Records": 0,
+                    "WAL FPI": 0,
+                    "WAL Bytes": 0
+                  }
+                ]
+              }
+            ]
+          },
+          "Planning": {
+            "Shared Hit Blocks": 0,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          },
+          "Planning Time": 0.107,
+          "Triggers": [
+            {
+              "Trigger Name": "RI_ConstraintTrigger_c_16946",
+              "Constraint Name": "fk_detalle_pedido_pedido",
+              "Relation": "detalle_pedido",
+              "Time": 6.551,
+              "Calls": 800
+            },
+            {
+              "Trigger Name": "RI_ConstraintTrigger_c_16951",
+              "Constraint Name": "fk_detalle_pedido_producto",
+              "Relation": "detalle_pedido",
+              "Time": 6.619,
+              "Calls": 800
+            },
+            {
+              "Trigger Name": "trg_validar_edicion_detalle_pedido",
+              "Relation": "detalle_pedido",
+              "Time": 17.857,
+              "Calls": 800
+            },
+            {
+              "Trigger Name": "trg_validar_producto_y_stock_detalle",
+              "Relation": "detalle_pedido",
+              "Time": 9.09,
+              "Calls": 800
+            }
+          ],
+          "Execution Time": 48.867
+        },
+        "filas": 800
+      },
+      {
+        "ms": 47.392,
+        "plan": {
+          "Plan": {
+            "Node Type": "ModifyTable",
+            "Operation": "Insert",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Relation Name": "detalle_pedido",
+            "Alias": "detalle_pedido",
+            "Startup Cost": 0.29,
+            "Total Cost": 41.77,
+            "Plan Rows": 0,
+            "Plan Width": 0,
+            "Actual Startup Time": 35.623,
+            "Actual Total Time": 35.623,
+            "Actual Rows": 0,
+            "Actual Loops": 1,
+            "Shared Hit Blocks": 14545,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 8,
+            "Shared Written Blocks": 8,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0,
+            "WAL Records": 4011,
+            "WAL FPI": 0,
+            "WAL Bytes": 279351,
+            "Plans": [
+              {
+                "Node Type": "Limit",
+                "Parent Relationship": "Outer",
+                "Parallel Aware": false,
+                "Async Capable": false,
+                "Startup Cost": 0.29,
+                "Total Cost": 41.77,
+                "Plan Rows": 800,
+                "Plan Width": 17,
+                "Actual Startup Time": 0.011,
+                "Actual Total Time": 0.704,
+                "Actual Rows": 800,
+                "Actual Loops": 1,
+                "Shared Hit Blocks": 188,
+                "Shared Read Blocks": 0,
+                "Shared Dirtied Blocks": 0,
+                "Shared Written Blocks": 0,
+                "Local Hit Blocks": 0,
+                "Local Read Blocks": 0,
+                "Local Dirtied Blocks": 0,
+                "Local Written Blocks": 0,
+                "Temp Read Blocks": 0,
+                "Temp Written Blocks": 0,
+                "WAL Records": 0,
+                "WAL FPI": 0,
+                "WAL Bytes": 0,
+                "Plans": [
+                  {
+                    "Node Type": "Index Scan",
+                    "Parent Relationship": "Outer",
+                    "Parallel Aware": false,
+                    "Async Capable": false,
+                    "Scan Direction": "Forward",
+                    "Index Name": "pk_producto",
+                    "Relation Name": "producto",
+                    "Alias": "producto",
+                    "Startup Cost": 0.29,
+                    "Total Cost": 2336.25,
+                    "Plan Rows": 45053,
+                    "Plan Width": 17,
+                    "Actual Startup Time": 0.01,
+                    "Actual Total Time": 0.576,
+                    "Actual Rows": 800,
+                    "Actual Loops": 1,
+                    "Filter": "(activo AND (stock >= 1))",
+                    "Rows Removed by Filter": 89,
+                    "Shared Hit Blocks": 188,
+                    "Shared Read Blocks": 0,
+                    "Shared Dirtied Blocks": 0,
+                    "Shared Written Blocks": 0,
+                    "Local Hit Blocks": 0,
+                    "Local Read Blocks": 0,
+                    "Local Dirtied Blocks": 0,
+                    "Local Written Blocks": 0,
+                    "Temp Read Blocks": 0,
+                    "Temp Written Blocks": 0,
+                    "WAL Records": 0,
+                    "WAL FPI": 0,
+                    "WAL Bytes": 0
+                  }
+                ]
+              }
+            ]
+          },
+          "Planning": {
+            "Shared Hit Blocks": 0,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          },
+          "Planning Time": 0.121,
+          "Triggers": [
+            {
+              "Trigger Name": "RI_ConstraintTrigger_c_16946",
+              "Constraint Name": "fk_detalle_pedido_pedido",
+              "Relation": "detalle_pedido",
+              "Time": 5.75,
+              "Calls": 800
+            },
+            {
+              "Trigger Name": "RI_ConstraintTrigger_c_16951",
+              "Constraint Name": "fk_detalle_pedido_producto",
+              "Relation": "detalle_pedido",
+              "Time": 5.829,
+              "Calls": 800
+            },
+            {
+              "Trigger Name": "trg_validar_edicion_detalle_pedido",
+              "Relation": "detalle_pedido",
+              "Time": 18.048,
+              "Calls": 800
+            },
+            {
+              "Trigger Name": "trg_validar_producto_y_stock_detalle",
+              "Relation": "detalle_pedido",
+              "Time": 9.199,
+              "Calls": 800
+            }
+          ],
+          "Execution Time": 47.392
+        },
+        "filas": 800
+      },
+      {
+        "ms": 52.739,
+        "plan": {
+          "Plan": {
+            "Node Type": "ModifyTable",
+            "Operation": "Insert",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Relation Name": "detalle_pedido",
+            "Alias": "detalle_pedido",
+            "Startup Cost": 0.29,
+            "Total Cost": 41.77,
+            "Plan Rows": 0,
+            "Plan Width": 0,
+            "Actual Startup Time": 40.811,
+            "Actual Total Time": 40.812,
+            "Actual Rows": 0,
+            "Actual Loops": 1,
+            "Shared Hit Blocks": 14497,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 45,
+            "Shared Written Blocks": 45,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0,
+            "WAL Records": 4048,
+            "WAL FPI": 0,
+            "WAL Bytes": 413707,
+            "Plans": [
+              {
+                "Node Type": "Limit",
+                "Parent Relationship": "Outer",
+                "Parallel Aware": false,
+                "Async Capable": false,
+                "Startup Cost": 0.29,
+                "Total Cost": 41.77,
+                "Plan Rows": 800,
+                "Plan Width": 17,
+                "Actual Startup Time": 0.011,
+                "Actual Total Time": 0.733,
+                "Actual Rows": 800,
+                "Actual Loops": 1,
+                "Shared Hit Blocks": 188,
+                "Shared Read Blocks": 0,
+                "Shared Dirtied Blocks": 0,
+                "Shared Written Blocks": 0,
+                "Local Hit Blocks": 0,
+                "Local Read Blocks": 0,
+                "Local Dirtied Blocks": 0,
+                "Local Written Blocks": 0,
+                "Temp Read Blocks": 0,
+                "Temp Written Blocks": 0,
+                "WAL Records": 0,
+                "WAL FPI": 0,
+                "WAL Bytes": 0,
+                "Plans": [
+                  {
+                    "Node Type": "Index Scan",
+                    "Parent Relationship": "Outer",
+                    "Parallel Aware": false,
+                    "Async Capable": false,
+                    "Scan Direction": "Forward",
+                    "Index Name": "pk_producto",
+                    "Relation Name": "producto",
+                    "Alias": "producto",
+                    "Startup Cost": 0.29,
+                    "Total Cost": 2336.25,
+                    "Plan Rows": 45053,
+                    "Plan Width": 17,
+                    "Actual Startup Time": 0.01,
+                    "Actual Total Time": 0.611,
+                    "Actual Rows": 800,
+                    "Actual Loops": 1,
+                    "Filter": "(activo AND (stock >= 1))",
+                    "Rows Removed by Filter": 89,
+                    "Shared Hit Blocks": 188,
+                    "Shared Read Blocks": 0,
+                    "Shared Dirtied Blocks": 0,
+                    "Shared Written Blocks": 0,
+                    "Local Hit Blocks": 0,
+                    "Local Read Blocks": 0,
+                    "Local Dirtied Blocks": 0,
+                    "Local Written Blocks": 0,
+                    "Temp Read Blocks": 0,
+                    "Temp Written Blocks": 0,
+                    "WAL Records": 0,
+                    "WAL FPI": 0,
+                    "WAL Bytes": 0
+                  }
+                ]
+              }
+            ]
+          },
+          "Planning": {
+            "Shared Hit Blocks": 0,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          },
+          "Planning Time": 0.109,
+          "Triggers": [
+            {
+              "Trigger Name": "RI_ConstraintTrigger_c_16946",
+              "Constraint Name": "fk_detalle_pedido_pedido",
+              "Relation": "detalle_pedido",
+              "Time": 5.855,
+              "Calls": 800
+            },
+            {
+              "Trigger Name": "RI_ConstraintTrigger_c_16951",
+              "Constraint Name": "fk_detalle_pedido_producto",
+              "Relation": "detalle_pedido",
+              "Time": 5.9,
+              "Calls": 800
+            },
+            {
+              "Trigger Name": "trg_validar_edicion_detalle_pedido",
+              "Relation": "detalle_pedido",
+              "Time": 18.552,
+              "Calls": 800
+            },
+            {
+              "Trigger Name": "trg_validar_producto_y_stock_detalle",
+              "Relation": "detalle_pedido",
+              "Time": 9.203,
+              "Calls": 800
+            }
+          ],
+          "Execution Time": 52.739
+        },
+        "filas": 800
+      }
+    ],
+    "despues": [
+      {
+        "ms": 50.849,
+        "plan": {
+          "Plan": {
+            "Node Type": "ModifyTable",
+            "Operation": "Insert",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Relation Name": "detalle_pedido",
+            "Alias": "detalle_pedido",
+            "Startup Cost": 0.29,
+            "Total Cost": 41.77,
+            "Plan Rows": 0,
+            "Plan Width": 0,
+            "Actual Startup Time": 38.97,
+            "Actual Total Time": 38.97,
+            "Actual Rows": 0,
+            "Actual Loops": 1,
+            "Shared Hit Blocks": 16835,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 9,
+            "Shared Written Blocks": 9,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0,
+            "WAL Records": 4811,
+            "WAL FPI": 0,
+            "WAL Bytes": 343931,
+            "Plans": [
+              {
+                "Node Type": "Limit",
+                "Parent Relationship": "Outer",
+                "Parallel Aware": false,
+                "Async Capable": false,
+                "Startup Cost": 0.29,
+                "Total Cost": 41.77,
+                "Plan Rows": 800,
+                "Plan Width": 17,
+                "Actual Startup Time": 0.017,
+                "Actual Total Time": 0.69,
+                "Actual Rows": 800,
+                "Actual Loops": 1,
+                "Shared Hit Blocks": 188,
+                "Shared Read Blocks": 0,
+                "Shared Dirtied Blocks": 0,
+                "Shared Written Blocks": 0,
+                "Local Hit Blocks": 0,
+                "Local Read Blocks": 0,
+                "Local Dirtied Blocks": 0,
+                "Local Written Blocks": 0,
+                "Temp Read Blocks": 0,
+                "Temp Written Blocks": 0,
+                "WAL Records": 0,
+                "WAL FPI": 0,
+                "WAL Bytes": 0,
+                "Plans": [
+                  {
+                    "Node Type": "Index Scan",
+                    "Parent Relationship": "Outer",
+                    "Parallel Aware": false,
+                    "Async Capable": false,
+                    "Scan Direction": "Forward",
+                    "Index Name": "pk_producto",
+                    "Relation Name": "producto",
+                    "Alias": "producto",
+                    "Startup Cost": 0.29,
+                    "Total Cost": 2336.25,
+                    "Plan Rows": 45053,
+                    "Plan Width": 17,
+                    "Actual Startup Time": 0.016,
+                    "Actual Total Time": 0.572,
+                    "Actual Rows": 800,
+                    "Actual Loops": 1,
+                    "Filter": "(activo AND (stock >= 1))",
+                    "Rows Removed by Filter": 89,
+                    "Shared Hit Blocks": 188,
+                    "Shared Read Blocks": 0,
+                    "Shared Dirtied Blocks": 0,
+                    "Shared Written Blocks": 0,
+                    "Local Hit Blocks": 0,
+                    "Local Read Blocks": 0,
+                    "Local Dirtied Blocks": 0,
+                    "Local Written Blocks": 0,
+                    "Temp Read Blocks": 0,
+                    "Temp Written Blocks": 0,
+                    "WAL Records": 0,
+                    "WAL FPI": 0,
+                    "WAL Bytes": 0
+                  }
+                ]
+              }
+            ]
+          },
+          "Planning": {
+            "Shared Hit Blocks": 0,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          },
+          "Planning Time": 0.092,
+          "Triggers": [
+            {
+              "Trigger Name": "RI_ConstraintTrigger_c_16946",
+              "Constraint Name": "fk_detalle_pedido_pedido",
+              "Relation": "detalle_pedido",
+              "Time": 5.81,
+              "Calls": 800
+            },
+            {
+              "Trigger Name": "RI_ConstraintTrigger_c_16951",
+              "Constraint Name": "fk_detalle_pedido_producto",
+              "Relation": "detalle_pedido",
+              "Time": 5.864,
+              "Calls": 800
+            },
+            {
+              "Trigger Name": "trg_validar_edicion_detalle_pedido",
+              "Relation": "detalle_pedido",
+              "Time": 17.863,
+              "Calls": 800
+            },
+            {
+              "Trigger Name": "trg_validar_producto_y_stock_detalle",
+              "Relation": "detalle_pedido",
+              "Time": 8.943,
+              "Calls": 800
+            }
+          ],
+          "Execution Time": 50.849
+        },
+        "filas": 800
+      },
+      {
+        "ms": 50.811,
+        "plan": {
+          "Plan": {
+            "Node Type": "ModifyTable",
+            "Operation": "Insert",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Relation Name": "detalle_pedido",
+            "Alias": "detalle_pedido",
+            "Startup Cost": 0.29,
+            "Total Cost": 41.77,
+            "Plan Rows": 0,
+            "Plan Width": 0,
+            "Actual Startup Time": 39.145,
+            "Actual Total Time": 39.145,
+            "Actual Rows": 0,
+            "Actual Loops": 1,
+            "Shared Hit Blocks": 16795,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 8,
+            "Shared Written Blocks": 8,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0,
+            "WAL Records": 4811,
+            "WAL FPI": 0,
+            "WAL Bytes": 344007,
+            "Plans": [
+              {
+                "Node Type": "Limit",
+                "Parent Relationship": "Outer",
+                "Parallel Aware": false,
+                "Async Capable": false,
+                "Startup Cost": 0.29,
+                "Total Cost": 41.77,
+                "Plan Rows": 800,
+                "Plan Width": 17,
+                "Actual Startup Time": 0.012,
+                "Actual Total Time": 0.677,
+                "Actual Rows": 800,
+                "Actual Loops": 1,
+                "Shared Hit Blocks": 188,
+                "Shared Read Blocks": 0,
+                "Shared Dirtied Blocks": 0,
+                "Shared Written Blocks": 0,
+                "Local Hit Blocks": 0,
+                "Local Read Blocks": 0,
+                "Local Dirtied Blocks": 0,
+                "Local Written Blocks": 0,
+                "Temp Read Blocks": 0,
+                "Temp Written Blocks": 0,
+                "WAL Records": 0,
+                "WAL FPI": 0,
+                "WAL Bytes": 0,
+                "Plans": [
+                  {
+                    "Node Type": "Index Scan",
+                    "Parent Relationship": "Outer",
+                    "Parallel Aware": false,
+                    "Async Capable": false,
+                    "Scan Direction": "Forward",
+                    "Index Name": "pk_producto",
+                    "Relation Name": "producto",
+                    "Alias": "producto",
+                    "Startup Cost": 0.29,
+                    "Total Cost": 2336.25,
+                    "Plan Rows": 45053,
+                    "Plan Width": 17,
+                    "Actual Startup Time": 0.011,
+                    "Actual Total Time": 0.558,
+                    "Actual Rows": 800,
+                    "Actual Loops": 1,
+                    "Filter": "(activo AND (stock >= 1))",
+                    "Rows Removed by Filter": 89,
+                    "Shared Hit Blocks": 188,
+                    "Shared Read Blocks": 0,
+                    "Shared Dirtied Blocks": 0,
+                    "Shared Written Blocks": 0,
+                    "Local Hit Blocks": 0,
+                    "Local Read Blocks": 0,
+                    "Local Dirtied Blocks": 0,
+                    "Local Written Blocks": 0,
+                    "Temp Read Blocks": 0,
+                    "Temp Written Blocks": 0,
+                    "WAL Records": 0,
+                    "WAL FPI": 0,
+                    "WAL Bytes": 0
+                  }
+                ]
+              }
+            ]
+          },
+          "Planning": {
+            "Shared Hit Blocks": 0,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          },
+          "Planning Time": 0.116,
+          "Triggers": [
+            {
+              "Trigger Name": "RI_ConstraintTrigger_c_16946",
+              "Constraint Name": "fk_detalle_pedido_pedido",
+              "Relation": "detalle_pedido",
+              "Time": 5.714,
+              "Calls": 800
+            },
+            {
+              "Trigger Name": "RI_ConstraintTrigger_c_16951",
+              "Constraint Name": "fk_detalle_pedido_producto",
+              "Relation": "detalle_pedido",
+              "Time": 5.772,
+              "Calls": 800
+            },
+            {
+              "Trigger Name": "trg_validar_edicion_detalle_pedido",
+              "Relation": "detalle_pedido",
+              "Time": 18.053,
+              "Calls": 800
+            },
+            {
+              "Trigger Name": "trg_validar_producto_y_stock_detalle",
+              "Relation": "detalle_pedido",
+              "Time": 9.114,
+              "Calls": 800
+            }
+          ],
+          "Execution Time": 50.811
+        },
+        "filas": 800
+      },
+      {
+        "ms": 50.239,
+        "plan": {
+          "Plan": {
+            "Node Type": "ModifyTable",
+            "Operation": "Insert",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Relation Name": "detalle_pedido",
+            "Alias": "detalle_pedido",
+            "Startup Cost": 0.29,
+            "Total Cost": 41.77,
+            "Plan Rows": 0,
+            "Plan Width": 0,
+            "Actual Startup Time": 38.637,
+            "Actual Total Time": 38.637,
+            "Actual Rows": 0,
+            "Actual Loops": 1,
+            "Shared Hit Blocks": 16911,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 8,
+            "Shared Written Blocks": 8,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0,
+            "WAL Records": 4809,
+            "WAL FPI": 0,
+            "WAL Bytes": 343135,
+            "Plans": [
+              {
+                "Node Type": "Limit",
+                "Parent Relationship": "Outer",
+                "Parallel Aware": false,
+                "Async Capable": false,
+                "Startup Cost": 0.29,
+                "Total Cost": 41.77,
+                "Plan Rows": 800,
+                "Plan Width": 17,
+                "Actual Startup Time": 0.011,
+                "Actual Total Time": 0.678,
+                "Actual Rows": 800,
+                "Actual Loops": 1,
+                "Shared Hit Blocks": 188,
+                "Shared Read Blocks": 0,
+                "Shared Dirtied Blocks": 0,
+                "Shared Written Blocks": 0,
+                "Local Hit Blocks": 0,
+                "Local Read Blocks": 0,
+                "Local Dirtied Blocks": 0,
+                "Local Written Blocks": 0,
+                "Temp Read Blocks": 0,
+                "Temp Written Blocks": 0,
+                "WAL Records": 0,
+                "WAL FPI": 0,
+                "WAL Bytes": 0,
+                "Plans": [
+                  {
+                    "Node Type": "Index Scan",
+                    "Parent Relationship": "Outer",
+                    "Parallel Aware": false,
+                    "Async Capable": false,
+                    "Scan Direction": "Forward",
+                    "Index Name": "pk_producto",
+                    "Relation Name": "producto",
+                    "Alias": "producto",
+                    "Startup Cost": 0.29,
+                    "Total Cost": 2336.25,
+                    "Plan Rows": 45053,
+                    "Plan Width": 17,
+                    "Actual Startup Time": 0.01,
+                    "Actual Total Time": 0.561,
+                    "Actual Rows": 800,
+                    "Actual Loops": 1,
+                    "Filter": "(activo AND (stock >= 1))",
+                    "Rows Removed by Filter": 89,
+                    "Shared Hit Blocks": 188,
+                    "Shared Read Blocks": 0,
+                    "Shared Dirtied Blocks": 0,
+                    "Shared Written Blocks": 0,
+                    "Local Hit Blocks": 0,
+                    "Local Read Blocks": 0,
+                    "Local Dirtied Blocks": 0,
+                    "Local Written Blocks": 0,
+                    "Temp Read Blocks": 0,
+                    "Temp Written Blocks": 0,
+                    "WAL Records": 0,
+                    "WAL FPI": 0,
+                    "WAL Bytes": 0
+                  }
+                ]
+              }
+            ]
+          },
+          "Planning": {
+            "Shared Hit Blocks": 0,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          },
+          "Planning Time": 0.114,
+          "Triggers": [
+            {
+              "Trigger Name": "RI_ConstraintTrigger_c_16946",
+              "Constraint Name": "fk_detalle_pedido_pedido",
+              "Relation": "detalle_pedido",
+              "Time": 5.689,
+              "Calls": 800
+            },
+            {
+              "Trigger Name": "RI_ConstraintTrigger_c_16951",
+              "Constraint Name": "fk_detalle_pedido_producto",
+              "Relation": "detalle_pedido",
+              "Time": 5.75,
+              "Calls": 800
+            },
+            {
+              "Trigger Name": "trg_validar_edicion_detalle_pedido",
+              "Relation": "detalle_pedido",
+              "Time": 17.845,
+              "Calls": 800
+            },
+            {
+              "Trigger Name": "trg_validar_producto_y_stock_detalle",
+              "Relation": "detalle_pedido",
+              "Time": 9.041,
+              "Calls": 800
+            }
+          ],
+          "Execution Time": 50.239
+        },
+        "filas": 800
+      },
+      {
+        "ms": 50.96,
+        "plan": {
+          "Plan": {
+            "Node Type": "ModifyTable",
+            "Operation": "Insert",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Relation Name": "detalle_pedido",
+            "Alias": "detalle_pedido",
+            "Startup Cost": 0.29,
+            "Total Cost": 41.77,
+            "Plan Rows": 0,
+            "Plan Width": 0,
+            "Actual Startup Time": 39.585,
+            "Actual Total Time": 39.585,
+            "Actual Rows": 0,
+            "Actual Loops": 1,
+            "Shared Hit Blocks": 16870,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 8,
+            "Shared Written Blocks": 8,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0,
+            "WAL Records": 4811,
+            "WAL FPI": 0,
+            "WAL Bytes": 343857,
+            "Plans": [
+              {
+                "Node Type": "Limit",
+                "Parent Relationship": "Outer",
+                "Parallel Aware": false,
+                "Async Capable": false,
+                "Startup Cost": 0.29,
+                "Total Cost": 41.77,
+                "Plan Rows": 800,
+                "Plan Width": 17,
+                "Actual Startup Time": 0.012,
+                "Actual Total Time": 0.698,
+                "Actual Rows": 800,
+                "Actual Loops": 1,
+                "Shared Hit Blocks": 188,
+                "Shared Read Blocks": 0,
+                "Shared Dirtied Blocks": 0,
+                "Shared Written Blocks": 0,
+                "Local Hit Blocks": 0,
+                "Local Read Blocks": 0,
+                "Local Dirtied Blocks": 0,
+                "Local Written Blocks": 0,
+                "Temp Read Blocks": 0,
+                "Temp Written Blocks": 0,
+                "WAL Records": 0,
+                "WAL FPI": 0,
+                "WAL Bytes": 0,
+                "Plans": [
+                  {
+                    "Node Type": "Index Scan",
+                    "Parent Relationship": "Outer",
+                    "Parallel Aware": false,
+                    "Async Capable": false,
+                    "Scan Direction": "Forward",
+                    "Index Name": "pk_producto",
+                    "Relation Name": "producto",
+                    "Alias": "producto",
+                    "Startup Cost": 0.29,
+                    "Total Cost": 2336.25,
+                    "Plan Rows": 45053,
+                    "Plan Width": 17,
+                    "Actual Startup Time": 0.011,
+                    "Actual Total Time": 0.573,
+                    "Actual Rows": 800,
+                    "Actual Loops": 1,
+                    "Filter": "(activo AND (stock >= 1))",
+                    "Rows Removed by Filter": 89,
+                    "Shared Hit Blocks": 188,
+                    "Shared Read Blocks": 0,
+                    "Shared Dirtied Blocks": 0,
+                    "Shared Written Blocks": 0,
+                    "Local Hit Blocks": 0,
+                    "Local Read Blocks": 0,
+                    "Local Dirtied Blocks": 0,
+                    "Local Written Blocks": 0,
+                    "Temp Read Blocks": 0,
+                    "Temp Written Blocks": 0,
+                    "WAL Records": 0,
+                    "WAL FPI": 0,
+                    "WAL Bytes": 0
+                  }
+                ]
+              }
+            ]
+          },
+          "Planning": {
+            "Shared Hit Blocks": 0,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          },
+          "Planning Time": 0.116,
+          "Triggers": [
+            {
+              "Trigger Name": "RI_ConstraintTrigger_c_16946",
+              "Constraint Name": "fk_detalle_pedido_pedido",
+              "Relation": "detalle_pedido",
+              "Time": 5.579,
+              "Calls": 800
+            },
+            {
+              "Trigger Name": "RI_ConstraintTrigger_c_16951",
+              "Constraint Name": "fk_detalle_pedido_producto",
+              "Relation": "detalle_pedido",
+              "Time": 5.639,
+              "Calls": 800
+            },
+            {
+              "Trigger Name": "trg_validar_edicion_detalle_pedido",
+              "Relation": "detalle_pedido",
+              "Time": 18.13,
+              "Calls": 800
+            },
+            {
+              "Trigger Name": "trg_validar_producto_y_stock_detalle",
+              "Relation": "detalle_pedido",
+              "Time": 9.172,
+              "Calls": 800
+            }
+          ],
+          "Execution Time": 50.96
+        },
+        "filas": 800
+      },
+      {
+        "ms": 51.597,
+        "plan": {
+          "Plan": {
+            "Node Type": "ModifyTable",
+            "Operation": "Insert",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Relation Name": "detalle_pedido",
+            "Alias": "detalle_pedido",
+            "Startup Cost": 0.29,
+            "Total Cost": 41.77,
+            "Plan Rows": 0,
+            "Plan Width": 0,
+            "Actual Startup Time": 40.205,
+            "Actual Total Time": 40.205,
+            "Actual Rows": 0,
+            "Actual Loops": 1,
+            "Shared Hit Blocks": 16900,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 8,
+            "Shared Written Blocks": 8,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0,
+            "WAL Records": 4811,
+            "WAL FPI": 0,
+            "WAL Bytes": 343797,
+            "Plans": [
+              {
+                "Node Type": "Limit",
+                "Parent Relationship": "Outer",
+                "Parallel Aware": false,
+                "Async Capable": false,
+                "Startup Cost": 0.29,
+                "Total Cost": 41.77,
+                "Plan Rows": 800,
+                "Plan Width": 17,
+                "Actual Startup Time": 0.011,
+                "Actual Total Time": 0.708,
+                "Actual Rows": 800,
+                "Actual Loops": 1,
+                "Shared Hit Blocks": 188,
+                "Shared Read Blocks": 0,
+                "Shared Dirtied Blocks": 0,
+                "Shared Written Blocks": 0,
+                "Local Hit Blocks": 0,
+                "Local Read Blocks": 0,
+                "Local Dirtied Blocks": 0,
+                "Local Written Blocks": 0,
+                "Temp Read Blocks": 0,
+                "Temp Written Blocks": 0,
+                "WAL Records": 0,
+                "WAL FPI": 0,
+                "WAL Bytes": 0,
+                "Plans": [
+                  {
+                    "Node Type": "Index Scan",
+                    "Parent Relationship": "Outer",
+                    "Parallel Aware": false,
+                    "Async Capable": false,
+                    "Scan Direction": "Forward",
+                    "Index Name": "pk_producto",
+                    "Relation Name": "producto",
+                    "Alias": "producto",
+                    "Startup Cost": 0.29,
+                    "Total Cost": 2336.25,
+                    "Plan Rows": 45053,
+                    "Plan Width": 17,
+                    "Actual Startup Time": 0.011,
+                    "Actual Total Time": 0.589,
+                    "Actual Rows": 800,
+                    "Actual Loops": 1,
+                    "Filter": "(activo AND (stock >= 1))",
+                    "Rows Removed by Filter": 89,
+                    "Shared Hit Blocks": 188,
+                    "Shared Read Blocks": 0,
+                    "Shared Dirtied Blocks": 0,
+                    "Shared Written Blocks": 0,
+                    "Local Hit Blocks": 0,
+                    "Local Read Blocks": 0,
+                    "Local Dirtied Blocks": 0,
+                    "Local Written Blocks": 0,
+                    "Temp Read Blocks": 0,
+                    "Temp Written Blocks": 0,
+                    "WAL Records": 0,
+                    "WAL FPI": 0,
+                    "WAL Bytes": 0
+                  }
+                ]
+              }
+            ]
+          },
+          "Planning": {
+            "Shared Hit Blocks": 0,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          },
+          "Planning Time": 0.115,
+          "Triggers": [
+            {
+              "Trigger Name": "RI_ConstraintTrigger_c_16946",
+              "Constraint Name": "fk_detalle_pedido_pedido",
+              "Relation": "detalle_pedido",
+              "Time": 5.571,
+              "Calls": 800
+            },
+            {
+              "Trigger Name": "RI_ConstraintTrigger_c_16951",
+              "Constraint Name": "fk_detalle_pedido_producto",
+              "Relation": "detalle_pedido",
+              "Time": 5.658,
+              "Calls": 800
+            },
+            {
+              "Trigger Name": "trg_validar_edicion_detalle_pedido",
+              "Relation": "detalle_pedido",
+              "Time": 18.497,
+              "Calls": 800
+            },
+            {
+              "Trigger Name": "trg_validar_producto_y_stock_detalle",
+              "Relation": "detalle_pedido",
+              "Time": 9.325,
+              "Calls": 800
+            }
+          ],
+          "Execution Time": 51.597
+        },
+        "filas": 800
+      },
+      {
+        "ms": 51.053,
+        "plan": {
+          "Plan": {
+            "Node Type": "ModifyTable",
+            "Operation": "Insert",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Relation Name": "detalle_pedido",
+            "Alias": "detalle_pedido",
+            "Startup Cost": 0.29,
+            "Total Cost": 41.77,
+            "Plan Rows": 0,
+            "Plan Width": 0,
+            "Actual Startup Time": 39.267,
+            "Actual Total Time": 39.268,
+            "Actual Rows": 0,
+            "Actual Loops": 1,
+            "Shared Hit Blocks": 16945,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 8,
+            "Shared Written Blocks": 8,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0,
+            "WAL Records": 4811,
+            "WAL FPI": 0,
+            "WAL Bytes": 343351,
+            "Plans": [
+              {
+                "Node Type": "Limit",
+                "Parent Relationship": "Outer",
+                "Parallel Aware": false,
+                "Async Capable": false,
+                "Startup Cost": 0.29,
+                "Total Cost": 41.77,
+                "Plan Rows": 800,
+                "Plan Width": 17,
+                "Actual Startup Time": 0.011,
+                "Actual Total Time": 0.704,
+                "Actual Rows": 800,
+                "Actual Loops": 1,
+                "Shared Hit Blocks": 188,
+                "Shared Read Blocks": 0,
+                "Shared Dirtied Blocks": 0,
+                "Shared Written Blocks": 0,
+                "Local Hit Blocks": 0,
+                "Local Read Blocks": 0,
+                "Local Dirtied Blocks": 0,
+                "Local Written Blocks": 0,
+                "Temp Read Blocks": 0,
+                "Temp Written Blocks": 0,
+                "WAL Records": 0,
+                "WAL FPI": 0,
+                "WAL Bytes": 0,
+                "Plans": [
+                  {
+                    "Node Type": "Index Scan",
+                    "Parent Relationship": "Outer",
+                    "Parallel Aware": false,
+                    "Async Capable": false,
+                    "Scan Direction": "Forward",
+                    "Index Name": "pk_producto",
+                    "Relation Name": "producto",
+                    "Alias": "producto",
+                    "Startup Cost": 0.29,
+                    "Total Cost": 2336.25,
+                    "Plan Rows": 45053,
+                    "Plan Width": 17,
+                    "Actual Startup Time": 0.011,
+                    "Actual Total Time": 0.584,
+                    "Actual Rows": 800,
+                    "Actual Loops": 1,
+                    "Filter": "(activo AND (stock >= 1))",
+                    "Rows Removed by Filter": 89,
+                    "Shared Hit Blocks": 188,
+                    "Shared Read Blocks": 0,
+                    "Shared Dirtied Blocks": 0,
+                    "Shared Written Blocks": 0,
+                    "Local Hit Blocks": 0,
+                    "Local Read Blocks": 0,
+                    "Local Dirtied Blocks": 0,
+                    "Local Written Blocks": 0,
+                    "Temp Read Blocks": 0,
+                    "Temp Written Blocks": 0,
+                    "WAL Records": 0,
+                    "WAL FPI": 0,
+                    "WAL Bytes": 0
+                  }
+                ]
+              }
+            ]
+          },
+          "Planning": {
+            "Shared Hit Blocks": 0,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          },
+          "Planning Time": 0.116,
+          "Triggers": [
+            {
+              "Trigger Name": "RI_ConstraintTrigger_c_16946",
+              "Constraint Name": "fk_detalle_pedido_pedido",
+              "Relation": "detalle_pedido",
+              "Time": 5.771,
+              "Calls": 800
+            },
+            {
+              "Trigger Name": "RI_ConstraintTrigger_c_16951",
+              "Constraint Name": "fk_detalle_pedido_producto",
+              "Relation": "detalle_pedido",
+              "Time": 5.843,
+              "Calls": 800
+            },
+            {
+              "Trigger Name": "trg_validar_edicion_detalle_pedido",
+              "Relation": "detalle_pedido",
+              "Time": 18.013,
+              "Calls": 800
+            },
+            {
+              "Trigger Name": "trg_validar_producto_y_stock_detalle",
+              "Relation": "detalle_pedido",
+              "Time": 9.073,
+              "Calls": 800
+            }
+          ],
+          "Execution Time": 51.053
+        },
+        "filas": 800
+      },
+      {
+        "ms": 56.302,
+        "plan": {
+          "Plan": {
+            "Node Type": "ModifyTable",
+            "Operation": "Insert",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Relation Name": "detalle_pedido",
+            "Alias": "detalle_pedido",
+            "Startup Cost": 0.29,
+            "Total Cost": 41.77,
+            "Plan Rows": 0,
+            "Plan Width": 0,
+            "Actual Startup Time": 44.837,
+            "Actual Total Time": 44.837,
+            "Actual Rows": 0,
+            "Actual Loops": 1,
+            "Shared Hit Blocks": 16897,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 45,
+            "Shared Written Blocks": 45,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0,
+            "WAL Records": 4848,
+            "WAL FPI": 0,
+            "WAL Bytes": 477707,
+            "Plans": [
+              {
+                "Node Type": "Limit",
+                "Parent Relationship": "Outer",
+                "Parallel Aware": false,
+                "Async Capable": false,
+                "Startup Cost": 0.29,
+                "Total Cost": 41.77,
+                "Plan Rows": 800,
+                "Plan Width": 17,
+                "Actual Startup Time": 0.011,
+                "Actual Total Time": 0.763,
+                "Actual Rows": 800,
+                "Actual Loops": 1,
+                "Shared Hit Blocks": 188,
+                "Shared Read Blocks": 0,
+                "Shared Dirtied Blocks": 0,
+                "Shared Written Blocks": 0,
+                "Local Hit Blocks": 0,
+                "Local Read Blocks": 0,
+                "Local Dirtied Blocks": 0,
+                "Local Written Blocks": 0,
+                "Temp Read Blocks": 0,
+                "Temp Written Blocks": 0,
+                "WAL Records": 0,
+                "WAL FPI": 0,
+                "WAL Bytes": 0,
+                "Plans": [
+                  {
+                    "Node Type": "Index Scan",
+                    "Parent Relationship": "Outer",
+                    "Parallel Aware": false,
+                    "Async Capable": false,
+                    "Scan Direction": "Forward",
+                    "Index Name": "pk_producto",
+                    "Relation Name": "producto",
+                    "Alias": "producto",
+                    "Startup Cost": 0.29,
+                    "Total Cost": 2336.25,
+                    "Plan Rows": 45053,
+                    "Plan Width": 17,
+                    "Actual Startup Time": 0.01,
+                    "Actual Total Time": 0.631,
+                    "Actual Rows": 800,
+                    "Actual Loops": 1,
+                    "Filter": "(activo AND (stock >= 1))",
+                    "Rows Removed by Filter": 89,
+                    "Shared Hit Blocks": 188,
+                    "Shared Read Blocks": 0,
+                    "Shared Dirtied Blocks": 0,
+                    "Shared Written Blocks": 0,
+                    "Local Hit Blocks": 0,
+                    "Local Read Blocks": 0,
+                    "Local Dirtied Blocks": 0,
+                    "Local Written Blocks": 0,
+                    "Temp Read Blocks": 0,
+                    "Temp Written Blocks": 0,
+                    "WAL Records": 0,
+                    "WAL FPI": 0,
+                    "WAL Bytes": 0
+                  }
+                ]
+              }
+            ]
+          },
+          "Planning": {
+            "Shared Hit Blocks": 0,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          },
+          "Planning Time": 0.114,
+          "Triggers": [
+            {
+              "Trigger Name": "RI_ConstraintTrigger_c_16946",
+              "Constraint Name": "fk_detalle_pedido_pedido",
+              "Relation": "detalle_pedido",
+              "Time": 5.608,
+              "Calls": 800
+            },
+            {
+              "Trigger Name": "RI_ConstraintTrigger_c_16951",
+              "Constraint Name": "fk_detalle_pedido_producto",
+              "Relation": "detalle_pedido",
+              "Time": 5.696,
+              "Calls": 800
+            },
+            {
+              "Trigger Name": "trg_validar_edicion_detalle_pedido",
+              "Relation": "detalle_pedido",
+              "Time": 18.683,
+              "Calls": 800
+            },
+            {
+              "Trigger Name": "trg_validar_producto_y_stock_detalle",
+              "Relation": "detalle_pedido",
+              "Time": 9.187,
+              "Calls": 800
+            }
+          ],
+          "Execution Time": 56.302
+        },
+        "filas": 800
+      }
+    ],
+    "resumen": {
+      "antes": {
+        "mediana_ms": 47.392,
+        "min_ms": 46.986,
+        "max_ms": 52.739
+      },
+      "despues": {
+        "mediana_ms": 50.96,
+        "min_ms": 50.239,
+        "max_ms": 56.302
+      }
+    }
+  }
+}
