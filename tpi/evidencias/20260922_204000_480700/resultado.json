@@ -1,0 +1,5247 @@
+{
+  "base": "food_store_tpi_20260922_204000_480700",
+  "exito": true,
+  "eventos": [
+    {
+      "sql": "SELECT current_database(),current_user,version()",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              "postgres",
+              "postgres",
+              "PostgreSQL 17.11 on x86_64-windows, compiled by msvc-19.44.35228, 64-bit"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "SET TIME ZONE 'UTC'",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SET",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "CREATE DATABASE \"food_store_tpi_20260922_204000_480700\"",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "CREATE DATABASE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SELECT current_database(),current_user,version()",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              "food_store_tpi_20260922_204000_480700",
+              "postgres",
+              "PostgreSQL 17.11 on x86_64-windows, compiled by msvc-19.44.35228, 64-bit"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "SET TIME ZONE 'UTC'",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SET",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SHOW server_version",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SHOW",
+          "filas": [
+            [
+              "17.11"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "BEGIN",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "BEGIN",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "-- ============================================================\n-- TRABAJO PRÁCTICO N.º 1 - FOOD STORE\n-- PARTE 4 - DDL EN POSTGRESQL\n-- ============================================================\n\n\n-- ============================================================\n-- ELIMINACIÓN PREVIA\n-- ============================================================\n\nDROP TABLE IF EXISTS detalle_pedido CASCADE;\nDROP TABLE IF EXISTS pedido CASCADE;\nDROP TABLE IF EXISTS producto CASCADE;\nDROP TABLE IF EXISTS cliente CASCADE;\nDROP TABLE IF EXISTS categoria CASCADE;\n\nDROP TYPE IF EXISTS estado_pedido CASCADE;\nDROP TYPE IF EXISTS forma_pago CASCADE;\n\n\n-- ============================================================\n-- TIPOS ENUMERADOS\n-- ============================================================\n\nCREATE TYPE forma_pago AS ENUM (\n    'EFECTIVO',\n    'TARJETA',\n    'TRANSFERENCIA'\n);\n\nCREATE TYPE estado_pedido AS ENUM (\n    'PENDIENTE',\n    'CONFIRMADO',\n    'ENTREGADO',\n    'CANCELADO'\n);\n\n\n-- ============================================================\n-- TABLA CATEGORIA\n-- ============================================================\n\nCREATE TABLE categoria (\n    id_categoria INTEGER GENERATED ALWAYS AS IDENTITY,\n    nombre VARCHAR(50) NOT NULL,\n    activo BOOLEAN NOT NULL DEFAULT TRUE,\n\n    CONSTRAINT pk_categoria\n        PRIMARY KEY (id_categoria),\n\n    CONSTRAINT uq_categoria_nombre\n        UNIQUE (nombre)\n);\n\n\n-- ============================================================\n-- TABLA CLIENTE\n-- ============================================================\n\nCREATE TABLE cliente (\n    id_cliente INTEGER GENERATED ALWAYS AS IDENTITY,\n    correo_electronico VARCHAR(150) NOT NULL,\n    nro_telefono VARCHAR(30),\n    nombre VARCHAR(50) NOT NULL,\n    apellido VARCHAR(50) NOT NULL,\n\n    CONSTRAINT pk_cliente\n        PRIMARY KEY (id_cliente),\n\n    CONSTRAINT uq_cliente_correo\n        UNIQUE (correo_electronico)\n);\n\n\n-- ============================================================\n-- TABLA PRODUCTO\n-- ============================================================\n\nCREATE TABLE producto (\n    id_producto INTEGER GENERATED ALWAYS AS IDENTITY,\n    nombre VARCHAR(100) NOT NULL,\n    precio_lista NUMERIC(10,2) NOT NULL,\n    stock INTEGER NOT NULL DEFAULT 0,\n    activo BOOLEAN NOT NULL DEFAULT TRUE,\n    categoria_id INTEGER NOT NULL,\n\n    CONSTRAINT pk_producto\n        PRIMARY KEY (id_producto),\n\n    CONSTRAINT fk_producto_categoria\n        FOREIGN KEY (categoria_id)\n        REFERENCES categoria(id_categoria)\n        ON DELETE RESTRICT,\n\n    CONSTRAINT uq_producto_nombre\n        UNIQUE (nombre),\n\n    CONSTRAINT chk_producto_precio\n        CHECK (precio_lista >= 0),\n\n    CONSTRAINT chk_producto_stock\n        CHECK (stock >= 0)\n);\n\n\n-- ============================================================\n-- TABLA PEDIDO\n-- ============================================================\n\nCREATE TABLE pedido (\n    id_pedido INTEGER GENERATED ALWAYS AS IDENTITY,\n    fecha TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    estado estado_pedido NOT NULL DEFAULT 'PENDIENTE',\n    forma_pago forma_pago NOT NULL,\n    cliente_id INTEGER NOT NULL,\n\n    CONSTRAINT pk_pedido\n        PRIMARY KEY (id_pedido),\n\n    CONSTRAINT fk_pedido_cliente\n        FOREIGN KEY (cliente_id)\n        REFERENCES cliente(id_cliente)\n        ON DELETE RESTRICT\n);\n\n\n-- ============================================================\n-- TABLA DETALLE_PEDIDO\n-- ============================================================\n\nCREATE TABLE detalle_pedido (\n    id_pedido INTEGER NOT NULL,\n    id_producto INTEGER NOT NULL,\n    precio_unitario NUMERIC(10,2) NOT NULL,\n    cantidad INTEGER NOT NULL,\n\n    CONSTRAINT pk_detalle_pedido\n        PRIMARY KEY (id_pedido, id_producto),\n\n    CONSTRAINT fk_detalle_pedido_pedido\n        FOREIGN KEY (id_pedido)\n        REFERENCES pedido(id_pedido)\n        ON DELETE RESTRICT,\n\n    CONSTRAINT fk_detalle_pedido_producto\n        FOREIGN KEY (id_producto)\n        REFERENCES producto(id_producto)\n        ON DELETE RESTRICT,\n\n    CONSTRAINT chk_detalle_precio\n        CHECK (precio_unitario >= 0),\n\n    CONSTRAINT chk_detalle_cantidad\n        CHECK (cantidad > 0)\n);\n\n\n-- ============================================================\n-- ÍNDICES\n-- ============================================================\n\n-- Acelera la búsqueda de los pedidos de un cliente.\nCREATE INDEX idx_pedido_cliente\n    ON pedido(cliente_id);\n\n-- Acelera la búsqueda de productos de una categoría.\nCREATE INDEX idx_producto_categoria\n    ON producto(categoria_id);\n\n\n-- ============================================================\n-- EJECUCIÓN / COMPROBACIÓN\n-- ============================================================\n\n-- Comprobar que las tablas fueron creadas correctamente.\nSELECT table_name\nFROM information_schema.tables\nWHERE table_schema = 'public'\n  AND table_name IN (\n      'categoria',\n      'cliente',\n      'producto',\n      'pedido',\n      'detalle_pedido'\n  )\nORDER BY table_name;\n\n-- Comprobar la estructura de las tablas.\nSELECT\n    table_name,\n    column_name,\n    data_type\nFROM information_schema.columns\nWHERE table_schema = 'public'\n  AND table_name IN (\n      'categoria',\n      'cliente',\n      'producto',\n      'pedido',\n      'detalle_pedido'\n  )\nORDER BY table_name, ordinal_position;",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "DROP TABLE",
+          "filas": null
+        },
+        {
+          "estado": "DROP TABLE",
+          "filas": null
+        },
+        {
+          "estado": "DROP TABLE",
+          "filas": null
+        },
+        {
+          "estado": "DROP TABLE",
+          "filas": null
+        },
+        {
+          "estado": "DROP TABLE",
+          "filas": null
+        },
+        {
+          "estado": "DROP TYPE",
+          "filas": null
+        },
+        {
+          "estado": "DROP TYPE",
+          "filas": null
+        },
+        {
+          "estado": "CREATE TYPE",
+          "filas": null
+        },
+        {
+          "estado": "CREATE TYPE",
+          "filas": null
+        },
+        {
+          "estado": "CREATE TABLE",
+          "filas": null
+        },
+        {
+          "estado": "CREATE TABLE",
+          "filas": null
+        },
+        {
+          "estado": "CREATE TABLE",
+          "filas": null
+        },
+        {
+          "estado": "CREATE TABLE",
+          "filas": null
+        },
+        {
+          "estado": "CREATE TABLE",
+          "filas": null
+        },
+        {
+          "estado": "CREATE INDEX",
+          "filas": null
+        },
+        {
+          "estado": "CREATE INDEX",
+          "filas": null
+        },
+        {
+          "estado": "SELECT 5",
+          "filas": [
+            [
+              "categoria"
+            ],
+            [
+              "cliente"
+            ],
+            [
+              "detalle_pedido"
+            ],
+            [
+              "pedido"
+            ],
+            [
+              "producto"
+            ]
+          ]
+        },
+        {
+          "estado": "SELECT 23",
+          "filas": [
+            [
+              "categoria",
+              "id_categoria",
+              "integer"
+            ],
+            [
+              "categoria",
+              "nombre",
+              "character varying"
+            ],
+            [
+              "categoria",
+              "activo",
+              "boolean"
+            ],
+            [
+              "cliente",
+              "id_cliente",
+              "integer"
+            ],
+            [
+              "cliente",
+              "correo_electronico",
+              "character varying"
+            ],
+            [
+              "cliente",
+              "nro_telefono",
+              "character varying"
+            ],
+            [
+              "cliente",
+              "nombre",
+              "character varying"
+            ],
+            [
+              "cliente",
+              "apellido",
+              "character varying"
+            ],
+            [
+              "detalle_pedido",
+              "id_pedido",
+              "integer"
+            ],
+            [
+              "detalle_pedido",
+              "id_producto",
+              "integer"
+            ],
+            [
+              "detalle_pedido",
+              "precio_unitario",
+              "numeric"
+            ],
+            [
+              "detalle_pedido",
+              "cantidad",
+              "integer"
+            ],
+            [
+              "pedido",
+              "id_pedido",
+              "integer"
+            ],
+            [
+              "pedido",
+              "fecha",
+              "timestamp with time zone"
+            ],
+            [
+              "pedido",
+              "estado",
+              "USER-DEFINED"
+            ],
+            [
+              "pedido",
+              "forma_pago",
+              "USER-DEFINED"
+            ],
+            [
+              "pedido",
+              "cliente_id",
+              "integer"
+            ],
+            [
+              "producto",
+              "id_producto",
+              "integer"
+            ],
+            [
+              "producto",
+              "nombre",
+              "character varying"
+            ],
+            [
+              "producto",
+              "precio_lista",
+              "numeric"
+            ],
+            [
+              "producto",
+              "stock",
+              "integer"
+            ],
+            [
+              "producto",
+              "activo",
+              "boolean"
+            ],
+            [
+              "producto",
+              "categoria_id",
+              "integer"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "-- TP2 Food Store - restricciones de negocio\n-- Ejecutar sobre una copia del esquema, dentro de BEGIN ... ROLLBACK primero.\n\n-- R1: un pedido no puede regresar a PENDIENTE ni cambiar después de ENTREGADO/CANCELADO.\nCREATE OR REPLACE FUNCTION validar_transicion_estado_pedido()\nRETURNS TRIGGER\nLANGUAGE plpgsql\nAS $$\nBEGIN\n    IF NEW.estado = OLD.estado THEN\n        RETURN NEW;\n    END IF;\n\n    IF (OLD.estado = 'PENDIENTE' AND NEW.estado IN ('CONFIRMADO', 'CANCELADO'))\n       OR (OLD.estado = 'CONFIRMADO' AND NEW.estado IN ('ENTREGADO', 'CANCELADO')) THEN\n        RETURN NEW;\n    END IF;\n\n    RAISE EXCEPTION 'Transición de estado no permitida: % -> %', OLD.estado, NEW.estado\n        USING ERRCODE = '23514';\nEND;\n$$;\n\nDROP TRIGGER IF EXISTS trg_validar_transicion_estado_pedido ON pedido;\nCREATE TRIGGER trg_validar_transicion_estado_pedido\nBEFORE UPDATE OF estado ON pedido\nFOR EACH ROW\nEXECUTE FUNCTION validar_transicion_estado_pedido();\n\n-- R2: un detalle sólo puede agregarse, modificarse o borrarse mientras el pedido está PENDIENTE.\nCREATE OR REPLACE FUNCTION validar_edicion_detalle_pedido()\nRETURNS TRIGGER\nLANGUAGE plpgsql\nAS $$\nDECLARE\n    v_id_pedido INTEGER;\n    v_ids INTEGER[];\n    v_estado estado_pedido;\nBEGIN\n    IF TG_OP = 'INSERT' THEN\n        v_ids := ARRAY[NEW.id_pedido];\n    ELSIF TG_OP = 'DELETE' THEN\n        v_ids := ARRAY[OLD.id_pedido];\n    ELSE\n        -- Mover una línea modifica tanto el pedido de origen como el de destino.\n        v_ids := ARRAY[OLD.id_pedido, NEW.id_pedido];\n    END IF;\n\n    -- Orden fijo para que dos traslados no tomen los pedidos en orden inverso.\n    FOR v_id_pedido IN\n        SELECT DISTINCT id FROM unnest(v_ids) AS ids(id) ORDER BY id\n    LOOP\n        SELECT estado INTO v_estado\n        FROM pedido\n        WHERE id_pedido = v_id_pedido\n        FOR SHARE;\n\n        -- FOR SHARE bloquea también UPDATE de estado. FOR KEY SHARE no lo hacía.\n        IF NOT FOUND THEN\n            RAISE EXCEPTION 'El pedido % no existe', v_id_pedido USING ERRCODE = '23503';\n        END IF;\n\n        IF v_estado <> 'PENDIENTE' THEN\n            RAISE EXCEPTION 'No se puede editar el detalle del pedido % porque está %', v_id_pedido, v_estado\n                USING ERRCODE = '23514';\n        END IF;\n    END LOOP;\n\n    IF TG_OP = 'DELETE' THEN\n        RETURN OLD;\n    END IF;\n\n    RETURN NEW;\nEND;\n$$;\n\nDROP TRIGGER IF EXISTS trg_validar_edicion_detalle_pedido ON detalle_pedido;\nCREATE TRIGGER trg_validar_edicion_detalle_pedido\nBEFORE INSERT OR UPDATE OR DELETE ON detalle_pedido\nFOR EACH ROW\nEXECUTE FUNCTION validar_edicion_detalle_pedido();\n\n-- R3: el detalle sólo admite productos activos y una cantidad que no exceda su stock actual.\n-- FOR SHARE evita que una actualización concurrente del producto cambie esa fila durante la validación.\nCREATE OR REPLACE FUNCTION validar_producto_y_stock_detalle()\nRETURNS TRIGGER\nLANGUAGE plpgsql\nAS $$\nDECLARE\n    v_stock INTEGER;\n    v_activo BOOLEAN;\nBEGIN\n    SELECT stock, activo INTO v_stock, v_activo\n    FROM producto\n    WHERE id_producto = NEW.id_producto\n    FOR SHARE;\n\n    IF NOT FOUND THEN\n        RAISE EXCEPTION 'El producto % no existe', NEW.id_producto USING ERRCODE = '23503';\n    END IF;\n\n    IF NOT v_activo THEN\n        RAISE EXCEPTION 'El producto % está inactivo', NEW.id_producto USING ERRCODE = '23514';\n    END IF;\n\n    IF NEW.cantidad > v_stock THEN\n        RAISE EXCEPTION 'Stock insuficiente para el producto %: solicitado %, disponible %',\n            NEW.id_producto, NEW.cantidad, v_stock USING ERRCODE = '23514';\n    END IF;\n\n    RETURN NEW;\nEND;\n$$;\n\nDROP TRIGGER IF EXISTS trg_validar_producto_y_stock_detalle ON detalle_pedido;\nCREATE TRIGGER trg_validar_producto_y_stock_detalle\nBEFORE INSERT OR UPDATE OF id_producto, cantidad ON detalle_pedido\nFOR EACH ROW\nEXECUTE FUNCTION validar_producto_y_stock_detalle();\n",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "CREATE FUNCTION",
+          "filas": null
+        },
+        {
+          "estado": "DROP TRIGGER",
+          "filas": null
+        },
+        {
+          "estado": "CREATE TRIGGER",
+          "filas": null
+        },
+        {
+          "estado": "CREATE FUNCTION",
+          "filas": null
+        },
+        {
+          "estado": "DROP TRIGGER",
+          "filas": null
+        },
+        {
+          "estado": "CREATE TRIGGER",
+          "filas": null
+        },
+        {
+          "estado": "CREATE FUNCTION",
+          "filas": null
+        },
+        {
+          "estado": "DROP TRIGGER",
+          "filas": null
+        },
+        {
+          "estado": "CREATE TRIGGER",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "-- Datos sintéticos del laboratorio. Ejecutar UNA VEZ sobre schema.sql recién creado.\n-- La base debe estar vacía; los ids explícitos hacen reproducibles los ejemplos.\nINSERT INTO categoria (id_categoria, nombre) OVERRIDING SYSTEM VALUE\nVALUES (1, 'Pizzas'), (2, 'Bebidas'), (3, 'Sin productos');\n\nINSERT INTO cliente (id_cliente, correo_electronico, nombre, apellido)\nOVERRIDING SYSTEM VALUE\nVALUES (1, 'cliente1@example.test', 'Ana', 'Prueba');\n\nINSERT INTO producto (id_producto, nombre, precio_lista, stock, activo, categoria_id)\nOVERRIDING SYSTEM VALUE\nVALUES (1, 'Muzzarella de prueba', 1000, 10, TRUE, 1),\n       (2, 'Bebida inactiva de prueba', 800, 10, FALSE, 2),\n       (3, 'Bebida activa de prueba', 900, 5, TRUE, 2);\n\nINSERT INTO pedido (id_pedido, forma_pago, cliente_id) OVERRIDING SYSTEM VALUE\nVALUES (1, 'EFECTIVO', 1), (2, 'TARJETA', 1), (3, 'TRANSFERENCIA', 1);\n\n-- Ajustar las secuencias tras usar OVERRIDING SYSTEM VALUE.\nSELECT setval(pg_get_serial_sequence('categoria', 'id_categoria'), 3);\nSELECT setval(pg_get_serial_sequence('cliente', 'id_cliente'), 1);\nSELECT setval(pg_get_serial_sequence('producto', 'id_producto'), 3);\nSELECT setval(pg_get_serial_sequence('pedido', 'id_pedido'), 3);\n",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "INSERT 0 3",
+          "filas": null
+        },
+        {
+          "estado": "INSERT 0 1",
+          "filas": null
+        },
+        {
+          "estado": "INSERT 0 3",
+          "filas": null
+        },
+        {
+          "estado": "INSERT 0 3",
+          "filas": null
+        },
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              3
+            ]
+          ]
+        },
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              1
+            ]
+          ]
+        },
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              3
+            ]
+          ]
+        },
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              3
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "-- Candidatos derivados de los planes reales: ver propuestas_ia.md.\n-- Ejecutar en la copia, con respaldo previo y un ensayo BEGIN ... ROLLBACK.\nCREATE INDEX tp3_producto_categoria_precio\nON producto(categoria_id, precio_lista, id_producto)\nINCLUDE(nombre) WHERE activo=TRUE;\n\nCREATE INDEX tp3_pedido_fecha\nON pedido(fecha, id_pedido) INCLUDE(estado, cliente_id);\n\nCREATE INDEX tp3_detalle_producto\nON detalle_pedido(id_producto) INCLUDE(cantidad, precio_unitario);\n",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "CREATE INDEX",
+          "filas": null
+        },
+        {
+          "estado": "CREATE INDEX",
+          "filas": null
+        },
+        {
+          "estado": "CREATE INDEX",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "-- Propuestas motivadas por los planes iniciales: ver propuestas_ia.md.\n-- Se añaden a los índices del TP3, sin eliminar restricciones.\nCREATE INDEX tp4_pedido_entregado_fecha\nON pedido(fecha,id_pedido) INCLUDE(cliente_id) WHERE estado='ENTREGADO';\n\nCREATE INDEX tp4_detalle_pedido_cubierto\nON detalle_pedido(id_pedido) INCLUDE(id_producto,cantidad,precio_unitario);\n",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "CREATE INDEX",
+          "filas": null
+        },
+        {
+          "estado": "CREATE INDEX",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "-- I1 / Q1: B-tree de expresión; solo productos vigentes.\n-- El UNIQUE heredado sobre nombre no resuelve igualdad sobre lower(nombre).\nCREATE INDEX tp5_producto_nombre_activo\nON producto (lower(nombre)) WHERE activo;\n\n-- I2 / Q2: la cola confirmada con tarjeta ocupa solo una fracción de pedido.\n-- Las claves satisfacen ORDER BY y los INCLUDE cubren la proyección.\nCREATE INDEX tp5_pedido_confirmado_tarjeta\nON pedido (fecha, id_pedido) INCLUDE (estado, forma_pago, cliente_id)\nWHERE estado = 'CONFIRMADO' AND forma_pago = 'TARJETA';\n\n-- I3 / Q3: rango por precio histórico y orden determinista; cantidad cubierta.\n-- Índice completo: permite otros umbrales, con costo de mantenimiento en cada alta.\nCREATE INDEX tp5_detalle_precio\nON detalle_pedido (precio_unitario, id_pedido, id_producto) INCLUDE (cantidad);\n",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "CREATE INDEX",
+          "filas": null
+        },
+        {
+          "estado": "CREATE INDEX",
+          "filas": null
+        },
+        {
+          "estado": "CREATE INDEX",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "-- V1: catálogo vigente. Una baja de categoría también oculta sus productos.\nCREATE VIEW tp5_productos_vigentes\n    (id_producto, nombre_producto, precio_lista, stock, id_categoria, nombre_categoria)\nAS\nSELECT p.id_producto, p.nombre, p.precio_lista, p.stock, c.id_categoria, c.nombre\nFROM producto p JOIN categoria c ON c.id_categoria = p.categoria_id\nWHERE p.activo AND c.activo;\n\n-- V2: historial de todos los estados. No expone correo ni teléfono.\n-- El modelo heredado no contiene contraseña; no se añade ni simula esa columna.\n-- Permisos de tablas comprobados como propietario de la vista (valor predeterminado).\nCREATE VIEW tp5_pedidos_clientes\n    (id_pedido, fecha, estado, forma_pago, id_cliente, nombre, apellido)\nAS\nSELECT o.id_pedido, o.fecha, o.estado, o.forma_pago, c.id_cliente, c.nombre, c.apellido\nFROM pedido o JOIN cliente c ON c.id_cliente = o.cliente_id;\n\n-- V3: conservar detalles históricos aunque el producto esté inactivo.\n-- Un pedido sin líneas produce cero filas; el subtotal usa el precio de venta.\nCREATE VIEW tp5_detalles_productos\n    (id_pedido, id_producto, nombre_producto, cantidad, precio_unitario, subtotal)\nAS\nSELECT d.id_pedido, d.id_producto, p.nombre, d.cantidad, d.precio_unitario,\n       d.cantidad * d.precio_unitario\nFROM detalle_pedido d JOIN producto p ON p.id_producto = d.id_producto;\n",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "CREATE VIEW",
+          "filas": null
+        },
+        {
+          "estado": "CREATE VIEW",
+          "filas": null
+        },
+        {
+          "estado": "CREATE VIEW",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "-- Facturación del catálogo vigente, por categoría y mes UTC: extensión de A1/TP4.\n-- Una baja posterior del catálogo modifica el resultado al refrescar.\nCREATE MATERIALIZED VIEW tp5_facturacion_mensual\n    (id_categoria, nombre_categoria, mes, unidades, importe)\nAS\nSELECT c.id_categoria, c.nombre,\n       date_trunc('month', o.fecha AT TIME ZONE 'UTC')::date,\n       sum(d.cantidad), sum(d.cantidad * d.precio_unitario)\nFROM pedido o\nJOIN detalle_pedido d ON d.id_pedido = o.id_pedido\nJOIN producto p ON p.id_producto = d.id_producto\nJOIN categoria c ON c.id_categoria = p.categoria_id\nWHERE o.estado = 'ENTREGADO' AND p.activo AND c.activo\nGROUP BY c.id_categoria, c.nombre, date_trunc('month', o.fecha AT TIME ZONE 'UTC')::date\nWITH DATA;\n\n-- Clave completa, sin expresiones ni WHERE: requisito de REFRESH CONCURRENTLY.\nCREATE UNIQUE INDEX tp5_facturacion_categoria_mes\nON tp5_facturacion_mensual (id_categoria, mes);\n",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SELECT 0",
+          "filas": null
+        },
+        {
+          "estado": "CREATE INDEX",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_tables WHERE schemaname='public'",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              5
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "ROLLBACK",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "BEGIN",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "BEGIN",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "-- ============================================================\n-- TRABAJO PRÁCTICO N.º 1 - FOOD STORE\n-- PARTE 4 - DDL EN POSTGRESQL\n-- ============================================================\n\n\n-- ============================================================\n-- ELIMINACIÓN PREVIA\n-- ============================================================\n\nDROP TABLE IF EXISTS detalle_pedido CASCADE;\nDROP TABLE IF EXISTS pedido CASCADE;\nDROP TABLE IF EXISTS producto CASCADE;\nDROP TABLE IF EXISTS cliente CASCADE;\nDROP TABLE IF EXISTS categoria CASCADE;\n\nDROP TYPE IF EXISTS estado_pedido CASCADE;\nDROP TYPE IF EXISTS forma_pago CASCADE;\n\n\n-- ============================================================\n-- TIPOS ENUMERADOS\n-- ============================================================\n\nCREATE TYPE forma_pago AS ENUM (\n    'EFECTIVO',\n    'TARJETA',\n    'TRANSFERENCIA'\n);\n\nCREATE TYPE estado_pedido AS ENUM (\n    'PENDIENTE',\n    'CONFIRMADO',\n    'ENTREGADO',\n    'CANCELADO'\n);\n\n\n-- ============================================================\n-- TABLA CATEGORIA\n-- ============================================================\n\nCREATE TABLE categoria (\n    id_categoria INTEGER GENERATED ALWAYS AS IDENTITY,\n    nombre VARCHAR(50) NOT NULL,\n    activo BOOLEAN NOT NULL DEFAULT TRUE,\n\n    CONSTRAINT pk_categoria\n        PRIMARY KEY (id_categoria),\n\n    CONSTRAINT uq_categoria_nombre\n        UNIQUE (nombre)\n);\n\n\n-- ============================================================\n-- TABLA CLIENTE\n-- ============================================================\n\nCREATE TABLE cliente (\n    id_cliente INTEGER GENERATED ALWAYS AS IDENTITY,\n    correo_electronico VARCHAR(150) NOT NULL,\n    nro_telefono VARCHAR(30),\n    nombre VARCHAR(50) NOT NULL,\n    apellido VARCHAR(50) NOT NULL,\n\n    CONSTRAINT pk_cliente\n        PRIMARY KEY (id_cliente),\n\n    CONSTRAINT uq_cliente_correo\n        UNIQUE (correo_electronico)\n);\n\n\n-- ============================================================\n-- TABLA PRODUCTO\n-- ============================================================\n\nCREATE TABLE producto (\n    id_producto INTEGER GENERATED ALWAYS AS IDENTITY,\n    nombre VARCHAR(100) NOT NULL,\n    precio_lista NUMERIC(10,2) NOT NULL,\n    stock INTEGER NOT NULL DEFAULT 0,\n    activo BOOLEAN NOT NULL DEFAULT TRUE,\n    categoria_id INTEGER NOT NULL,\n\n    CONSTRAINT pk_producto\n        PRIMARY KEY (id_producto),\n\n    CONSTRAINT fk_producto_categoria\n        FOREIGN KEY (categoria_id)\n        REFERENCES categoria(id_categoria)\n        ON DELETE RESTRICT,\n\n    CONSTRAINT uq_producto_nombre\n        UNIQUE (nombre),\n\n    CONSTRAINT chk_producto_precio\n        CHECK (precio_lista >= 0),\n\n    CONSTRAINT chk_producto_stock\n        CHECK (stock >= 0)\n);\n\n\n-- ============================================================\n-- TABLA PEDIDO\n-- ============================================================\n\nCREATE TABLE pedido (\n    id_pedido INTEGER GENERATED ALWAYS AS IDENTITY,\n    fecha TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    estado estado_pedido NOT NULL DEFAULT 'PENDIENTE',\n    forma_pago forma_pago NOT NULL,\n    cliente_id INTEGER NOT NULL,\n\n    CONSTRAINT pk_pedido\n        PRIMARY KEY (id_pedido),\n\n    CONSTRAINT fk_pedido_cliente\n        FOREIGN KEY (cliente_id)\n        REFERENCES cliente(id_cliente)\n        ON DELETE RESTRICT\n);\n\n\n-- ============================================================\n-- TABLA DETALLE_PEDIDO\n-- ============================================================\n\nCREATE TABLE detalle_pedido (\n    id_pedido INTEGER NOT NULL,\n    id_producto INTEGER NOT NULL,\n    precio_unitario NUMERIC(10,2) NOT NULL,\n    cantidad INTEGER NOT NULL,\n\n    CONSTRAINT pk_detalle_pedido\n        PRIMARY KEY (id_pedido, id_producto),\n\n    CONSTRAINT fk_detalle_pedido_pedido\n        FOREIGN KEY (id_pedido)\n        REFERENCES pedido(id_pedido)\n        ON DELETE RESTRICT,\n\n    CONSTRAINT fk_detalle_pedido_producto\n        FOREIGN KEY (id_producto)\n        REFERENCES producto(id_producto)\n        ON DELETE RESTRICT,\n\n    CONSTRAINT chk_detalle_precio\n        CHECK (precio_unitario >= 0),\n\n    CONSTRAINT chk_detalle_cantidad\n        CHECK (cantidad > 0)\n);\n\n\n-- ============================================================\n-- ÍNDICES\n-- ============================================================\n\n-- Acelera la búsqueda de los pedidos de un cliente.\nCREATE INDEX idx_pedido_cliente\n    ON pedido(cliente_id);\n\n-- Acelera la búsqueda de productos de una categoría.\nCREATE INDEX idx_producto_categoria\n    ON producto(categoria_id);\n\n\n-- ============================================================\n-- EJECUCIÓN / COMPROBACIÓN\n-- ============================================================\n\n-- Comprobar que las tablas fueron creadas correctamente.\nSELECT table_name\nFROM information_schema.tables\nWHERE table_schema = 'public'\n  AND table_name IN (\n      'categoria',\n      'cliente',\n      'producto',\n      'pedido',\n      'detalle_pedido'\n  )\nORDER BY table_name;\n\n-- Comprobar la estructura de las tablas.\nSELECT\n    table_name,\n    column_name,\n    data_type\nFROM information_schema.columns\nWHERE table_schema = 'public'\n  AND table_name IN (\n      'categoria',\n      'cliente',\n      'producto',\n      'pedido',\n      'detalle_pedido'\n  )\nORDER BY table_name, ordinal_position;",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "DROP TABLE",
+          "filas": null
+        },
+        {
+          "estado": "DROP TABLE",
+          "filas": null
+        },
+        {
+          "estado": "DROP TABLE",
+          "filas": null
+        },
+        {
+          "estado": "DROP TABLE",
+          "filas": null
+        },
+        {
+          "estado": "DROP TABLE",
+          "filas": null
+        },
+        {
+          "estado": "DROP TYPE",
+          "filas": null
+        },
+        {
+          "estado": "DROP TYPE",
+          "filas": null
+        },
+        {
+          "estado": "CREATE TYPE",
+          "filas": null
+        },
+        {
+          "estado": "CREATE TYPE",
+          "filas": null
+        },
+        {
+          "estado": "CREATE TABLE",
+          "filas": null
+        },
+        {
+          "estado": "CREATE TABLE",
+          "filas": null
+        },
+        {
+          "estado": "CREATE TABLE",
+          "filas": null
+        },
+        {
+          "estado": "CREATE TABLE",
+          "filas": null
+        },
+        {
+          "estado": "CREATE TABLE",
+          "filas": null
+        },
+        {
+          "estado": "CREATE INDEX",
+          "filas": null
+        },
+        {
+          "estado": "CREATE INDEX",
+          "filas": null
+        },
+        {
+          "estado": "SELECT 5",
+          "filas": [
+            [
+              "categoria"
+            ],
+            [
+              "cliente"
+            ],
+            [
+              "detalle_pedido"
+            ],
+            [
+              "pedido"
+            ],
+            [
+              "producto"
+            ]
+          ]
+        },
+        {
+          "estado": "SELECT 23",
+          "filas": [
+            [
+              "categoria",
+              "id_categoria",
+              "integer"
+            ],
+            [
+              "categoria",
+              "nombre",
+              "character varying"
+            ],
+            [
+              "categoria",
+              "activo",
+              "boolean"
+            ],
+            [
+              "cliente",
+              "id_cliente",
+              "integer"
+            ],
+            [
+              "cliente",
+              "correo_electronico",
+              "character varying"
+            ],
+            [
+              "cliente",
+              "nro_telefono",
+              "character varying"
+            ],
+            [
+              "cliente",
+              "nombre",
+              "character varying"
+            ],
+            [
+              "cliente",
+              "apellido",
+              "character varying"
+            ],
+            [
+              "detalle_pedido",
+              "id_pedido",
+              "integer"
+            ],
+            [
+              "detalle_pedido",
+              "id_producto",
+              "integer"
+            ],
+            [
+              "detalle_pedido",
+              "precio_unitario",
+              "numeric"
+            ],
+            [
+              "detalle_pedido",
+              "cantidad",
+              "integer"
+            ],
+            [
+              "pedido",
+              "id_pedido",
+              "integer"
+            ],
+            [
+              "pedido",
+              "fecha",
+              "timestamp with time zone"
+            ],
+            [
+              "pedido",
+              "estado",
+              "USER-DEFINED"
+            ],
+            [
+              "pedido",
+              "forma_pago",
+              "USER-DEFINED"
+            ],
+            [
+              "pedido",
+              "cliente_id",
+              "integer"
+            ],
+            [
+              "producto",
+              "id_producto",
+              "integer"
+            ],
+            [
+              "producto",
+              "nombre",
+              "character varying"
+            ],
+            [
+              "producto",
+              "precio_lista",
+              "numeric"
+            ],
+            [
+              "producto",
+              "stock",
+              "integer"
+            ],
+            [
+              "producto",
+              "activo",
+              "boolean"
+            ],
+            [
+              "producto",
+              "categoria_id",
+              "integer"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "-- TP2 Food Store - restricciones de negocio\n-- Ejecutar sobre una copia del esquema, dentro de BEGIN ... ROLLBACK primero.\n\n-- R1: un pedido no puede regresar a PENDIENTE ni cambiar después de ENTREGADO/CANCELADO.\nCREATE OR REPLACE FUNCTION validar_transicion_estado_pedido()\nRETURNS TRIGGER\nLANGUAGE plpgsql\nAS $$\nBEGIN\n    IF NEW.estado = OLD.estado THEN\n        RETURN NEW;\n    END IF;\n\n    IF (OLD.estado = 'PENDIENTE' AND NEW.estado IN ('CONFIRMADO', 'CANCELADO'))\n       OR (OLD.estado = 'CONFIRMADO' AND NEW.estado IN ('ENTREGADO', 'CANCELADO')) THEN\n        RETURN NEW;\n    END IF;\n\n    RAISE EXCEPTION 'Transición de estado no permitida: % -> %', OLD.estado, NEW.estado\n        USING ERRCODE = '23514';\nEND;\n$$;\n\nDROP TRIGGER IF EXISTS trg_validar_transicion_estado_pedido ON pedido;\nCREATE TRIGGER trg_validar_transicion_estado_pedido\nBEFORE UPDATE OF estado ON pedido\nFOR EACH ROW\nEXECUTE FUNCTION validar_transicion_estado_pedido();\n\n-- R2: un detalle sólo puede agregarse, modificarse o borrarse mientras el pedido está PENDIENTE.\nCREATE OR REPLACE FUNCTION validar_edicion_detalle_pedido()\nRETURNS TRIGGER\nLANGUAGE plpgsql\nAS $$\nDECLARE\n    v_id_pedido INTEGER;\n    v_ids INTEGER[];\n    v_estado estado_pedido;\nBEGIN\n    IF TG_OP = 'INSERT' THEN\n        v_ids := ARRAY[NEW.id_pedido];\n    ELSIF TG_OP = 'DELETE' THEN\n        v_ids := ARRAY[OLD.id_pedido];\n    ELSE\n        -- Mover una línea modifica tanto el pedido de origen como el de destino.\n        v_ids := ARRAY[OLD.id_pedido, NEW.id_pedido];\n    END IF;\n\n    -- Orden fijo para que dos traslados no tomen los pedidos en orden inverso.\n    FOR v_id_pedido IN\n        SELECT DISTINCT id FROM unnest(v_ids) AS ids(id) ORDER BY id\n    LOOP\n        SELECT estado INTO v_estado\n        FROM pedido\n        WHERE id_pedido = v_id_pedido\n        FOR SHARE;\n\n        -- FOR SHARE bloquea también UPDATE de estado. FOR KEY SHARE no lo hacía.\n        IF NOT FOUND THEN\n            RAISE EXCEPTION 'El pedido % no existe', v_id_pedido USING ERRCODE = '23503';\n        END IF;\n\n        IF v_estado <> 'PENDIENTE' THEN\n            RAISE EXCEPTION 'No se puede editar el detalle del pedido % porque está %', v_id_pedido, v_estado\n                USING ERRCODE = '23514';\n        END IF;\n    END LOOP;\n\n    IF TG_OP = 'DELETE' THEN\n        RETURN OLD;\n    END IF;\n\n    RETURN NEW;\nEND;\n$$;\n\nDROP TRIGGER IF EXISTS trg_validar_edicion_detalle_pedido ON detalle_pedido;\nCREATE TRIGGER trg_validar_edicion_detalle_pedido\nBEFORE INSERT OR UPDATE OR DELETE ON detalle_pedido\nFOR EACH ROW\nEXECUTE FUNCTION validar_edicion_detalle_pedido();\n\n-- R3: el detalle sólo admite productos activos y una cantidad que no exceda su stock actual.\n-- FOR SHARE evita que una actualización concurrente del producto cambie esa fila durante la validación.\nCREATE OR REPLACE FUNCTION validar_producto_y_stock_detalle()\nRETURNS TRIGGER\nLANGUAGE plpgsql\nAS $$\nDECLARE\n    v_stock INTEGER;\n    v_activo BOOLEAN;\nBEGIN\n    SELECT stock, activo INTO v_stock, v_activo\n    FROM producto\n    WHERE id_producto = NEW.id_producto\n    FOR SHARE;\n\n    IF NOT FOUND THEN\n        RAISE EXCEPTION 'El producto % no existe', NEW.id_producto USING ERRCODE = '23503';\n    END IF;\n\n    IF NOT v_activo THEN\n        RAISE EXCEPTION 'El producto % está inactivo', NEW.id_producto USING ERRCODE = '23514';\n    END IF;\n\n    IF NEW.cantidad > v_stock THEN\n        RAISE EXCEPTION 'Stock insuficiente para el producto %: solicitado %, disponible %',\n            NEW.id_producto, NEW.cantidad, v_stock USING ERRCODE = '23514';\n    END IF;\n\n    RETURN NEW;\nEND;\n$$;\n\nDROP TRIGGER IF EXISTS trg_validar_producto_y_stock_detalle ON detalle_pedido;\nCREATE TRIGGER trg_validar_producto_y_stock_detalle\nBEFORE INSERT OR UPDATE OF id_producto, cantidad ON detalle_pedido\nFOR EACH ROW\nEXECUTE FUNCTION validar_producto_y_stock_detalle();\n",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "CREATE FUNCTION",
+          "filas": null
+        },
+        {
+          "estado": "DROP TRIGGER",
+          "filas": null
+        },
+        {
+          "estado": "CREATE TRIGGER",
+          "filas": null
+        },
+        {
+          "estado": "CREATE FUNCTION",
+          "filas": null
+        },
+        {
+          "estado": "DROP TRIGGER",
+          "filas": null
+        },
+        {
+          "estado": "CREATE TRIGGER",
+          "filas": null
+        },
+        {
+          "estado": "CREATE FUNCTION",
+          "filas": null
+        },
+        {
+          "estado": "DROP TRIGGER",
+          "filas": null
+        },
+        {
+          "estado": "CREATE TRIGGER",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "-- Datos sintéticos del laboratorio. Ejecutar UNA VEZ sobre schema.sql recién creado.\n-- La base debe estar vacía; los ids explícitos hacen reproducibles los ejemplos.\nINSERT INTO categoria (id_categoria, nombre) OVERRIDING SYSTEM VALUE\nVALUES (1, 'Pizzas'), (2, 'Bebidas'), (3, 'Sin productos');\n\nINSERT INTO cliente (id_cliente, correo_electronico, nombre, apellido)\nOVERRIDING SYSTEM VALUE\nVALUES (1, 'cliente1@example.test', 'Ana', 'Prueba');\n\nINSERT INTO producto (id_producto, nombre, precio_lista, stock, activo, categoria_id)\nOVERRIDING SYSTEM VALUE\nVALUES (1, 'Muzzarella de prueba', 1000, 10, TRUE, 1),\n       (2, 'Bebida inactiva de prueba', 800, 10, FALSE, 2),\n       (3, 'Bebida activa de prueba', 900, 5, TRUE, 2);\n\nINSERT INTO pedido (id_pedido, forma_pago, cliente_id) OVERRIDING SYSTEM VALUE\nVALUES (1, 'EFECTIVO', 1), (2, 'TARJETA', 1), (3, 'TRANSFERENCIA', 1);\n\n-- Ajustar las secuencias tras usar OVERRIDING SYSTEM VALUE.\nSELECT setval(pg_get_serial_sequence('categoria', 'id_categoria'), 3);\nSELECT setval(pg_get_serial_sequence('cliente', 'id_cliente'), 1);\nSELECT setval(pg_get_serial_sequence('producto', 'id_producto'), 3);\nSELECT setval(pg_get_serial_sequence('pedido', 'id_pedido'), 3);\n",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "INSERT 0 3",
+          "filas": null
+        },
+        {
+          "estado": "INSERT 0 1",
+          "filas": null
+        },
+        {
+          "estado": "INSERT 0 3",
+          "filas": null
+        },
+        {
+          "estado": "INSERT 0 3",
+          "filas": null
+        },
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              3
+            ]
+          ]
+        },
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              1
+            ]
+          ]
+        },
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              3
+            ]
+          ]
+        },
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              3
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "-- Candidatos derivados de los planes reales: ver propuestas_ia.md.\n-- Ejecutar en la copia, con respaldo previo y un ensayo BEGIN ... ROLLBACK.\nCREATE INDEX tp3_producto_categoria_precio\nON producto(categoria_id, precio_lista, id_producto)\nINCLUDE(nombre) WHERE activo=TRUE;\n\nCREATE INDEX tp3_pedido_fecha\nON pedido(fecha, id_pedido) INCLUDE(estado, cliente_id);\n\nCREATE INDEX tp3_detalle_producto\nON detalle_pedido(id_producto) INCLUDE(cantidad, precio_unitario);\n",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "CREATE INDEX",
+          "filas": null
+        },
+        {
+          "estado": "CREATE INDEX",
+          "filas": null
+        },
+        {
+          "estado": "CREATE INDEX",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "-- Propuestas motivadas por los planes iniciales: ver propuestas_ia.md.\n-- Se añaden a los índices del TP3, sin eliminar restricciones.\nCREATE INDEX tp4_pedido_entregado_fecha\nON pedido(fecha,id_pedido) INCLUDE(cliente_id) WHERE estado='ENTREGADO';\n\nCREATE INDEX tp4_detalle_pedido_cubierto\nON detalle_pedido(id_pedido) INCLUDE(id_producto,cantidad,precio_unitario);\n",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "CREATE INDEX",
+          "filas": null
+        },
+        {
+          "estado": "CREATE INDEX",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "-- I1 / Q1: B-tree de expresión; solo productos vigentes.\n-- El UNIQUE heredado sobre nombre no resuelve igualdad sobre lower(nombre).\nCREATE INDEX tp5_producto_nombre_activo\nON producto (lower(nombre)) WHERE activo;\n\n-- I2 / Q2: la cola confirmada con tarjeta ocupa solo una fracción de pedido.\n-- Las claves satisfacen ORDER BY y los INCLUDE cubren la proyección.\nCREATE INDEX tp5_pedido_confirmado_tarjeta\nON pedido (fecha, id_pedido) INCLUDE (estado, forma_pago, cliente_id)\nWHERE estado = 'CONFIRMADO' AND forma_pago = 'TARJETA';\n\n-- I3 / Q3: rango por precio histórico y orden determinista; cantidad cubierta.\n-- Índice completo: permite otros umbrales, con costo de mantenimiento en cada alta.\nCREATE INDEX tp5_detalle_precio\nON detalle_pedido (precio_unitario, id_pedido, id_producto) INCLUDE (cantidad);\n",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "CREATE INDEX",
+          "filas": null
+        },
+        {
+          "estado": "CREATE INDEX",
+          "filas": null
+        },
+        {
+          "estado": "CREATE INDEX",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "-- V1: catálogo vigente. Una baja de categoría también oculta sus productos.\nCREATE VIEW tp5_productos_vigentes\n    (id_producto, nombre_producto, precio_lista, stock, id_categoria, nombre_categoria)\nAS\nSELECT p.id_producto, p.nombre, p.precio_lista, p.stock, c.id_categoria, c.nombre\nFROM producto p JOIN categoria c ON c.id_categoria = p.categoria_id\nWHERE p.activo AND c.activo;\n\n-- V2: historial de todos los estados. No expone correo ni teléfono.\n-- El modelo heredado no contiene contraseña; no se añade ni simula esa columna.\n-- Permisos de tablas comprobados como propietario de la vista (valor predeterminado).\nCREATE VIEW tp5_pedidos_clientes\n    (id_pedido, fecha, estado, forma_pago, id_cliente, nombre, apellido)\nAS\nSELECT o.id_pedido, o.fecha, o.estado, o.forma_pago, c.id_cliente, c.nombre, c.apellido\nFROM pedido o JOIN cliente c ON c.id_cliente = o.cliente_id;\n\n-- V3: conservar detalles históricos aunque el producto esté inactivo.\n-- Un pedido sin líneas produce cero filas; el subtotal usa el precio de venta.\nCREATE VIEW tp5_detalles_productos\n    (id_pedido, id_producto, nombre_producto, cantidad, precio_unitario, subtotal)\nAS\nSELECT d.id_pedido, d.id_producto, p.nombre, d.cantidad, d.precio_unitario,\n       d.cantidad * d.precio_unitario\nFROM detalle_pedido d JOIN producto p ON p.id_producto = d.id_producto;\n",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "CREATE VIEW",
+          "filas": null
+        },
+        {
+          "estado": "CREATE VIEW",
+          "filas": null
+        },
+        {
+          "estado": "CREATE VIEW",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "-- Facturación del catálogo vigente, por categoría y mes UTC: extensión de A1/TP4.\n-- Una baja posterior del catálogo modifica el resultado al refrescar.\nCREATE MATERIALIZED VIEW tp5_facturacion_mensual\n    (id_categoria, nombre_categoria, mes, unidades, importe)\nAS\nSELECT c.id_categoria, c.nombre,\n       date_trunc('month', o.fecha AT TIME ZONE 'UTC')::date,\n       sum(d.cantidad), sum(d.cantidad * d.precio_unitario)\nFROM pedido o\nJOIN detalle_pedido d ON d.id_pedido = o.id_pedido\nJOIN producto p ON p.id_producto = d.id_producto\nJOIN categoria c ON c.id_categoria = p.categoria_id\nWHERE o.estado = 'ENTREGADO' AND p.activo AND c.activo\nGROUP BY c.id_categoria, c.nombre, date_trunc('month', o.fecha AT TIME ZONE 'UTC')::date\nWITH DATA;\n\n-- Clave completa, sin expresiones ni WHERE: requisito de REFRESH CONCURRENTLY.\nCREATE UNIQUE INDEX tp5_facturacion_categoria_mes\nON tp5_facturacion_mensual (id_categoria, mes);\n",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SELECT 0",
+          "filas": null
+        },
+        {
+          "estado": "CREATE INDEX",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_tables WHERE schemaname='public'",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              5
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "COMMIT",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "COMMIT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "BEGIN",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "BEGIN",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO producto(nombre,precio_lista,stock,categoria_id)\n        SELECT 'TPI volumen '||g,10,10,1 FROM generate_series(1,4000) s(g)",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "INSERT 0 4000",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SELECT count(*) FROM producto",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              4003
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "ROLLBACK",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO producto(nombre,precio_lista,stock,categoria_id)\n        SELECT 'TPI volumen '||g,10,10,1 FROM generate_series(1,4000) s(g)",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "INSERT 0 4000",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "VACUUM (ANALYZE)",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "VACUUM",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "BEGIN",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "BEGIN",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "-- Total histórico: precio de venta y cantidad, incluso después de bajas del catálogo.\nCREATE FUNCTION public.tpi_total_pedido(p_id_pedido integer)\nRETURNS numeric\nLANGUAGE plpgsql STABLE SECURITY INVOKER\nSET search_path = pg_catalog, public\nAS $$\nDECLARE\n    v_total numeric;\nBEGIN\n    IF NOT EXISTS (SELECT 1 FROM public.pedido WHERE id_pedido = p_id_pedido) THEN\n        RAISE EXCEPTION 'Pedido inexistente: %', p_id_pedido USING ERRCODE = 'P0002';\n    END IF;\n    SELECT COALESCE(sum(cantidad * precio_unitario), 0)\n    INTO v_total\n    FROM public.detalle_pedido WHERE id_pedido = p_id_pedido;\n    RETURN v_total;\nEND;\n$$;\n",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "CREATE FUNCTION",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "-- El llamador controla BEGIN/COMMIT/ROLLBACK. No hay confirmaciones parciales.\n-- JSONB: [{\"id_producto\": 1, \"cantidad\": 2}, ...]. No acepta precios del cliente.\nCREATE PROCEDURE public.tpi_registrar_pedido(\n    IN p_cliente_id integer,\n    IN p_forma_pago public.forma_pago,\n    IN p_lineas jsonb,\n    INOUT p_id_pedido integer DEFAULT NULL\n)\nLANGUAGE plpgsql SECURITY INVOKER\nSET search_path = pg_catalog, public\nAS $$\nDECLARE\n    v_linea jsonb;\n    v_producto record;\nBEGIN\n    IF p_id_pedido IS NOT NULL THEN\n        RAISE EXCEPTION 'El id de salida debe recibirse como NULL' USING ERRCODE = '22023';\n    END IF;\n    IF jsonb_typeof(p_lineas) IS DISTINCT FROM 'array' THEN\n        RAISE EXCEPTION 'Las líneas deben ser un arreglo JSONB' USING ERRCODE = '22023';\n    END IF;\n    IF jsonb_array_length(p_lineas) = 0 THEN\n        RAISE EXCEPTION 'El pedido necesita al menos una línea' USING ERRCODE = '22023';\n    END IF;\n    FOR v_linea IN SELECT value FROM jsonb_array_elements(p_lineas) LOOP\n        IF jsonb_typeof(v_linea) IS DISTINCT FROM 'object' THEN\n            RAISE EXCEPTION 'Cada línea debe ser un objeto' USING ERRCODE = '22023';\n        END IF;\n        IF jsonb_typeof(v_linea->'id_producto') IS DISTINCT FROM 'number'\n           OR jsonb_typeof(v_linea->'cantidad') IS DISTINCT FROM 'number'\n           OR ((v_linea->>'id_producto') ~ '^[1-9][0-9]*$') IS NOT TRUE\n           OR ((v_linea->>'cantidad') ~ '^[1-9][0-9]*$') IS NOT TRUE\n           OR v_linea - ARRAY['id_producto','cantidad'] <> '{}'::jsonb THEN\n            RAISE EXCEPTION 'Usar solo id_producto y cantidad, enteros positivos' USING ERRCODE = '22023';\n        END IF;\n        IF (v_linea->>'id_producto')::numeric > 2147483647\n           OR (v_linea->>'cantidad')::numeric > 2147483647 THEN\n            RAISE EXCEPTION 'Identificador o cantidad fuera del rango INTEGER' USING ERRCODE = '22023';\n        END IF;\n    END LOOP;\n    IF EXISTS (SELECT 1 FROM jsonb_array_elements(p_lineas) e\n               GROUP BY (e->>'id_producto')::integer HAVING count(*) > 1) THEN\n        RAISE EXCEPTION 'Un producto no puede repetirse en el pedido' USING ERRCODE = '22023';\n    END IF;\n\n    INSERT INTO public.pedido(cliente_id, forma_pago, estado)\n    VALUES (p_cliente_id, p_forma_pago, 'PENDIENTE') RETURNING id_pedido INTO p_id_pedido;\n\n    FOR v_linea IN SELECT value FROM jsonb_array_elements(p_lineas)\n                  ORDER BY (value->>'id_producto')::integer LOOP\n        SELECT id_producto, precio_lista INTO v_producto\n        FROM public.producto WHERE id_producto = (v_linea->>'id_producto')::integer\n        FOR SHARE;\n        IF NOT FOUND THEN\n            RAISE EXCEPTION 'Producto inexistente: %', v_linea->>'id_producto' USING ERRCODE = '23503';\n        END IF;\n        -- Los triggers validan estado, vigencia de producto/categoría y stock.\n        INSERT INTO public.detalle_pedido(id_pedido, id_producto, precio_unitario, cantidad)\n        VALUES (p_id_pedido, v_producto.id_producto, v_producto.precio_lista,\n                (v_linea->>'cantidad')::integer);\n    END LOOP;\nEND;\n$$;\n",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "CREATE PROCEDURE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "-- Baja lógica idempotente. Mantiene la fila, su nombre único y su historia de ventas.\nCREATE PROCEDURE public.tpi_baja_producto(IN p_id_producto integer)\nLANGUAGE plpgsql SECURITY INVOKER\nSET search_path = pg_catalog, public\nAS $$\nBEGIN\n    UPDATE public.producto SET activo = false WHERE id_producto = p_id_producto;\n    IF NOT FOUND THEN\n        RAISE EXCEPTION 'Producto inexistente: %', p_id_producto USING ERRCODE = 'P0002';\n    END IF;\nEND;\n$$;\n",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "CREATE PROCEDURE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "-- Regla agregada en el TPI: no incorporar/editar líneas de categorías inactivas.\n-- Cada sentencia dispone del conjunto completo de filas nuevas (tabla de transición).\nCREATE FUNCTION public.tpi_validar_categorias_detalle()\nRETURNS trigger\nLANGUAGE plpgsql SECURITY INVOKER\nSET search_path = pg_catalog, public\nAS $$\nDECLARE\n    v_id integer;\n    v_activa boolean;\nBEGIN\n    FOR v_id IN\n        SELECT DISTINCT p.categoria_id\n        FROM nuevas_lineas n JOIN public.producto p ON p.id_producto = n.id_producto\n        ORDER BY p.categoria_id\n    LOOP\n        SELECT activo INTO v_activa FROM public.categoria\n        WHERE id_categoria = v_id FOR SHARE;\n        IF NOT FOUND OR NOT v_activa THEN\n            RAISE EXCEPTION 'Categoría inexistente o inactiva: %', v_id USING ERRCODE = '23514';\n        END IF;\n    END LOOP;\n    RETURN NULL; -- AFTER por sentencia: el valor de retorno no modifica filas.\nEND;\n$$;\n\nCREATE TRIGGER trg_tpi_categorias_insert\nAFTER INSERT ON public.detalle_pedido\nREFERENCING NEW TABLE AS nuevas_lineas\nFOR EACH STATEMENT EXECUTE FUNCTION public.tpi_validar_categorias_detalle();\n\n-- PostgreSQL no admite UPDATE OF columnas cuando se usa una tabla de transición.\nCREATE TRIGGER trg_tpi_categorias_update\nAFTER UPDATE ON public.detalle_pedido\nREFERENCING NEW TABLE AS nuevas_lineas\nFOR EACH STATEMENT EXECUTE FUNCTION public.tpi_validar_categorias_detalle();\n",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "CREATE FUNCTION",
+          "filas": null
+        },
+        {
+          "estado": "CREATE TRIGGER",
+          "filas": null
+        },
+        {
+          "estado": "CREATE TRIGGER",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO categoria(nombre) VALUES (%s) RETURNING id_categoria",
+      "parametros": [
+        "TPI ensayo DDL 0"
+      ],
+      "salida": [
+        {
+          "estado": "INSERT 0 1",
+          "filas": [
+            [
+              4
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO categoria(nombre) VALUES (%s) RETURNING id_categoria",
+      "parametros": [
+        "TPI ensayo DDL 1"
+      ],
+      "salida": [
+        {
+          "estado": "INSERT 0 1",
+          "filas": [
+            [
+              5
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO producto(nombre,precio_lista,stock,categoria_id) VALUES (%s,%s,%s,%s) RETURNING id_producto",
+      "parametros": [
+        "TPI ensayo DDL producto 0",
+        10,
+        10,
+        4
+      ],
+      "salida": [
+        {
+          "estado": "INSERT 0 1",
+          "filas": [
+            [
+              8004
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO producto(nombre,precio_lista,stock,categoria_id) VALUES (%s,%s,%s,%s) RETURNING id_producto",
+      "parametros": [
+        "TPI ensayo DDL producto 1",
+        25,
+        2,
+        5
+      ],
+      "salida": [
+        {
+          "estado": "INSERT 0 1",
+          "filas": [
+            [
+              8005
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "CALL public.tpi_registrar_pedido(%s,%s::forma_pago,%s::jsonb,NULL)",
+      "parametros": [
+        1,
+        "EFECTIVO",
+        "[{\"id_producto\": 8004, \"cantidad\": 2}, {\"id_producto\": 8005, \"cantidad\": 1}]"
+      ],
+      "salida": [
+        {
+          "estado": "CALL",
+          "filas": [
+            [
+              4
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "SELECT tpi_total_pedido(%s)",
+      "parametros": [
+        4
+      ],
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              "45.00"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "SELECT count(*) FROM detalle_pedido WHERE id_pedido=%s",
+      "parametros": [
+        4
+      ],
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              2
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "SELECT tpi_total_pedido(1)",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              "0"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SAVEPOINT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SELECT tpi_total_pedido(-1)",
+      "parametros": null,
+      "sqlstate": "P0002",
+      "error": "Pedido inexistente: -1\nCONTEXT:  PL/pgSQL function tpi_total_pedido(integer) line 6 at RAISE"
+    },
+    {
+      "sql": "ROLLBACK TO SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "RELEASE SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "RELEASE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SELECT (SELECT count(*) FROM pedido),(SELECT count(*) FROM detalle_pedido)",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              4,
+              2
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SAVEPOINT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "CALL public.tpi_registrar_pedido(%s,%s::forma_pago,%s::jsonb,NULL)",
+      "parametros": [
+        1,
+        "EFECTIVO",
+        "[{\"id_producto\": 8004, \"cantidad\": 1}, {\"id_producto\": 8005, \"cantidad\": 3}]"
+      ],
+      "sqlstate": "23514",
+      "error": "Stock insuficiente para el producto 8005: solicitado 3, disponible 2\nCONTEXT:  PL/pgSQL function validar_producto_y_stock_detalle() line 20 at RAISE\nSQL statement \"INSERT INTO public.detalle_pedido(id_pedido, id_producto, precio_unitario, cantidad)\n        VALUES (p_id_pedido, v_producto.id_producto, v_producto.precio_lista,\n                (v_linea->>'cantidad')::integer)\"\nPL/pgSQL function tpi_registrar_pedido(integer,forma_pago,jsonb,integer) line 48 at SQL statement"
+    },
+    {
+      "sql": "ROLLBACK TO SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "RELEASE SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "RELEASE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SELECT (SELECT count(*) FROM pedido),(SELECT count(*) FROM detalle_pedido)",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              4,
+              2
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "CALL tpi_baja_producto(%s)",
+      "parametros": [
+        8004
+      ],
+      "salida": [
+        {
+          "estado": "CALL",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SELECT tpi_total_pedido(%s)",
+      "parametros": [
+        4
+      ],
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              "45.00"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SAVEPOINT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "CALL public.tpi_registrar_pedido(%s,%s::forma_pago,%s::jsonb,NULL)",
+      "parametros": [
+        1,
+        "EFECTIVO",
+        "[{\"id_producto\": 8004, \"cantidad\": 1}]"
+      ],
+      "sqlstate": "23514",
+      "error": "El producto 8004 está inactivo\nCONTEXT:  PL/pgSQL function validar_producto_y_stock_detalle() line 16 at RAISE\nSQL statement \"INSERT INTO public.detalle_pedido(id_pedido, id_producto, precio_unitario, cantidad)\n        VALUES (p_id_pedido, v_producto.id_producto, v_producto.precio_lista,\n                (v_linea->>'cantidad')::integer)\"\nPL/pgSQL function tpi_registrar_pedido(integer,forma_pago,jsonb,integer) line 48 at SQL statement"
+    },
+    {
+      "sql": "ROLLBACK TO SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "RELEASE SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "RELEASE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "UPDATE categoria SET activo=false WHERE id_categoria=%s",
+      "parametros": [
+        5
+      ],
+      "salida": [
+        {
+          "estado": "UPDATE 1",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SAVEPOINT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "UPDATE detalle_pedido SET precio_unitario=precio_unitario+1 WHERE id_pedido=%s",
+      "parametros": [
+        4
+      ],
+      "sqlstate": "23514",
+      "error": "Categoría inexistente o inactiva: 5\nCONTEXT:  PL/pgSQL function tpi_validar_categorias_detalle() line 14 at RAISE"
+    },
+    {
+      "sql": "ROLLBACK TO SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "RELEASE SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "RELEASE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SELECT tpi_total_pedido(%s)",
+      "parametros": [
+        4
+      ],
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              "45.00"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "ROLLBACK",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_proc WHERE proname LIKE 'tpi_%'",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "BEGIN",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "BEGIN",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "-- Total histórico: precio de venta y cantidad, incluso después de bajas del catálogo.\nCREATE FUNCTION public.tpi_total_pedido(p_id_pedido integer)\nRETURNS numeric\nLANGUAGE plpgsql STABLE SECURITY INVOKER\nSET search_path = pg_catalog, public\nAS $$\nDECLARE\n    v_total numeric;\nBEGIN\n    IF NOT EXISTS (SELECT 1 FROM public.pedido WHERE id_pedido = p_id_pedido) THEN\n        RAISE EXCEPTION 'Pedido inexistente: %', p_id_pedido USING ERRCODE = 'P0002';\n    END IF;\n    SELECT COALESCE(sum(cantidad * precio_unitario), 0)\n    INTO v_total\n    FROM public.detalle_pedido WHERE id_pedido = p_id_pedido;\n    RETURN v_total;\nEND;\n$$;\n",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "CREATE FUNCTION",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "-- El llamador controla BEGIN/COMMIT/ROLLBACK. No hay confirmaciones parciales.\n-- JSONB: [{\"id_producto\": 1, \"cantidad\": 2}, ...]. No acepta precios del cliente.\nCREATE PROCEDURE public.tpi_registrar_pedido(\n    IN p_cliente_id integer,\n    IN p_forma_pago public.forma_pago,\n    IN p_lineas jsonb,\n    INOUT p_id_pedido integer DEFAULT NULL\n)\nLANGUAGE plpgsql SECURITY INVOKER\nSET search_path = pg_catalog, public\nAS $$\nDECLARE\n    v_linea jsonb;\n    v_producto record;\nBEGIN\n    IF p_id_pedido IS NOT NULL THEN\n        RAISE EXCEPTION 'El id de salida debe recibirse como NULL' USING ERRCODE = '22023';\n    END IF;\n    IF jsonb_typeof(p_lineas) IS DISTINCT FROM 'array' THEN\n        RAISE EXCEPTION 'Las líneas deben ser un arreglo JSONB' USING ERRCODE = '22023';\n    END IF;\n    IF jsonb_array_length(p_lineas) = 0 THEN\n        RAISE EXCEPTION 'El pedido necesita al menos una línea' USING ERRCODE = '22023';\n    END IF;\n    FOR v_linea IN SELECT value FROM jsonb_array_elements(p_lineas) LOOP\n        IF jsonb_typeof(v_linea) IS DISTINCT FROM 'object' THEN\n            RAISE EXCEPTION 'Cada línea debe ser un objeto' USING ERRCODE = '22023';\n        END IF;\n        IF jsonb_typeof(v_linea->'id_producto') IS DISTINCT FROM 'number'\n           OR jsonb_typeof(v_linea->'cantidad') IS DISTINCT FROM 'number'\n           OR ((v_linea->>'id_producto') ~ '^[1-9][0-9]*$') IS NOT TRUE\n           OR ((v_linea->>'cantidad') ~ '^[1-9][0-9]*$') IS NOT TRUE\n           OR v_linea - ARRAY['id_producto','cantidad'] <> '{}'::jsonb THEN\n            RAISE EXCEPTION 'Usar solo id_producto y cantidad, enteros positivos' USING ERRCODE = '22023';\n        END IF;\n        IF (v_linea->>'id_producto')::numeric > 2147483647\n           OR (v_linea->>'cantidad')::numeric > 2147483647 THEN\n            RAISE EXCEPTION 'Identificador o cantidad fuera del rango INTEGER' USING ERRCODE = '22023';\n        END IF;\n    END LOOP;\n    IF EXISTS (SELECT 1 FROM jsonb_array_elements(p_lineas) e\n               GROUP BY (e->>'id_producto')::integer HAVING count(*) > 1) THEN\n        RAISE EXCEPTION 'Un producto no puede repetirse en el pedido' USING ERRCODE = '22023';\n    END IF;\n\n    INSERT INTO public.pedido(cliente_id, forma_pago, estado)\n    VALUES (p_cliente_id, p_forma_pago, 'PENDIENTE') RETURNING id_pedido INTO p_id_pedido;\n\n    FOR v_linea IN SELECT value FROM jsonb_array_elements(p_lineas)\n                  ORDER BY (value->>'id_producto')::integer LOOP\n        SELECT id_producto, precio_lista INTO v_producto\n        FROM public.producto WHERE id_producto = (v_linea->>'id_producto')::integer\n        FOR SHARE;\n        IF NOT FOUND THEN\n            RAISE EXCEPTION 'Producto inexistente: %', v_linea->>'id_producto' USING ERRCODE = '23503';\n        END IF;\n        -- Los triggers validan estado, vigencia de producto/categoría y stock.\n        INSERT INTO public.detalle_pedido(id_pedido, id_producto, precio_unitario, cantidad)\n        VALUES (p_id_pedido, v_producto.id_producto, v_producto.precio_lista,\n                (v_linea->>'cantidad')::integer);\n    END LOOP;\nEND;\n$$;\n",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "CREATE PROCEDURE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "-- Baja lógica idempotente. Mantiene la fila, su nombre único y su historia de ventas.\nCREATE PROCEDURE public.tpi_baja_producto(IN p_id_producto integer)\nLANGUAGE plpgsql SECURITY INVOKER\nSET search_path = pg_catalog, public\nAS $$\nBEGIN\n    UPDATE public.producto SET activo = false WHERE id_producto = p_id_producto;\n    IF NOT FOUND THEN\n        RAISE EXCEPTION 'Producto inexistente: %', p_id_producto USING ERRCODE = 'P0002';\n    END IF;\nEND;\n$$;\n",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "CREATE PROCEDURE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "-- Regla agregada en el TPI: no incorporar/editar líneas de categorías inactivas.\n-- Cada sentencia dispone del conjunto completo de filas nuevas (tabla de transición).\nCREATE FUNCTION public.tpi_validar_categorias_detalle()\nRETURNS trigger\nLANGUAGE plpgsql SECURITY INVOKER\nSET search_path = pg_catalog, public\nAS $$\nDECLARE\n    v_id integer;\n    v_activa boolean;\nBEGIN\n    FOR v_id IN\n        SELECT DISTINCT p.categoria_id\n        FROM nuevas_lineas n JOIN public.producto p ON p.id_producto = n.id_producto\n        ORDER BY p.categoria_id\n    LOOP\n        SELECT activo INTO v_activa FROM public.categoria\n        WHERE id_categoria = v_id FOR SHARE;\n        IF NOT FOUND OR NOT v_activa THEN\n            RAISE EXCEPTION 'Categoría inexistente o inactiva: %', v_id USING ERRCODE = '23514';\n        END IF;\n    END LOOP;\n    RETURN NULL; -- AFTER por sentencia: el valor de retorno no modifica filas.\nEND;\n$$;\n\nCREATE TRIGGER trg_tpi_categorias_insert\nAFTER INSERT ON public.detalle_pedido\nREFERENCING NEW TABLE AS nuevas_lineas\nFOR EACH STATEMENT EXECUTE FUNCTION public.tpi_validar_categorias_detalle();\n\n-- PostgreSQL no admite UPDATE OF columnas cuando se usa una tabla de transición.\nCREATE TRIGGER trg_tpi_categorias_update\nAFTER UPDATE ON public.detalle_pedido\nREFERENCING NEW TABLE AS nuevas_lineas\nFOR EACH STATEMENT EXECUTE FUNCTION public.tpi_validar_categorias_detalle();\n",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "CREATE FUNCTION",
+          "filas": null
+        },
+        {
+          "estado": "CREATE TRIGGER",
+          "filas": null
+        },
+        {
+          "estado": "CREATE TRIGGER",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SELECT count(*) FROM pg_proc WHERE proname LIKE 'tpi_%'",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              4
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "COMMIT",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "COMMIT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SELECT (SELECT count(*) FROM categoria),(SELECT count(*) FROM producto),(SELECT count(*) FROM pedido),(SELECT count(*) FROM detalle_pedido)",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              3,
+              4003,
+              3,
+              0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "BEGIN",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "BEGIN",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO categoria(nombre) VALUES (%s) RETURNING id_categoria",
+      "parametros": [
+        "TPI prueba final 0"
+      ],
+      "salida": [
+        {
+          "estado": "INSERT 0 1",
+          "filas": [
+            [
+              6
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO categoria(nombre) VALUES (%s) RETURNING id_categoria",
+      "parametros": [
+        "TPI prueba final 1"
+      ],
+      "salida": [
+        {
+          "estado": "INSERT 0 1",
+          "filas": [
+            [
+              7
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO producto(nombre,precio_lista,stock,categoria_id) VALUES (%s,%s,%s,%s) RETURNING id_producto",
+      "parametros": [
+        "TPI prueba final producto 0",
+        10,
+        10,
+        6
+      ],
+      "salida": [
+        {
+          "estado": "INSERT 0 1",
+          "filas": [
+            [
+              8006
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO producto(nombre,precio_lista,stock,categoria_id) VALUES (%s,%s,%s,%s) RETURNING id_producto",
+      "parametros": [
+        "TPI prueba final producto 1",
+        25,
+        2,
+        7
+      ],
+      "salida": [
+        {
+          "estado": "INSERT 0 1",
+          "filas": [
+            [
+              8007
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "CALL public.tpi_registrar_pedido(%s,%s::forma_pago,%s::jsonb,NULL)",
+      "parametros": [
+        1,
+        "EFECTIVO",
+        "[{\"id_producto\": 8006, \"cantidad\": 2}, {\"id_producto\": 8007, \"cantidad\": 1}]"
+      ],
+      "salida": [
+        {
+          "estado": "CALL",
+          "filas": [
+            [
+              7
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "SELECT tpi_total_pedido(%s)",
+      "parametros": [
+        7
+      ],
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              "45.00"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "SELECT count(*) FROM detalle_pedido WHERE id_pedido=%s",
+      "parametros": [
+        7
+      ],
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              2
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "SELECT tpi_total_pedido(1)",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              "0"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SAVEPOINT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SELECT tpi_total_pedido(-1)",
+      "parametros": null,
+      "sqlstate": "P0002",
+      "error": "Pedido inexistente: -1\nCONTEXT:  PL/pgSQL function tpi_total_pedido(integer) line 6 at RAISE"
+    },
+    {
+      "sql": "ROLLBACK TO SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "RELEASE SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "RELEASE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SELECT (SELECT count(*) FROM pedido),(SELECT count(*) FROM detalle_pedido)",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              4,
+              2
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SAVEPOINT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "CALL public.tpi_registrar_pedido(%s,%s::forma_pago,%s::jsonb,NULL)",
+      "parametros": [
+        1,
+        "EFECTIVO",
+        "[{\"id_producto\": 8006, \"cantidad\": 1}, {\"id_producto\": 8007, \"cantidad\": 3}]"
+      ],
+      "sqlstate": "23514",
+      "error": "Stock insuficiente para el producto 8007: solicitado 3, disponible 2\nCONTEXT:  PL/pgSQL function validar_producto_y_stock_detalle() line 20 at RAISE\nSQL statement \"INSERT INTO public.detalle_pedido(id_pedido, id_producto, precio_unitario, cantidad)\n        VALUES (p_id_pedido, v_producto.id_producto, v_producto.precio_lista,\n                (v_linea->>'cantidad')::integer)\"\nPL/pgSQL function tpi_registrar_pedido(integer,forma_pago,jsonb,integer) line 48 at SQL statement"
+    },
+    {
+      "sql": "ROLLBACK TO SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "RELEASE SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "RELEASE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SELECT (SELECT count(*) FROM pedido),(SELECT count(*) FROM detalle_pedido)",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              4,
+              2
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "CALL tpi_baja_producto(%s)",
+      "parametros": [
+        8006
+      ],
+      "salida": [
+        {
+          "estado": "CALL",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SELECT tpi_total_pedido(%s)",
+      "parametros": [
+        7
+      ],
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              "45.00"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SAVEPOINT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "CALL public.tpi_registrar_pedido(%s,%s::forma_pago,%s::jsonb,NULL)",
+      "parametros": [
+        1,
+        "EFECTIVO",
+        "[{\"id_producto\": 8006, \"cantidad\": 1}]"
+      ],
+      "sqlstate": "23514",
+      "error": "El producto 8006 está inactivo\nCONTEXT:  PL/pgSQL function validar_producto_y_stock_detalle() line 16 at RAISE\nSQL statement \"INSERT INTO public.detalle_pedido(id_pedido, id_producto, precio_unitario, cantidad)\n        VALUES (p_id_pedido, v_producto.id_producto, v_producto.precio_lista,\n                (v_linea->>'cantidad')::integer)\"\nPL/pgSQL function tpi_registrar_pedido(integer,forma_pago,jsonb,integer) line 48 at SQL statement"
+    },
+    {
+      "sql": "ROLLBACK TO SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "RELEASE SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "RELEASE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "UPDATE categoria SET activo=false WHERE id_categoria=%s",
+      "parametros": [
+        7
+      ],
+      "salida": [
+        {
+          "estado": "UPDATE 1",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SAVEPOINT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "UPDATE detalle_pedido SET precio_unitario=precio_unitario+1 WHERE id_pedido=%s",
+      "parametros": [
+        7
+      ],
+      "sqlstate": "23514",
+      "error": "Categoría inexistente o inactiva: 7\nCONTEXT:  PL/pgSQL function tpi_validar_categorias_detalle() line 14 at RAISE"
+    },
+    {
+      "sql": "ROLLBACK TO SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "RELEASE SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "RELEASE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SELECT tpi_total_pedido(%s)",
+      "parametros": [
+        7
+      ],
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              "45.00"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SAVEPOINT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "CALL public.tpi_registrar_pedido(%s,%s::forma_pago,%s::jsonb,NULL)",
+      "parametros": [
+        1,
+        "EFECTIVO",
+        "null"
+      ],
+      "sqlstate": "22023",
+      "error": "Las líneas deben ser un arreglo JSONB\nCONTEXT:  PL/pgSQL function tpi_registrar_pedido(integer,forma_pago,jsonb,integer) line 10 at RAISE"
+    },
+    {
+      "sql": "ROLLBACK TO SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "RELEASE SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "RELEASE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SAVEPOINT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "CALL public.tpi_registrar_pedido(%s,%s::forma_pago,%s::jsonb,NULL)",
+      "parametros": [
+        1,
+        "EFECTIVO",
+        "{}"
+      ],
+      "sqlstate": "22023",
+      "error": "Las líneas deben ser un arreglo JSONB\nCONTEXT:  PL/pgSQL function tpi_registrar_pedido(integer,forma_pago,jsonb,integer) line 10 at RAISE"
+    },
+    {
+      "sql": "ROLLBACK TO SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "RELEASE SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "RELEASE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SAVEPOINT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "CALL public.tpi_registrar_pedido(%s,%s::forma_pago,%s::jsonb,NULL)",
+      "parametros": [
+        1,
+        "EFECTIVO",
+        "[]"
+      ],
+      "sqlstate": "22023",
+      "error": "El pedido necesita al menos una línea\nCONTEXT:  PL/pgSQL function tpi_registrar_pedido(integer,forma_pago,jsonb,integer) line 13 at RAISE"
+    },
+    {
+      "sql": "ROLLBACK TO SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "RELEASE SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "RELEASE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SAVEPOINT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "CALL public.tpi_registrar_pedido(%s,%s::forma_pago,%s::jsonb,NULL)",
+      "parametros": [
+        1,
+        "EFECTIVO",
+        "[1]"
+      ],
+      "sqlstate": "22023",
+      "error": "Cada línea debe ser un objeto\nCONTEXT:  PL/pgSQL function tpi_registrar_pedido(integer,forma_pago,jsonb,integer) line 17 at RAISE"
+    },
+    {
+      "sql": "ROLLBACK TO SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "RELEASE SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "RELEASE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SAVEPOINT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "CALL public.tpi_registrar_pedido(%s,%s::forma_pago,%s::jsonb,NULL)",
+      "parametros": [
+        1,
+        "EFECTIVO",
+        "[{\"id_producto\": 1}]"
+      ],
+      "sqlstate": "22023",
+      "error": "Usar solo id_producto y cantidad, enteros positivos\nCONTEXT:  PL/pgSQL function tpi_registrar_pedido(integer,forma_pago,jsonb,integer) line 24 at RAISE"
+    },
+    {
+      "sql": "ROLLBACK TO SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "RELEASE SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "RELEASE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SAVEPOINT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "CALL public.tpi_registrar_pedido(%s,%s::forma_pago,%s::jsonb,NULL)",
+      "parametros": [
+        1,
+        "EFECTIVO",
+        "[{\"id_producto\": 1, \"cantidad\": 0}]"
+      ],
+      "sqlstate": "22023",
+      "error": "Usar solo id_producto y cantidad, enteros positivos\nCONTEXT:  PL/pgSQL function tpi_registrar_pedido(integer,forma_pago,jsonb,integer) line 24 at RAISE"
+    },
+    {
+      "sql": "ROLLBACK TO SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "RELEASE SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "RELEASE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SAVEPOINT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "CALL public.tpi_registrar_pedido(%s,%s::forma_pago,%s::jsonb,NULL)",
+      "parametros": [
+        1,
+        "EFECTIVO",
+        "[{\"id_producto\": 1, \"cantidad\": 1.5}]"
+      ],
+      "sqlstate": "22023",
+      "error": "Usar solo id_producto y cantidad, enteros positivos\nCONTEXT:  PL/pgSQL function tpi_registrar_pedido(integer,forma_pago,jsonb,integer) line 24 at RAISE"
+    },
+    {
+      "sql": "ROLLBACK TO SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "RELEASE SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "RELEASE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SAVEPOINT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "CALL public.tpi_registrar_pedido(%s,%s::forma_pago,%s::jsonb,NULL)",
+      "parametros": [
+        1,
+        "EFECTIVO",
+        "[{\"id_producto\": true, \"cantidad\": 1}]"
+      ],
+      "sqlstate": "22023",
+      "error": "Usar solo id_producto y cantidad, enteros positivos\nCONTEXT:  PL/pgSQL function tpi_registrar_pedido(integer,forma_pago,jsonb,integer) line 24 at RAISE"
+    },
+    {
+      "sql": "ROLLBACK TO SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "RELEASE SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "RELEASE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SAVEPOINT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "CALL public.tpi_registrar_pedido(%s,%s::forma_pago,%s::jsonb,NULL)",
+      "parametros": [
+        1,
+        "EFECTIVO",
+        "[{\"id_producto\": 1, \"cantidad\": \"2\"}]"
+      ],
+      "sqlstate": "22023",
+      "error": "Usar solo id_producto y cantidad, enteros positivos\nCONTEXT:  PL/pgSQL function tpi_registrar_pedido(integer,forma_pago,jsonb,integer) line 24 at RAISE"
+    },
+    {
+      "sql": "ROLLBACK TO SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "RELEASE SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "RELEASE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SAVEPOINT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "CALL public.tpi_registrar_pedido(%s,%s::forma_pago,%s::jsonb,NULL)",
+      "parametros": [
+        1,
+        "EFECTIVO",
+        "[{\"id_producto\": 1, \"cantidad\": 1, \"precio\": 0}]"
+      ],
+      "sqlstate": "22023",
+      "error": "Usar solo id_producto y cantidad, enteros positivos\nCONTEXT:  PL/pgSQL function tpi_registrar_pedido(integer,forma_pago,jsonb,integer) line 24 at RAISE"
+    },
+    {
+      "sql": "ROLLBACK TO SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "RELEASE SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "RELEASE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SAVEPOINT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "CALL public.tpi_registrar_pedido(%s,%s::forma_pago,%s::jsonb,NULL)",
+      "parametros": [
+        1,
+        "EFECTIVO",
+        "[{\"id_producto\": 1, \"cantidad\": 2147483648}]"
+      ],
+      "sqlstate": "22023",
+      "error": "Identificador o cantidad fuera del rango INTEGER\nCONTEXT:  PL/pgSQL function tpi_registrar_pedido(integer,forma_pago,jsonb,integer) line 28 at RAISE"
+    },
+    {
+      "sql": "ROLLBACK TO SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "RELEASE SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "RELEASE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SAVEPOINT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "CALL public.tpi_registrar_pedido(%s,%s::forma_pago,%s::jsonb,NULL)",
+      "parametros": [
+        1,
+        "EFECTIVO",
+        "[{\"id_producto\": 1, \"cantidad\": 1}, {\"id_producto\": 1, \"cantidad\": 2}]"
+      ],
+      "sqlstate": "22023",
+      "error": "Un producto no puede repetirse en el pedido\nCONTEXT:  PL/pgSQL function tpi_registrar_pedido(integer,forma_pago,jsonb,integer) line 33 at RAISE"
+    },
+    {
+      "sql": "ROLLBACK TO SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "RELEASE SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "RELEASE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SAVEPOINT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "CALL public.tpi_registrar_pedido(%s,%s::forma_pago,%s::jsonb,NULL)",
+      "parametros": [
+        -1,
+        "EFECTIVO",
+        "[{\"id_producto\":1,\"cantidad\":1}]"
+      ],
+      "sqlstate": "23503",
+      "error": "insert or update on table \"pedido\" violates foreign key constraint \"fk_pedido_cliente\"\nDETAIL:  Key (cliente_id)=(-1) is not present in table \"cliente\".\nCONTEXT:  SQL statement \"INSERT INTO public.pedido(cliente_id, forma_pago, estado)\n    VALUES (p_cliente_id, p_forma_pago, 'PENDIENTE') RETURNING id_pedido\"\nPL/pgSQL function tpi_registrar_pedido(integer,forma_pago,jsonb,integer) line 36 at SQL statement"
+    },
+    {
+      "sql": "ROLLBACK TO SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "RELEASE SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "RELEASE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SAVEPOINT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "CALL public.tpi_registrar_pedido(%s,%s::forma_pago,%s::jsonb,NULL)",
+      "parametros": [
+        1,
+        "EFECTIVO",
+        "[{\"id_producto\":2147483647,\"cantidad\":1}]"
+      ],
+      "sqlstate": "23503",
+      "error": "Producto inexistente: 2147483647\nCONTEXT:  PL/pgSQL function tpi_registrar_pedido(integer,forma_pago,jsonb,integer) line 45 at RAISE"
+    },
+    {
+      "sql": "ROLLBACK TO SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "RELEASE SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "RELEASE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SAVEPOINT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "CALL public.tpi_registrar_pedido(%s,%s::forma_pago,%s::jsonb,NULL)",
+      "parametros": [
+        1,
+        null,
+        "[{\"id_producto\":1,\"cantidad\":1}]"
+      ],
+      "sqlstate": "23502",
+      "error": "null value in column \"forma_pago\" of relation \"pedido\" violates not-null constraint\nDETAIL:  Failing row contains (12, 2026-09-22 20:40:04.847258+00, PENDIENTE, null, 1).\nCONTEXT:  SQL statement \"INSERT INTO public.pedido(cliente_id, forma_pago, estado)\n    VALUES (p_cliente_id, p_forma_pago, 'PENDIENTE') RETURNING id_pedido\"\nPL/pgSQL function tpi_registrar_pedido(integer,forma_pago,jsonb,integer) line 36 at SQL statement"
+    },
+    {
+      "sql": "ROLLBACK TO SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "RELEASE SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "RELEASE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SAVEPOINT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "CALL tpi_registrar_pedido(1,'EFECTIVO','[]',42)",
+      "parametros": null,
+      "sqlstate": "22023",
+      "error": "El id de salida debe recibirse como NULL\nCONTEXT:  PL/pgSQL function tpi_registrar_pedido(integer,forma_pago,jsonb,integer) line 7 at RAISE"
+    },
+    {
+      "sql": "ROLLBACK TO SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "RELEASE SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "RELEASE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SAVEPOINT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "CALL tpi_baja_producto(-1)",
+      "parametros": null,
+      "sqlstate": "P0002",
+      "error": "Producto inexistente: -1\nCONTEXT:  PL/pgSQL function tpi_baja_producto(integer) line 5 at RAISE"
+    },
+    {
+      "sql": "ROLLBACK TO SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "RELEASE SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "RELEASE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SAVEPOINT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SELECT tpi_total_pedido(NULL)",
+      "parametros": null,
+      "sqlstate": "P0002",
+      "error": "Pedido inexistente: <NULL>\nCONTEXT:  PL/pgSQL function tpi_total_pedido(integer) line 6 at RAISE"
+    },
+    {
+      "sql": "ROLLBACK TO SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "RELEASE SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "RELEASE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SAVEPOINT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "UPDATE producto SET stock=-1 WHERE id_producto=1",
+      "parametros": null,
+      "sqlstate": "23514",
+      "error": "new row for relation \"producto\" violates check constraint \"chk_producto_stock\"\nDETAIL:  Failing row contains (1, Muzzarella de prueba, 1000.00, -1, t, 1)."
+    },
+    {
+      "sql": "ROLLBACK TO SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "RELEASE SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "RELEASE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SAVEPOINT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "UPDATE producto SET precio_lista=-1 WHERE id_producto=1",
+      "parametros": null,
+      "sqlstate": "23514",
+      "error": "new row for relation \"producto\" violates check constraint \"chk_producto_precio\"\nDETAIL:  Failing row contains (1, Muzzarella de prueba, -1.00, 10, t, 1)."
+    },
+    {
+      "sql": "ROLLBACK TO SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "RELEASE SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "RELEASE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SAVEPOINT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "UPDATE producto SET categoria_id=-1 WHERE id_producto=1",
+      "parametros": null,
+      "sqlstate": "23503",
+      "error": "insert or update on table \"producto\" violates foreign key constraint \"fk_producto_categoria\"\nDETAIL:  Key (categoria_id)=(-1) is not present in table \"categoria\"."
+    },
+    {
+      "sql": "ROLLBACK TO SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "RELEASE SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "RELEASE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SAVEPOINT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO detalle_pedido VALUES (1,1,10,0)",
+      "parametros": null,
+      "sqlstate": "23514",
+      "error": "new row for relation \"detalle_pedido\" violates check constraint \"chk_detalle_cantidad\"\nDETAIL:  Failing row contains (1, 1, 10.00, 0)."
+    },
+    {
+      "sql": "ROLLBACK TO SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "RELEASE SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "RELEASE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SAVEPOINT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO detalle_pedido VALUES (1,1,-1,1)",
+      "parametros": null,
+      "sqlstate": "23514",
+      "error": "new row for relation \"detalle_pedido\" violates check constraint \"chk_detalle_precio\"\nDETAIL:  Failing row contains (1, 1, -1.00, 1)."
+    },
+    {
+      "sql": "ROLLBACK TO SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "RELEASE SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "RELEASE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SAVEPOINT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "UPDATE pedido SET estado='ENTREGADO' WHERE id_pedido=1",
+      "parametros": null,
+      "sqlstate": "23514",
+      "error": "Transición de estado no permitida: PENDIENTE -> ENTREGADO\nCONTEXT:  PL/pgSQL function validar_transicion_estado_pedido() line 12 at RAISE"
+    },
+    {
+      "sql": "ROLLBACK TO SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "RELEASE SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "RELEASE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "UPDATE pedido SET estado='CONFIRMADO' WHERE id_pedido=1",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "UPDATE 1",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SAVEPOINT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO detalle_pedido VALUES (1,1,10,1)",
+      "parametros": null,
+      "sqlstate": "23514",
+      "error": "No se puede editar el detalle del pedido 1 porque está CONFIRMADO\nCONTEXT:  PL/pgSQL function validar_edicion_detalle_pedido() line 31 at RAISE"
+    },
+    {
+      "sql": "ROLLBACK TO SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "RELEASE SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "RELEASE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "UPDATE pedido SET estado='ENTREGADO' WHERE id_pedido=1",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "UPDATE 1",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SAVEPOINT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "UPDATE pedido SET estado='CANCELADO' WHERE id_pedido=1",
+      "parametros": null,
+      "sqlstate": "23514",
+      "error": "Transición de estado no permitida: ENTREGADO -> CANCELADO\nCONTEXT:  PL/pgSQL function validar_transicion_estado_pedido() line 12 at RAISE"
+    },
+    {
+      "sql": "ROLLBACK TO SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "RELEASE SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "RELEASE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "ROLLBACK",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "BEGIN",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "BEGIN",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO categoria(nombre) VALUES (%s) RETURNING id_categoria",
+      "parametros": [
+        "TPI baja lógica 0"
+      ],
+      "salida": [
+        {
+          "estado": "INSERT 0 1",
+          "filas": [
+            [
+              8
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO categoria(nombre) VALUES (%s) RETURNING id_categoria",
+      "parametros": [
+        "TPI baja lógica 1"
+      ],
+      "salida": [
+        {
+          "estado": "INSERT 0 1",
+          "filas": [
+            [
+              9
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO producto(nombre,precio_lista,stock,categoria_id) VALUES (%s,%s,%s,%s) RETURNING id_producto",
+      "parametros": [
+        "TPI baja lógica producto 0",
+        10,
+        10,
+        8
+      ],
+      "salida": [
+        {
+          "estado": "INSERT 0 1",
+          "filas": [
+            [
+              8008
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO producto(nombre,precio_lista,stock,categoria_id) VALUES (%s,%s,%s,%s) RETURNING id_producto",
+      "parametros": [
+        "TPI baja lógica producto 1",
+        25,
+        2,
+        9
+      ],
+      "salida": [
+        {
+          "estado": "INSERT 0 1",
+          "filas": [
+            [
+              8009
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "CALL public.tpi_registrar_pedido(%s,%s::forma_pago,%s::jsonb,NULL)",
+      "parametros": [
+        1,
+        "EFECTIVO",
+        "[{\"id_producto\": 8008, \"cantidad\": 2}, {\"id_producto\": 8009, \"cantidad\": 1}]"
+      ],
+      "salida": [
+        {
+          "estado": "CALL",
+          "filas": [
+            [
+              13
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "SELECT nombre FROM producto WHERE id_producto=%s",
+      "parametros": [
+        8008
+      ],
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              "TPI baja lógica producto 0"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "EXPLAIN (ANALYZE,BUFFERS,FORMAT JSON) SELECT id_producto,nombre FROM producto WHERE activo AND lower(nombre)=lower(%s)",
+      "parametros": [
+        "TPI baja lógica producto 0"
+      ],
+      "salida": [
+        {
+          "estado": "EXPLAIN",
+          "filas": [
+            [
+              [
+                {
+                  "Plan": {
+                    "Node Type": "Bitmap Heap Scan",
+                    "Parallel Aware": false,
+                    "Async Capable": false,
+                    "Relation Name": "producto",
+                    "Alias": "producto",
+                    "Startup Cost": 4.44,
+                    "Total Cost": 48.75,
+                    "Plan Rows": 20,
+                    "Plan Width": 20,
+                    "Actual Startup Time": 0.022,
+                    "Actual Total Time": 0.023,
+                    "Actual Rows": 1,
+                    "Actual Loops": 1,
+                    "Recheck Cond": "((lower((nombre)::text) = 'tpi baja lógica producto 0'::text) AND activo)",
+                    "Rows Removed by Index Recheck": 0,
+                    "Exact Heap Blocks": 1,
+                    "Lossy Heap Blocks": 0,
+                    "Shared Hit Blocks": 3,
+                    "Shared Read Blocks": 0,
+                    "Shared Dirtied Blocks": 0,
+                    "Shared Written Blocks": 0,
+                    "Local Hit Blocks": 0,
+                    "Local Read Blocks": 0,
+                    "Local Dirtied Blocks": 0,
+                    "Local Written Blocks": 0,
+                    "Temp Read Blocks": 0,
+                    "Temp Written Blocks": 0,
+                    "Plans": [
+                      {
+                        "Node Type": "Bitmap Index Scan",
+                        "Parent Relationship": "Outer",
+                        "Parallel Aware": false,
+                        "Async Capable": false,
+                        "Index Name": "tp5_producto_nombre_activo",
+                        "Startup Cost": 0.0,
+                        "Total Cost": 4.43,
+                        "Plan Rows": 20,
+                        "Plan Width": 0,
+                        "Actual Startup Time": 0.009,
+                        "Actual Total Time": 0.009,
+                        "Actual Rows": 1,
+                        "Actual Loops": 1,
+                        "Index Cond": "(lower((nombre)::text) = 'tpi baja lógica producto 0'::text)",
+                        "Shared Hit Blocks": 2,
+                        "Shared Read Blocks": 0,
+                        "Shared Dirtied Blocks": 0,
+                        "Shared Written Blocks": 0,
+                        "Local Hit Blocks": 0,
+                        "Local Read Blocks": 0,
+                        "Local Dirtied Blocks": 0,
+                        "Local Written Blocks": 0,
+                        "Temp Read Blocks": 0,
+                        "Temp Written Blocks": 0
+                      }
+                    ]
+                  },
+                  "Planning": {
+                    "Shared Hit Blocks": 3,
+                    "Shared Read Blocks": 0,
+                    "Shared Dirtied Blocks": 0,
+                    "Shared Written Blocks": 0,
+                    "Local Hit Blocks": 0,
+                    "Local Read Blocks": 0,
+                    "Local Dirtied Blocks": 0,
+                    "Local Written Blocks": 0,
+                    "Temp Read Blocks": 0,
+                    "Temp Written Blocks": 0
+                  },
+                  "Planning Time": 0.169,
+                  "Triggers": [],
+                  "Execution Time": 0.037
+                }
+              ]
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "SELECT id_producto,nombre FROM producto WHERE activo AND lower(nombre)=lower(%s)",
+      "parametros": [
+        "TPI baja lógica producto 0"
+      ],
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              8008,
+              "TPI baja lógica producto 0"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "SELECT * FROM tp5_detalles_productos WHERE id_pedido=%s ORDER BY id_producto",
+      "parametros": [
+        13
+      ],
+      "salida": [
+        {
+          "estado": "SELECT 2",
+          "filas": [
+            [
+              13,
+              8008,
+              "TPI baja lógica producto 0",
+              2,
+              "10.00",
+              "20.00"
+            ],
+            [
+              13,
+              8009,
+              "TPI baja lógica producto 1",
+              1,
+              "25.00",
+              "25.00"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "UPDATE producto SET precio_lista=999 WHERE id_producto=%s",
+      "parametros": [
+        8008
+      ],
+      "salida": [
+        {
+          "estado": "UPDATE 1",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "CALL tpi_baja_producto(%s)",
+      "parametros": [
+        8008
+      ],
+      "salida": [
+        {
+          "estado": "CALL",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "CALL tpi_baja_producto(%s)",
+      "parametros": [
+        8008
+      ],
+      "salida": [
+        {
+          "estado": "CALL",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SELECT activo FROM producto WHERE id_producto=%s",
+      "parametros": [
+        8008
+      ],
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              false
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "EXPLAIN (ANALYZE,BUFFERS,FORMAT JSON) SELECT id_producto,nombre FROM producto WHERE activo AND lower(nombre)=lower(%s)",
+      "parametros": [
+        "TPI baja lógica producto 0"
+      ],
+      "salida": [
+        {
+          "estado": "EXPLAIN",
+          "filas": [
+            [
+              [
+                {
+                  "Plan": {
+                    "Node Type": "Bitmap Heap Scan",
+                    "Parallel Aware": false,
+                    "Async Capable": false,
+                    "Relation Name": "producto",
+                    "Alias": "producto",
+                    "Startup Cost": 4.44,
+                    "Total Cost": 48.75,
+                    "Plan Rows": 20,
+                    "Plan Width": 20,
+                    "Actual Startup Time": 0.027,
+                    "Actual Total Time": 0.028,
+                    "Actual Rows": 0,
+                    "Actual Loops": 1,
+                    "Recheck Cond": "((lower((nombre)::text) = 'tpi baja lógica producto 0'::text) AND activo)",
+                    "Rows Removed by Index Recheck": 0,
+                    "Exact Heap Blocks": 1,
+                    "Lossy Heap Blocks": 0,
+                    "Shared Hit Blocks": 3,
+                    "Shared Read Blocks": 0,
+                    "Shared Dirtied Blocks": 0,
+                    "Shared Written Blocks": 0,
+                    "Local Hit Blocks": 0,
+                    "Local Read Blocks": 0,
+                    "Local Dirtied Blocks": 0,
+                    "Local Written Blocks": 0,
+                    "Temp Read Blocks": 0,
+                    "Temp Written Blocks": 0,
+                    "Plans": [
+                      {
+                        "Node Type": "Bitmap Index Scan",
+                        "Parent Relationship": "Outer",
+                        "Parallel Aware": false,
+                        "Async Capable": false,
+                        "Index Name": "tp5_producto_nombre_activo",
+                        "Startup Cost": 0.0,
+                        "Total Cost": 4.43,
+                        "Plan Rows": 20,
+                        "Plan Width": 0,
+                        "Actual Startup Time": 0.016,
+                        "Actual Total Time": 0.016,
+                        "Actual Rows": 2,
+                        "Actual Loops": 1,
+                        "Index Cond": "(lower((nombre)::text) = 'tpi baja lógica producto 0'::text)",
+                        "Shared Hit Blocks": 2,
+                        "Shared Read Blocks": 0,
+                        "Shared Dirtied Blocks": 0,
+                        "Shared Written Blocks": 0,
+                        "Local Hit Blocks": 0,
+                        "Local Read Blocks": 0,
+                        "Local Dirtied Blocks": 0,
+                        "Local Written Blocks": 0,
+                        "Temp Read Blocks": 0,
+                        "Temp Written Blocks": 0
+                      }
+                    ]
+                  },
+                  "Planning": {
+                    "Shared Hit Blocks": 0,
+                    "Shared Read Blocks": 0,
+                    "Shared Dirtied Blocks": 0,
+                    "Shared Written Blocks": 0,
+                    "Local Hit Blocks": 0,
+                    "Local Read Blocks": 0,
+                    "Local Dirtied Blocks": 0,
+                    "Local Written Blocks": 0,
+                    "Temp Read Blocks": 0,
+                    "Temp Written Blocks": 0
+                  },
+                  "Planning Time": 0.144,
+                  "Triggers": [],
+                  "Execution Time": 0.045
+                }
+              ]
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "SELECT id_producto,nombre FROM producto WHERE activo AND lower(nombre)=lower(%s)",
+      "parametros": [
+        "TPI baja lógica producto 0"
+      ],
+      "salida": [
+        {
+          "estado": "SELECT 0",
+          "filas": []
+        }
+      ]
+    },
+    {
+      "sql": "SELECT count(*) FROM tp5_productos_vigentes WHERE id_producto=%s",
+      "parametros": [
+        8008
+      ],
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "SELECT * FROM tp5_detalles_productos WHERE id_pedido=%s ORDER BY id_producto",
+      "parametros": [
+        13
+      ],
+      "salida": [
+        {
+          "estado": "SELECT 2",
+          "filas": [
+            [
+              13,
+              8008,
+              "TPI baja lógica producto 0",
+              2,
+              "10.00",
+              "20.00"
+            ],
+            [
+              13,
+              8009,
+              "TPI baja lógica producto 1",
+              1,
+              "25.00",
+              "25.00"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "SELECT tpi_total_pedido(%s)",
+      "parametros": [
+        13
+      ],
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              "45.00"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SAVEPOINT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO producto(nombre,precio_lista,stock,categoria_id) VALUES (%s,1,1,%s)",
+      "parametros": [
+        "TPI baja lógica producto 0",
+        8
+      ],
+      "sqlstate": "23505",
+      "error": "duplicate key value violates unique constraint \"uq_producto_nombre\"\nDETAIL:  Key (nombre)=(TPI baja lógica producto 0) already exists."
+    },
+    {
+      "sql": "ROLLBACK TO SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "RELEASE SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "RELEASE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SAVEPOINT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "DELETE FROM producto WHERE id_producto=%s",
+      "parametros": [
+        8008
+      ],
+      "sqlstate": "23503",
+      "error": "update or delete on table \"producto\" violates foreign key constraint \"fk_detalle_pedido_producto\" on table \"detalle_pedido\"\nDETAIL:  Key (id_producto)=(8008) is still referenced from table \"detalle_pedido\"."
+    },
+    {
+      "sql": "ROLLBACK TO SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "RELEASE SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "RELEASE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "UPDATE categoria SET activo=false WHERE id_categoria=%s",
+      "parametros": [
+        9
+      ],
+      "salida": [
+        {
+          "estado": "UPDATE 1",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SELECT count(*) FROM tp5_productos_vigentes WHERE id_producto=%s",
+      "parametros": [
+        8009
+      ],
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "SELECT tpi_total_pedido(%s)",
+      "parametros": [
+        13
+      ],
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              "45.00"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SAVEPOINT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "CALL public.tpi_registrar_pedido(%s,%s::forma_pago,%s::jsonb,NULL)",
+      "parametros": [
+        1,
+        "EFECTIVO",
+        "[{\"id_producto\": 8009, \"cantidad\": 1}]"
+      ],
+      "sqlstate": "23514",
+      "error": "Categoría inexistente o inactiva: 9\nCONTEXT:  PL/pgSQL function tpi_validar_categorias_detalle() line 14 at RAISE\nSQL statement \"INSERT INTO public.detalle_pedido(id_pedido, id_producto, precio_unitario, cantidad)\n        VALUES (p_id_pedido, v_producto.id_producto, v_producto.precio_lista,\n                (v_linea->>'cantidad')::integer)\"\nPL/pgSQL function tpi_registrar_pedido(integer,forma_pago,jsonb,integer) line 48 at SQL statement"
+    },
+    {
+      "sql": "ROLLBACK TO SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "RELEASE SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "RELEASE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "UPDATE producto SET activo=true WHERE id_producto=%s",
+      "parametros": [
+        8008
+      ],
+      "salida": [
+        {
+          "estado": "UPDATE 1",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO pedido(cliente_id,forma_pago) VALUES (1,'EFECTIVO') RETURNING id_pedido",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "INSERT 0 1",
+          "filas": [
+            [
+              15
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SAVEPOINT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO detalle_pedido VALUES (%s,%s,10,1),(%s,%s,25,1)",
+      "parametros": [
+        15,
+        8008,
+        15,
+        8009
+      ],
+      "sqlstate": "23514",
+      "error": "Categoría inexistente o inactiva: 9\nCONTEXT:  PL/pgSQL function tpi_validar_categorias_detalle() line 14 at RAISE"
+    },
+    {
+      "sql": "ROLLBACK TO SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "RELEASE SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "RELEASE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SELECT count(*) FROM detalle_pedido WHERE id_pedido=%s",
+      "parametros": [
+        15
+      ],
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "UPDATE categoria SET activo=true WHERE id_categoria=%s",
+      "parametros": [
+        9
+      ],
+      "salida": [
+        {
+          "estado": "UPDATE 1",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO detalle_pedido VALUES (%s,%s,10,1),(%s,%s,25,1)",
+      "parametros": [
+        15,
+        8008,
+        15,
+        8009
+      ],
+      "salida": [
+        {
+          "estado": "INSERT 0 2",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SELECT count(*) FROM detalle_pedido WHERE id_pedido=%s",
+      "parametros": [
+        15
+      ],
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              2
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "UPDATE detalle_pedido SET cantidad=2 WHERE id_pedido=%s",
+      "parametros": [
+        15
+      ],
+      "salida": [
+        {
+          "estado": "UPDATE 2",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SELECT tpi_total_pedido(%s)",
+      "parametros": [
+        15
+      ],
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              "70.00"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "UPDATE categoria SET activo=false WHERE id_categoria=%s",
+      "parametros": [
+        9
+      ],
+      "salida": [
+        {
+          "estado": "UPDATE 1",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SAVEPOINT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "UPDATE detalle_pedido SET precio_unitario=0 WHERE id_pedido=%s",
+      "parametros": [
+        15
+      ],
+      "sqlstate": "23514",
+      "error": "Categoría inexistente o inactiva: 9\nCONTEXT:  PL/pgSQL function tpi_validar_categorias_detalle() line 14 at RAISE"
+    },
+    {
+      "sql": "ROLLBACK TO SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "RELEASE SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "RELEASE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SELECT tpi_total_pedido(%s)",
+      "parametros": [
+        15
+      ],
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              "70.00"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "ROLLBACK",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SELECT (SELECT count(*) FROM categoria),(SELECT count(*) FROM producto),(SELECT count(*) FROM pedido),(SELECT count(*) FROM detalle_pedido)",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              3,
+              4003,
+              3,
+              0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "BEGIN",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "BEGIN",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO categoria(nombre) VALUES (%s) RETURNING id_categoria",
+      "parametros": [
+        "TPI transacciones 0"
+      ],
+      "salida": [
+        {
+          "estado": "INSERT 0 1",
+          "filas": [
+            [
+              10
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO categoria(nombre) VALUES (%s) RETURNING id_categoria",
+      "parametros": [
+        "TPI transacciones 1"
+      ],
+      "salida": [
+        {
+          "estado": "INSERT 0 1",
+          "filas": [
+            [
+              11
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO producto(nombre,precio_lista,stock,categoria_id) VALUES (%s,%s,%s,%s) RETURNING id_producto",
+      "parametros": [
+        "TPI transacciones producto 0",
+        10,
+        10,
+        10
+      ],
+      "salida": [
+        {
+          "estado": "INSERT 0 1",
+          "filas": [
+            [
+              8011
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "INSERT INTO producto(nombre,precio_lista,stock,categoria_id) VALUES (%s,%s,%s,%s) RETURNING id_producto",
+      "parametros": [
+        "TPI transacciones producto 1",
+        25,
+        2,
+        11
+      ],
+      "salida": [
+        {
+          "estado": "INSERT 0 1",
+          "filas": [
+            [
+              8012
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "COMMIT",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "COMMIT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SELECT current_database(),current_user,version()",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              "food_store_tpi_20260922_204000_480700",
+              "postgres",
+              "PostgreSQL 17.11 on x86_64-windows, compiled by msvc-19.44.35228, 64-bit"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "SET TIME ZONE 'UTC'",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SET",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SELECT current_database(),current_user,version()",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              "food_store_tpi_20260922_204000_480700",
+              "postgres",
+              "PostgreSQL 17.11 on x86_64-windows, compiled by msvc-19.44.35228, 64-bit"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "SET TIME ZONE 'UTC'",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SET",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "BEGIN",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "BEGIN",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "CALL public.tpi_registrar_pedido(%s,%s::forma_pago,%s::jsonb,NULL)",
+      "parametros": [
+        1,
+        "EFECTIVO",
+        "[{\"id_producto\": 8011, \"cantidad\": 2}, {\"id_producto\": 8012, \"cantidad\": 1}]"
+      ],
+      "salida": [
+        {
+          "estado": "CALL",
+          "filas": [
+            [
+              16
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "SELECT count(*) FROM pedido WHERE id_pedido=%s",
+      "parametros": [
+        16
+      ],
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "COMMIT",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "COMMIT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SELECT tpi_total_pedido(%s)",
+      "parametros": [
+        16
+      ],
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              "45.00"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "BEGIN",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "BEGIN",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "CALL public.tpi_registrar_pedido(%s,%s::forma_pago,%s::jsonb,NULL)",
+      "parametros": [
+        1,
+        "EFECTIVO",
+        "[{\"id_producto\": 8011, \"cantidad\": 2}, {\"id_producto\": 8012, \"cantidad\": 1}]"
+      ],
+      "salida": [
+        {
+          "estado": "CALL",
+          "filas": [
+            [
+              17
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "ROLLBACK",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SELECT (SELECT count(*) FROM pedido WHERE id_pedido=%s),(SELECT count(*) FROM detalle_pedido WHERE id_pedido=%s)",
+      "parametros": [
+        17,
+        17
+      ],
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              0,
+              0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "SELECT count(*) FROM pedido",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              4
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "SELECT pg_backend_pid()",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              14176
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "BEGIN",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "BEGIN",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "UPDATE categoria SET activo=false WHERE id_categoria=%s",
+      "parametros": [
+        10
+      ],
+      "salida": [
+        {
+          "estado": "UPDATE 1",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "BEGIN",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "BEGIN",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SAVEPOINT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SELECT pg_blocking_pids(%s)",
+      "parametros": [
+        14176
+      ],
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              []
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "SELECT pg_blocking_pids(%s)",
+      "parametros": [
+        14176
+      ],
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              [
+                11592
+              ]
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "COMMIT",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "COMMIT",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "CALL public.tpi_registrar_pedido(%s,%s::forma_pago,%s::jsonb,NULL)",
+      "parametros": [
+        1,
+        "EFECTIVO",
+        "[{\"id_producto\": 8011, \"cantidad\": 1}]"
+      ],
+      "sqlstate": "23514",
+      "error": "Categoría inexistente o inactiva: 10\nCONTEXT:  PL/pgSQL function tpi_validar_categorias_detalle() line 14 at RAISE\nSQL statement \"INSERT INTO public.detalle_pedido(id_pedido, id_producto, precio_unitario, cantidad)\n        VALUES (p_id_pedido, v_producto.id_producto, v_producto.precio_lista,\n                (v_linea->>'cantidad')::integer)\"\nPL/pgSQL function tpi_registrar_pedido(integer,forma_pago,jsonb,integer) line 48 at SQL statement"
+    },
+    {
+      "sql": "ROLLBACK TO SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "RELEASE SAVEPOINT error_esperado",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "RELEASE",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "ROLLBACK",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "ROLLBACK",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SELECT count(*) FROM pedido",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              4
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "UPDATE categoria SET activo=true WHERE id_categoria=%s",
+      "parametros": [
+        10
+      ],
+      "salida": [
+        {
+          "estado": "UPDATE 1",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "UPDATE pedido SET estado='CONFIRMADO' WHERE id_pedido=%s",
+      "parametros": [
+        16
+      ],
+      "salida": [
+        {
+          "estado": "UPDATE 1",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "UPDATE pedido SET estado='ENTREGADO' WHERE id_pedido=%s",
+      "parametros": [
+        16
+      ],
+      "salida": [
+        {
+          "estado": "UPDATE 1",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "REFRESH MATERIALIZED VIEW CONCURRENTLY tp5_facturacion_mensual",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "REFRESH MATERIALIZED VIEW",
+          "filas": null
+        }
+      ]
+    },
+    {
+      "sql": "SELECT sum(importe) FROM tp5_facturacion_mensual",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              "45.00"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "WITH a AS (SELECT * FROM tp5_productos_vigentes), b AS (WITH categorias_vigentes AS (\n    SELECT id_categoria, nombre FROM categoria WHERE activo\n)\nSELECT p.id_producto, p.nombre AS nombre_producto, p.precio_lista, p.stock,\n       c.id_categoria, c.nombre AS nombre_categoria\nFROM categorias_vigentes c JOIN producto p ON p.categoria_id = c.id_categoria\nWHERE p.activo\nORDER BY p.id_producto) SELECT (SELECT count(*) FROM (TABLE a EXCEPT ALL TABLE b) x),(SELECT count(*) FROM (TABLE b EXCEPT ALL TABLE a) x)",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              0,
+              0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "WITH a AS (SELECT * FROM tp5_pedidos_clientes), b AS (WITH personas AS (\n    SELECT id_cliente, nombre, apellido FROM cliente\n)\nSELECT o.id_pedido, o.fecha, o.estado, o.forma_pago, u.id_cliente, u.nombre, u.apellido\nFROM personas u JOIN pedido o ON o.cliente_id = u.id_cliente\nORDER BY o.id_pedido) SELECT (SELECT count(*) FROM (TABLE a EXCEPT ALL TABLE b) x),(SELECT count(*) FROM (TABLE b EXCEPT ALL TABLE a) x)",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              0,
+              0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "WITH a AS (SELECT * FROM tp5_detalles_productos), b AS (SELECT d.id_pedido, d.id_producto,\n       (SELECT p.nombre FROM producto p WHERE p.id_producto = d.id_producto) AS nombre_producto,\n       d.cantidad, d.precio_unitario, d.cantidad * d.precio_unitario AS subtotal\nFROM detalle_pedido d\nORDER BY d.id_pedido, d.id_producto) SELECT (SELECT count(*) FROM (TABLE a EXCEPT ALL TABLE b) x),(SELECT count(*) FROM (TABLE b EXCEPT ALL TABLE a) x)",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              0,
+              0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "SELECT p.proname,p.prokind,l.lanname,pg_get_function_identity_arguments(p.oid) FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace JOIN pg_language l ON l.oid=p.prolang WHERE n.nspname='public' ORDER BY p.proname",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SELECT 7",
+          "filas": [
+            [
+              "tpi_baja_producto",
+              "p",
+              "plpgsql",
+              "IN p_id_producto integer"
+            ],
+            [
+              "tpi_registrar_pedido",
+              "p",
+              "plpgsql",
+              "IN p_cliente_id integer, IN p_forma_pago forma_pago, IN p_lineas jsonb, INOUT p_id_pedido integer"
+            ],
+            [
+              "tpi_total_pedido",
+              "f",
+              "plpgsql",
+              "p_id_pedido integer"
+            ],
+            [
+              "tpi_validar_categorias_detalle",
+              "f",
+              "plpgsql",
+              ""
+            ],
+            [
+              "validar_edicion_detalle_pedido",
+              "f",
+              "plpgsql",
+              ""
+            ],
+            [
+              "validar_producto_y_stock_detalle",
+              "f",
+              "plpgsql",
+              ""
+            ],
+            [
+              "validar_transicion_estado_pedido",
+              "f",
+              "plpgsql",
+              ""
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "SELECT tgname,pg_get_triggerdef(oid) FROM pg_trigger WHERE NOT tgisinternal ORDER BY tgname",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SELECT 5",
+          "filas": [
+            [
+              "trg_tpi_categorias_insert",
+              "CREATE TRIGGER trg_tpi_categorias_insert AFTER INSERT ON public.detalle_pedido REFERENCING NEW TABLE AS nuevas_lineas FOR EACH STATEMENT EXECUTE FUNCTION tpi_validar_categorias_detalle()"
+            ],
+            [
+              "trg_tpi_categorias_update",
+              "CREATE TRIGGER trg_tpi_categorias_update AFTER UPDATE ON public.detalle_pedido REFERENCING NEW TABLE AS nuevas_lineas FOR EACH STATEMENT EXECUTE FUNCTION tpi_validar_categorias_detalle()"
+            ],
+            [
+              "trg_validar_edicion_detalle_pedido",
+              "CREATE TRIGGER trg_validar_edicion_detalle_pedido BEFORE INSERT OR DELETE OR UPDATE ON public.detalle_pedido FOR EACH ROW EXECUTE FUNCTION validar_edicion_detalle_pedido()"
+            ],
+            [
+              "trg_validar_producto_y_stock_detalle",
+              "CREATE TRIGGER trg_validar_producto_y_stock_detalle BEFORE INSERT OR UPDATE OF id_producto, cantidad ON public.detalle_pedido FOR EACH ROW EXECUTE FUNCTION validar_producto_y_stock_detalle()"
+            ],
+            [
+              "trg_validar_transicion_estado_pedido",
+              "CREATE TRIGGER trg_validar_transicion_estado_pedido BEFORE UPDATE OF estado ON public.pedido FOR EACH ROW EXECUTE FUNCTION validar_transicion_estado_pedido()"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "sql": "SELECT (SELECT count(*) FROM categoria),(SELECT count(*) FROM producto),(SELECT count(*) FROM cliente),(SELECT count(*) FROM pedido),(SELECT count(*) FROM detalle_pedido)",
+      "parametros": null,
+      "salida": [
+        {
+          "estado": "SELECT 1",
+          "filas": [
+            [
+              5,
+              4005,
+              1,
+              4,
+              2
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "pruebas": [
+    {
+      "prueba": "instalación base ROLLBACK",
+      "correcto": true,
+      "detalle": null
+    },
+    {
+      "prueba": "instalación base COMMIT",
+      "correcto": true,
+      "detalle": null
+    },
+    {
+      "prueba": "carga auxiliar reversible",
+      "correcto": true,
+      "detalle": null
+    },
+    {
+      "prueba": "ensayo DDL total exacto",
+      "correcto": true,
+      "detalle": null
+    },
+    {
+      "prueba": "ensayo DDL dos detalles",
+      "correcto": true,
+      "detalle": null
+    },
+    {
+      "prueba": "ensayo DDL pedido vacío",
+      "correcto": true,
+      "detalle": null
+    },
+    {
+      "prueba": "ensayo DDL total inexistente",
+      "correcto": true,
+      "detalle": {
+        "esperado": "P0002",
+        "obtenido": "P0002"
+      }
+    },
+    {
+      "prueba": "ensayo DDL fallo en segunda línea revierte CALL",
+      "correcto": true,
+      "detalle": {
+        "esperado": "23514",
+        "obtenido": "23514"
+      }
+    },
+    {
+      "prueba": "ensayo DDL sin cabecera ni detalle parcial",
+      "correcto": true,
+      "detalle": null
+    },
+    {
+      "prueba": "ensayo DDL baja conserva total",
+      "correcto": true,
+      "detalle": null
+    },
+    {
+      "prueba": "ensayo DDL venta de producto inactivo",
+      "correcto": true,
+      "detalle": {
+        "esperado": "23514",
+        "obtenido": "23514"
+      }
+    },
+    {
+      "prueba": "ensayo DDL transición UPDATE rechaza categoría inactiva",
+      "correcto": true,
+      "detalle": {
+        "esperado": "23514",
+        "obtenido": "23514"
+      }
+    },
+    {
+      "prueba": "ensayo DDL UPDATE múltiple revertido",
+      "correcto": true,
+      "detalle": null
+    },
+    {
+      "prueba": "DDL de ensayo desapareció",
+      "correcto": true,
+      "detalle": null
+    },
+    {
+      "prueba": "cuatro rutinas creadas",
+      "correcto": true,
+      "detalle": null
+    },
+    {
+      "prueba": "prueba final total exacto",
+      "correcto": true,
+      "detalle": null
+    },
+    {
+      "prueba": "prueba final dos detalles",
+      "correcto": true,
+      "detalle": null
+    },
+    {
+      "prueba": "prueba final pedido vacío",
+      "correcto": true,
+      "detalle": null
+    },
+    {
+      "prueba": "prueba final total inexistente",
+      "correcto": true,
+      "detalle": {
+        "esperado": "P0002",
+        "obtenido": "P0002"
+      }
+    },
+    {
+      "prueba": "prueba final fallo en segunda línea revierte CALL",
+      "correcto": true,
+      "detalle": {
+        "esperado": "23514",
+        "obtenido": "23514"
+      }
+    },
+    {
+      "prueba": "prueba final sin cabecera ni detalle parcial",
+      "correcto": true,
+      "detalle": null
+    },
+    {
+      "prueba": "prueba final baja conserva total",
+      "correcto": true,
+      "detalle": null
+    },
+    {
+      "prueba": "prueba final venta de producto inactivo",
+      "correcto": true,
+      "detalle": {
+        "esperado": "23514",
+        "obtenido": "23514"
+      }
+    },
+    {
+      "prueba": "prueba final transición UPDATE rechaza categoría inactiva",
+      "correcto": true,
+      "detalle": {
+        "esperado": "23514",
+        "obtenido": "23514"
+      }
+    },
+    {
+      "prueba": "prueba final UPDATE múltiple revertido",
+      "correcto": true,
+      "detalle": null
+    },
+    {
+      "prueba": "JSON inválido 0",
+      "correcto": true,
+      "detalle": {
+        "esperado": "22023",
+        "obtenido": "22023"
+      }
+    },
+    {
+      "prueba": "JSON inválido 1",
+      "correcto": true,
+      "detalle": {
+        "esperado": "22023",
+        "obtenido": "22023"
+      }
+    },
+    {
+      "prueba": "JSON inválido 2",
+      "correcto": true,
+      "detalle": {
+        "esperado": "22023",
+        "obtenido": "22023"
+      }
+    },
+    {
+      "prueba": "JSON inválido 3",
+      "correcto": true,
+      "detalle": {
+        "esperado": "22023",
+        "obtenido": "22023"
+      }
+    },
+    {
+      "prueba": "JSON inválido 4",
+      "correcto": true,
+      "detalle": {
+        "esperado": "22023",
+        "obtenido": "22023"
+      }
+    },
+    {
+      "prueba": "JSON inválido 5",
+      "correcto": true,
+      "detalle": {
+        "esperado": "22023",
+        "obtenido": "22023"
+      }
+    },
+    {
+      "prueba": "JSON inválido 6",
+      "correcto": true,
+      "detalle": {
+        "esperado": "22023",
+        "obtenido": "22023"
+      }
+    },
+    {
+      "prueba": "JSON inválido 7",
+      "correcto": true,
+      "detalle": {
+        "esperado": "22023",
+        "obtenido": "22023"
+      }
+    },
+    {
+      "prueba": "JSON inválido 8",
+      "correcto": true,
+      "detalle": {
+        "esperado": "22023",
+        "obtenido": "22023"
+      }
+    },
+    {
+      "prueba": "JSON inválido 9",
+      "correcto": true,
+      "detalle": {
+        "esperado": "22023",
+        "obtenido": "22023"
+      }
+    },
+    {
+      "prueba": "JSON inválido 10",
+      "correcto": true,
+      "detalle": {
+        "esperado": "22023",
+        "obtenido": "22023"
+      }
+    },
+    {
+      "prueba": "JSON inválido 11",
+      "correcto": true,
+      "detalle": {
+        "esperado": "22023",
+        "obtenido": "22023"
+      }
+    },
+    {
+      "prueba": "cliente inexistente",
+      "correcto": true,
+      "detalle": {
+        "esperado": "23503",
+        "obtenido": "23503"
+      }
+    },
+    {
+      "prueba": "producto inexistente",
+      "correcto": true,
+      "detalle": {
+        "esperado": "23503",
+        "obtenido": "23503"
+      }
+    },
+    {
+      "prueba": "pago nulo",
+      "correcto": true,
+      "detalle": {
+        "esperado": "23502",
+        "obtenido": "23502"
+      }
+    },
+    {
+      "prueba": "salida no nula",
+      "correcto": true,
+      "detalle": {
+        "esperado": "22023",
+        "obtenido": "22023"
+      }
+    },
+    {
+      "prueba": "baja inexistente",
+      "correcto": true,
+      "detalle": {
+        "esperado": "P0002",
+        "obtenido": "P0002"
+      }
+    },
+    {
+      "prueba": "total con NULL",
+      "correcto": true,
+      "detalle": {
+        "esperado": "P0002",
+        "obtenido": "P0002"
+      }
+    },
+    {
+      "prueba": "CHECK stock",
+      "correcto": true,
+      "detalle": {
+        "esperado": "23514",
+        "obtenido": "23514"
+      }
+    },
+    {
+      "prueba": "CHECK precio",
+      "correcto": true,
+      "detalle": {
+        "esperado": "23514",
+        "obtenido": "23514"
+      }
+    },
+    {
+      "prueba": "FK categoría",
+      "correcto": true,
+      "detalle": {
+        "esperado": "23503",
+        "obtenido": "23503"
+      }
+    },
+    {
+      "prueba": "CHECK cantidad",
+      "correcto": true,
+      "detalle": {
+        "esperado": "23514",
+        "obtenido": "23514"
+      }
+    },
+    {
+      "prueba": "CHECK precio de venta",
+      "correcto": true,
+      "detalle": {
+        "esperado": "23514",
+        "obtenido": "23514"
+      }
+    },
+    {
+      "prueba": "transición de estado inválida",
+      "correcto": true,
+      "detalle": {
+        "esperado": "23514",
+        "obtenido": "23514"
+      }
+    },
+    {
+      "prueba": "detalle de pedido confirmado",
+      "correcto": true,
+      "detalle": {
+        "esperado": "23514",
+        "obtenido": "23514"
+      }
+    },
+    {
+      "prueba": "salida de estado terminal",
+      "correcto": true,
+      "detalle": {
+        "esperado": "23514",
+        "obtenido": "23514"
+      }
+    },
+    {
+      "prueba": "índice parcial antes devuelve producto",
+      "correcto": true,
+      "detalle": null
+    },
+    {
+      "prueba": "baja idempotente conserva fila",
+      "correcto": true,
+      "detalle": null
+    },
+    {
+      "prueba": "índice parcial después no devuelve producto",
+      "correcto": true,
+      "detalle": null
+    },
+    {
+      "prueba": "vista de catálogo excluye baja",
+      "correcto": true,
+      "detalle": null
+    },
+    {
+      "prueba": "historia y precio de venta intactos",
+      "correcto": true,
+      "detalle": null
+    },
+    {
+      "prueba": "función conserva total histórico",
+      "correcto": true,
+      "detalle": null
+    },
+    {
+      "prueba": "UNIQUE conserva nombre tras baja",
+      "correcto": true,
+      "detalle": {
+        "esperado": "23505",
+        "obtenido": "23505"
+      }
+    },
+    {
+      "prueba": "FK impide borrar producto usado",
+      "correcto": true,
+      "detalle": {
+        "esperado": "23503",
+        "obtenido": "23503"
+      }
+    },
+    {
+      "prueba": "baja de categoría oculta producto aún activo",
+      "correcto": true,
+      "detalle": null
+    },
+    {
+      "prueba": "categoría inactiva mantiene historial",
+      "correcto": true,
+      "detalle": null
+    },
+    {
+      "prueba": "CALL rechaza categoría inactiva",
+      "correcto": true,
+      "detalle": {
+        "esperado": "23514",
+        "obtenido": "23514"
+      }
+    },
+    {
+      "prueba": "INSERT múltiple atómico por categoría",
+      "correcto": true,
+      "detalle": {
+        "esperado": "23514",
+        "obtenido": "23514"
+      }
+    },
+    {
+      "prueba": "INSERT múltiple no deja primera fila",
+      "correcto": true,
+      "detalle": null
+    },
+    {
+      "prueba": "INSERT múltiple válido",
+      "correcto": true,
+      "detalle": null
+    },
+    {
+      "prueba": "UPDATE múltiple válido",
+      "correcto": true,
+      "detalle": null
+    },
+    {
+      "prueba": "UPDATE múltiple rechazado completo",
+      "correcto": true,
+      "detalle": {
+        "esperado": "23514",
+        "obtenido": "23514"
+      }
+    },
+    {
+      "prueba": "UPDATE conserva ambos precios",
+      "correcto": true,
+      "detalle": null
+    },
+    {
+      "prueba": "casos revertidos y conteos restaurados",
+      "correcto": true,
+      "detalle": null
+    },
+    {
+      "prueba": "otra conexión no ve pedido sin COMMIT",
+      "correcto": true,
+      "detalle": null
+    },
+    {
+      "prueba": "otra conexión ve pedido tras COMMIT",
+      "correcto": true,
+      "detalle": null
+    },
+    {
+      "prueba": "ROLLBACK elimina cabecera y detalles",
+      "correcto": true,
+      "detalle": null
+    },
+    {
+      "prueba": "bloqueo real ante baja de categoría",
+      "correcto": true,
+      "detalle": {
+        "pid_venta": 14176,
+        "bloqueadores": [
+          11592
+        ]
+      }
+    },
+    {
+      "prueba": "venta concurrente rechazada tras baja",
+      "correcto": true,
+      "detalle": {
+        "esperado": "23514",
+        "obtenido": "23514"
+      }
+    },
+    {
+      "prueba": "concurrencia sin pedido parcial",
+      "correcto": true,
+      "detalle": null
+    },
+    {
+      "prueba": "materializada refleja venta entregada",
+      "correcto": true,
+      "detalle": null
+    },
+    {
+      "prueba": "vista productos_vigentes equivalente",
+      "correcto": true,
+      "detalle": [
+        [
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "prueba": "vista pedidos_clientes equivalente",
+      "correcto": true,
+      "detalle": [
+        [
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "prueba": "vista detalles_productos equivalente",
+      "correcto": true,
+      "detalle": [
+        [
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "respaldos": [
+    "backups\\food_store_tpi_20260922_204000_480700_base_pre_ddl.dump",
+    "backups\\food_store_tpi_20260922_204000_480700_objetos_pre_ddl.dump"
+  ],
+  "version": "17.11",
+  "planes_baja": {
+    "antes": [
+      {
+        "Plan": {
+          "Node Type": "Bitmap Heap Scan",
+          "Parallel Aware": false,
+          "Async Capable": false,
+          "Relation Name": "producto",
+          "Alias": "producto",
+          "Startup Cost": 4.44,
+          "Total Cost": 48.75,
+          "Plan Rows": 20,
+          "Plan Width": 20,
+          "Actual Startup Time": 0.022,
+          "Actual Total Time": 0.023,
+          "Actual Rows": 1,
+          "Actual Loops": 1,
+          "Recheck Cond": "((lower((nombre)::text) = 'tpi baja lógica producto 0'::text) AND activo)",
+          "Rows Removed by Index Recheck": 0,
+          "Exact Heap Blocks": 1,
+          "Lossy Heap Blocks": 0,
+          "Shared Hit Blocks": 3,
+          "Shared Read Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Dirtied Blocks": 0,
+          "Local Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0,
+          "Plans": [
+            {
+              "Node Type": "Bitmap Index Scan",
+              "Parent Relationship": "Outer",
+              "Parallel Aware": false,
+              "Async Capable": false,
+              "Index Name": "tp5_producto_nombre_activo",
+              "Startup Cost": 0.0,
+              "Total Cost": 4.43,
+              "Plan Rows": 20,
+              "Plan Width": 0,
+              "Actual Startup Time": 0.009,
+              "Actual Total Time": 0.009,
+              "Actual Rows": 1,
+              "Actual Loops": 1,
+              "Index Cond": "(lower((nombre)::text) = 'tpi baja lógica producto 0'::text)",
+              "Shared Hit Blocks": 2,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          ]
+        },
+        "Planning": {
+          "Shared Hit Blocks": 3,
+          "Shared Read Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Dirtied Blocks": 0,
+          "Local Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0
+        },
+        "Planning Time": 0.169,
+        "Triggers": [],
+        "Execution Time": 0.037
+      }
+    ],
+    "despues": [
+      {
+        "Plan": {
+          "Node Type": "Bitmap Heap Scan",
+          "Parallel Aware": false,
+          "Async Capable": false,
+          "Relation Name": "producto",
+          "Alias": "producto",
+          "Startup Cost": 4.44,
+          "Total Cost": 48.75,
+          "Plan Rows": 20,
+          "Plan Width": 20,
+          "Actual Startup Time": 0.027,
+          "Actual Total Time": 0.028,
+          "Actual Rows": 0,
+          "Actual Loops": 1,
+          "Recheck Cond": "((lower((nombre)::text) = 'tpi baja lógica producto 0'::text) AND activo)",
+          "Rows Removed by Index Recheck": 0,
+          "Exact Heap Blocks": 1,
+          "Lossy Heap Blocks": 0,
+          "Shared Hit Blocks": 3,
+          "Shared Read Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Dirtied Blocks": 0,
+          "Local Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0,
+          "Plans": [
+            {
+              "Node Type": "Bitmap Index Scan",
+              "Parent Relationship": "Outer",
+              "Parallel Aware": false,
+              "Async Capable": false,
+              "Index Name": "tp5_producto_nombre_activo",
+              "Startup Cost": 0.0,
+              "Total Cost": 4.43,
+              "Plan Rows": 20,
+              "Plan Width": 0,
+              "Actual Startup Time": 0.016,
+              "Actual Total Time": 0.016,
+              "Actual Rows": 2,
+              "Actual Loops": 1,
+              "Index Cond": "(lower((nombre)::text) = 'tpi baja lógica producto 0'::text)",
+              "Shared Hit Blocks": 2,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          ]
+        },
+        "Planning": {
+          "Shared Hit Blocks": 0,
+          "Shared Read Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Dirtied Blocks": 0,
+          "Local Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0
+        },
+        "Planning Time": 0.144,
+        "Triggers": [],
+        "Execution Time": 0.045
+      }
+    ]
+  },
+  "pedido_confirmado_por_commit": 16,
+  "productos_transacciones": [
+    8011,
+    8012
+  ],
+  "rutinas": [
+    [
+      "tpi_baja_producto",
+      "p",
+      "plpgsql",
+      "IN p_id_producto integer"
+    ],
+    [
+      "tpi_registrar_pedido",
+      "p",
+      "plpgsql",
+      "IN p_cliente_id integer, IN p_forma_pago forma_pago, IN p_lineas jsonb, INOUT p_id_pedido integer"
+    ],
+    [
+      "tpi_total_pedido",
+      "f",
+      "plpgsql",
+      "p_id_pedido integer"
+    ],
+    [
+      "tpi_validar_categorias_detalle",
+      "f",
+      "plpgsql",
+      ""
+    ],
+    [
+      "validar_edicion_detalle_pedido",
+      "f",
+      "plpgsql",
+      ""
+    ],
+    [
+      "validar_producto_y_stock_detalle",
+      "f",
+      "plpgsql",
+      ""
+    ],
+    [
+      "validar_transicion_estado_pedido",
+      "f",
+      "plpgsql",
+      ""
+    ]
+  ],
+  "triggers": [
+    [
+      "trg_tpi_categorias_insert",
+      "CREATE TRIGGER trg_tpi_categorias_insert AFTER INSERT ON public.detalle_pedido REFERENCING NEW TABLE AS nuevas_lineas FOR EACH STATEMENT EXECUTE FUNCTION tpi_validar_categorias_detalle()"
+    ],
+    [
+      "trg_tpi_categorias_update",
+      "CREATE TRIGGER trg_tpi_categorias_update AFTER UPDATE ON public.detalle_pedido REFERENCING NEW TABLE AS nuevas_lineas FOR EACH STATEMENT EXECUTE FUNCTION tpi_validar_categorias_detalle()"
+    ],
+    [
+      "trg_validar_edicion_detalle_pedido",
+      "CREATE TRIGGER trg_validar_edicion_detalle_pedido BEFORE INSERT OR DELETE OR UPDATE ON public.detalle_pedido FOR EACH ROW EXECUTE FUNCTION validar_edicion_detalle_pedido()"
+    ],
+    [
+      "trg_validar_producto_y_stock_detalle",
+      "CREATE TRIGGER trg_validar_producto_y_stock_detalle BEFORE INSERT OR UPDATE OF id_producto, cantidad ON public.detalle_pedido FOR EACH ROW EXECUTE FUNCTION validar_producto_y_stock_detalle()"
+    ],
+    [
+      "trg_validar_transicion_estado_pedido",
+      "CREATE TRIGGER trg_validar_transicion_estado_pedido BEFORE UPDATE OF estado ON public.pedido FOR EACH ROW EXECUTE FUNCTION validar_transicion_estado_pedido()"
+    ]
+  ],
+  "conteos_finales": [
+    5,
+    4005,
+    1,
+    4,
+    2
+  ]
+}
