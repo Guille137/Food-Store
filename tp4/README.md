@@ -22,17 +22,14 @@ Requisitos: servidor PostgreSQL 17 local, herramientas pg_dump, usuario con perm
 Desde la raíz del repositorio, sustituyendo ruta, puerto y sesión por los de la instancia de laboratorio:
 
 ```powershell
-python tp4/laboratorio.py antes --sesion tp3/evidencias/20260922_142245/sesion.json --pg-bin 'C:
-utaPostgreSQLin'
+python tp4/laboratorio.py antes --sesion tp3/evidencias/20260922_142245/sesion.json --pg-bin 'C:/ruta/PostgreSQL/bin'
 ```
 
 El ejecutor crea la copia, verifica destino y conteos, respalda, actualiza estadísticas y mide ambos reportes. La carpeta nueva de evidencia contiene sesion.json. Después de leer los planes y revisar las propuestas, ejecutar:
 
 ```powershell
-python tp4/laboratorio.py despues --sesion tp4/evidencias/FECHA/sesion.json --pg-bin 'C:
-utaPostgreSQLin'
-python tp4/laboratorio.py equivalencia --sesion tp4/evidencias/FECHA/sesion.json --pg-bin 'C:
-utaPostgreSQLin'
+python tp4/laboratorio.py despues --sesion tp4/evidencias/FECHA/sesion.json --pg-bin 'C:/ruta/PostgreSQL/bin'
+python tp4/laboratorio.py equivalencia --sesion tp4/evidencias/FECHA/sesion.json --pg-bin 'C:/ruta/PostgreSQL/bin'
 ```
 
 Las opciones --host, --port y --user permiten ajustar la conexión; el puerto predeterminado es 55432. Las contraseñas, si se requieren, se configuran por libpq/pgpass y no se guardan en el repositorio.
