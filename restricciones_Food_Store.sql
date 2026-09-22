@@ -33,22 +33,38 @@ RETURNS TRIGGER
 LANGUAGE plpgsql
 AS $$
 DECLARE
-    v_id_pedido INTEGER := COALESCE(NEW.id_pedido, OLD.id_pedido);
+    v_id_pedido INTEGER;
+    v_ids INTEGER[];
     v_estado estado_pedido;
 BEGIN
-    SELECT estado INTO v_estado
-    FROM pedido
-    WHERE id_pedido = v_id_pedido
-    FOR KEY SHARE;
-
-    IF v_estado IS NULL THEN
-        RAISE EXCEPTION 'El pedido % no existe', v_id_pedido USING ERRCODE = '23503';
+    IF TG_OP = 'INSERT' THEN
+        v_ids := ARRAY[NEW.id_pedido];
+    ELSIF TG_OP = 'DELETE' THEN
+        v_ids := ARRAY[OLD.id_pedido];
+    ELSE
+        -- Mover una línea modifica tanto el pedido de origen como el de destino.
+        v_ids := ARRAY[OLD.id_pedido, NEW.id_pedido];
     END IF;
 
-    IF v_estado <> 'PENDIENTE' THEN
-        RAISE EXCEPTION 'No se puede editar el detalle del pedido % porque está %', v_id_pedido, v_estado
-            USING ERRCODE = '23514';
-    END IF;
+    -- Orden fijo para que dos traslados no tomen los pedidos en orden inverso.
+    FOR v_id_pedido IN
+        SELECT DISTINCT id FROM unnest(v_ids) AS ids(id) ORDER BY id
+    LOOP
+        SELECT estado INTO v_estado
+        FROM pedido
+        WHERE id_pedido = v_id_pedido
+        FOR SHARE;
+
+        -- FOR SHARE bloquea también UPDATE de estado. FOR KEY SHARE no lo hacía.
+        IF NOT FOUND THEN
+            RAISE EXCEPTION 'El pedido % no existe', v_id_pedido USING ERRCODE = '23503';
+        END IF;
+
+        IF v_estado <> 'PENDIENTE' THEN
+            RAISE EXCEPTION 'No se puede editar el detalle del pedido % porque está %', v_id_pedido, v_estado
+                USING ERRCODE = '23514';
+        END IF;
+    END LOOP;
 
     IF TG_OP = 'DELETE' THEN
         RETURN OLD;
