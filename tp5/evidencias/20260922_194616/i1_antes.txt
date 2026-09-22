@@ -1,0 +1,6 @@
+Seq Scan on producto  (cost=0.00..1209.05 rows=225 width=36) (actual time=2.356..9.880 rows=1 loops=1)
+  Filter: (activo AND (lower((nombre)::text) = 'tp3 producto 12345'::text))
+  Rows Removed by Filter: 50002
+  Buffers: shared hit=459
+Planning Time: 0.129 ms
+Execution Time: 9.898 ms

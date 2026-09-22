@@ -1,0 +1,9 @@
+Bitmap Heap Scan on producto  (cost=10.16..396.55 rows=225 width=36) (actual time=0.014..0.015 rows=1 loops=1)
+  Recheck Cond: ((lower((nombre)::text) = 'tp3 producto 12345'::text) AND activo)
+  Heap Blocks: exact=1
+  Buffers: shared hit=4
+  ->  Bitmap Index Scan on tp5_producto_nombre_activo  (cost=0.00..10.10 rows=225 width=0) (actual time=0.008..0.008 rows=1 loops=1)
+        Index Cond: (lower((nombre)::text) = 'tp3 producto 12345'::text)
+        Buffers: shared hit=3
+Planning Time: 0.065 ms
+Execution Time: 0.024 ms
