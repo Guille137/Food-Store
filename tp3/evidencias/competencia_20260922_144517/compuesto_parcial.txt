@@ -1,0 +1,8 @@
+Limit  (cost=0.41..3.32 rows=50 width=28) (actual time=0.023..0.036 rows=50 loops=1)
+  Buffers: shared hit=6
+  ->  Index Only Scan using tp3_comp_compuesto on producto  (cost=0.41..97.90 rows=1677 width=28) (actual time=0.022..0.032 rows=50 loops=1)
+        Index Cond: ((categoria_id = 1) AND (precio_lista >= '1000'::numeric) AND (precio_lista <= '1500'::numeric))
+        Heap Fetches: 1
+        Buffers: shared hit=6
+Planning Time: 0.120 ms
+Execution Time: 0.051 ms

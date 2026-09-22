@@ -1,0 +1,12 @@
+Limit  (cost=1389.76..1389.89 rows=50 width=28) (actual time=12.036..12.043 rows=50 loops=1)
+  Buffers: shared hit=459
+  ->  Sort  (cost=1389.76..1393.95 rows=1677 width=28) (actual time=12.035..12.038 rows=50 loops=1)
+        Sort Key: precio_lista, id_producto
+        Sort Method: top-N heapsort  Memory: 30kB
+        Buffers: shared hit=459
+        ->  Seq Scan on producto  (cost=0.00..1334.05 rows=1677 width=28) (actual time=0.013..11.404 rows=1672 loops=1)
+              Filter: (activo AND (precio_lista >= '1000'::numeric) AND (precio_lista <= '1500'::numeric) AND (categoria_id = 1))
+              Rows Removed by Filter: 48331
+              Buffers: shared hit=459
+Planning Time: 0.107 ms
+Execution Time: 12.061 ms
