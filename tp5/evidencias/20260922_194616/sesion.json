@@ -2,7 +2,7 @@
   "base": "food_store_tp5_20260922_194616",
   "base_antes": "food_store_tp5_20260922_194616_antes",
   "fuente": "food_store_tp4_20260922_151803",
-  "estado": "preparado",
+  "estado": "verificado",
   "version": "PostgreSQL 17.11 on x86_64-windows, compiled by msvc-19.44.35228, 64-bit",
   "mediciones": {
     "i1_antes": {
@@ -3659,7 +3659,8 @@
     "v2": "backups\\food_store_tp5_20260922_194616_v2.dump",
     "v3": "backups\\food_store_tp5_20260922_194616_v3.dump",
     "materializada": "backups\\food_store_tp5_20260922_194616_materializada.dump",
-    "unico_materializada": "backups\\food_store_tp5_20260922_194616_unico_materializada.dump"
+    "unico_materializada": "backups\\food_store_tp5_20260922_194616_unico_materializada.dump",
+    "verificaciones": "backups\\food_store_tp5_20260922_194616_verificaciones.dump"
   },
   "ddl": {
     "i1": {
@@ -3908,5 +3909,436 @@
         "max_ms": 56.302
       }
     }
-  }
+  },
+  "vistas_base": {
+    "tp5_productos_vigentes": {
+      "diferencias": [
+        0,
+        0
+      ],
+      "filas": 45002,
+      "orden_igual": true,
+      "muestra": [
+        [
+          1,
+          "Muzzarella de prueba",
+          "1000.00",
+          10,
+          1,
+          "Pizzas"
+        ],
+        [
+          3,
+          "Bebida activa de prueba",
+          "900.00",
+          5,
+          2,
+          "Bebidas"
+        ],
+        [
+          4,
+          "TP3 Producto 00001",
+          "537.00",
+          18,
+          1,
+          "Pizzas"
+        ]
+      ]
+    },
+    "tp5_pedidos_clientes": {
+      "diferencias": [
+        0,
+        0
+      ],
+      "filas": 200004,
+      "orden_igual": true,
+      "muestra": [
+        [
+          1,
+          "2026-09-22 14:22:46.786965+00:00",
+          "PENDIENTE",
+          "EFECTIVO",
+          1,
+          "Ana",
+          "Prueba"
+        ],
+        [
+          2,
+          "2026-09-22 14:22:46.786965+00:00",
+          "PENDIENTE",
+          "TARJETA",
+          1,
+          "Ana",
+          "Prueba"
+        ],
+        [
+          3,
+          "2026-09-22 14:22:46.786965+00:00",
+          "PENDIENTE",
+          "TRANSFERENCIA",
+          1,
+          "Ana",
+          "Prueba"
+        ]
+      ]
+    },
+    "tp5_detalles_productos": {
+      "diferencias": [
+        0,
+        0
+      ],
+      "filas": 600000,
+      "orden_igual": true,
+      "muestra": [
+        [
+          4,
+          11,
+          "TP3 Producto 00008",
+          1,
+          "796.00",
+          "796.00"
+        ],
+        [
+          4,
+          112,
+          "TP3 Producto 00109",
+          1,
+          "4533.00",
+          "4533.00"
+        ],
+        [
+          4,
+          213,
+          "TP3 Producto 00210",
+          1,
+          "3769.00",
+          "3769.00"
+        ]
+      ]
+    }
+  },
+  "seguridad": {
+    "rol": "tp5_reportes_20260922_194616",
+    "filas_visibles": 200004,
+    "rechazos": [
+      {
+        "consulta": "SELECT * FROM cliente LIMIT 1",
+        "sqlstate": "42501"
+      },
+      {
+        "consulta": "SELECT * FROM pedido LIMIT 1",
+        "sqlstate": "42501"
+      },
+      {
+        "consulta": "SELECT correo_electronico FROM tp5_pedidos_clientes",
+        "sqlstate": "42703"
+      },
+      {
+        "consulta": "SELECT nro_telefono FROM tp5_pedidos_clientes",
+        "sqlstate": "42703"
+      }
+    ]
+  },
+  "vistas_con_bordes": {
+    "tp5_productos_vigentes": {
+      "diferencias": [
+        0,
+        0
+      ],
+      "filas": 45003,
+      "orden_igual": true,
+      "muestra": [
+        [
+          1,
+          "Muzzarella de prueba",
+          "1000.00",
+          10,
+          1,
+          "Pizzas"
+        ],
+        [
+          3,
+          "Bebida activa de prueba",
+          "900.00",
+          5,
+          2,
+          "Bebidas"
+        ],
+        [
+          4,
+          "TP3 Producto 00001",
+          "537.00",
+          18,
+          1,
+          "Pizzas"
+        ]
+      ]
+    },
+    "tp5_pedidos_clientes": {
+      "diferencias": [
+        0,
+        0
+      ],
+      "filas": 200007,
+      "orden_igual": true,
+      "muestra": [
+        [
+          1,
+          "2026-09-22 14:22:46.786965+00:00",
+          "PENDIENTE",
+          "EFECTIVO",
+          1,
+          "Ana",
+          "Prueba"
+        ],
+        [
+          2,
+          "2026-09-22 14:22:46.786965+00:00",
+          "PENDIENTE",
+          "TARJETA",
+          1,
+          "Ana",
+          "Prueba"
+        ],
+        [
+          3,
+          "2026-09-22 14:22:46.786965+00:00",
+          "PENDIENTE",
+          "TRANSFERENCIA",
+          1,
+          "Ana",
+          "Prueba"
+        ]
+      ]
+    },
+    "tp5_detalles_productos": {
+      "diferencias": [
+        0,
+        0
+      ],
+      "filas": 600004,
+      "orden_igual": true,
+      "muestra": [
+        [
+          4,
+          11,
+          "TP3 Producto 00008",
+          1,
+          "796.00",
+          "796.00"
+        ],
+        [
+          4,
+          112,
+          "TP3 Producto 00109",
+          1,
+          "4533.00",
+          "4533.00"
+        ],
+        [
+          4,
+          213,
+          "TP3 Producto 00210",
+          1,
+          "3769.00",
+          "3769.00"
+        ]
+      ]
+    }
+  },
+  "bordes": {
+    "categoria_activa": 9,
+    "categoria_inactiva": 10,
+    "productos": [
+      50010,
+      50011,
+      50012
+    ],
+    "pedidos": [
+      200017,
+      200018,
+      200019
+    ],
+    "subtotales_historicos": [
+      [
+        "34.00"
+      ],
+      [
+        "34.00"
+      ],
+      [
+        "34.00"
+      ],
+      [
+        "8.00"
+      ]
+    ],
+    "solo_producto_vigente_visible": true,
+    "tres_estados_conservados": true,
+    "pedido_sin_lineas": 0
+  },
+  "frescura": {
+    "sin_refresh_conserva_snapshot": true,
+    "venta_nueva_importe": "34.00",
+    "refresh": "REFRESH MATERIALIZED VIEW",
+    "duracion_ms": 338.41229998506606,
+    "despues": {
+      "diferencias": [
+        0,
+        0
+      ],
+      "filas": 40,
+      "orden_igual": true,
+      "muestra": [
+        [
+          1,
+          "Pizzas",
+          "2025-01-01",
+          3874,
+          "10700224.00"
+        ],
+        [
+          2,
+          "Bebidas",
+          "2025-01-01",
+          3875,
+          "10695720.00"
+        ],
+        [
+          3,
+          "Sin productos",
+          "2025-01-01",
+          3879,
+          "10703333.00"
+        ]
+      ]
+    }
+  },
+  "bordes_y_permisos_revertidos": true,
+  "conteos_finales_categoria_producto_pedido_detalle": [
+    3,
+    50003,
+    200004,
+    600000
+  ],
+  "tamano_objetos": [
+    [
+      "tp5_detalle_precio",
+      24354816
+    ],
+    [
+      "tp5_facturacion_categoria_mes",
+      16384
+    ],
+    [
+      "tp5_facturacion_mensual",
+      8192
+    ],
+    [
+      "tp5_pedido_confirmado_tarjeta",
+      696320
+    ],
+    [
+      "tp5_producto_nombre_activo",
+      1851392
+    ]
+  ],
+  "indices_finales": [
+    [
+      "categoria",
+      "pk_categoria",
+      "CREATE UNIQUE INDEX pk_categoria ON public.categoria USING btree (id_categoria)"
+    ],
+    [
+      "categoria",
+      "uq_categoria_nombre",
+      "CREATE UNIQUE INDEX uq_categoria_nombre ON public.categoria USING btree (nombre)"
+    ],
+    [
+      "cliente",
+      "pk_cliente",
+      "CREATE UNIQUE INDEX pk_cliente ON public.cliente USING btree (id_cliente)"
+    ],
+    [
+      "cliente",
+      "uq_cliente_correo",
+      "CREATE UNIQUE INDEX uq_cliente_correo ON public.cliente USING btree (correo_electronico)"
+    ],
+    [
+      "detalle_pedido",
+      "pk_detalle_pedido",
+      "CREATE UNIQUE INDEX pk_detalle_pedido ON public.detalle_pedido USING btree (id_pedido, id_producto)"
+    ],
+    [
+      "detalle_pedido",
+      "tp3_detalle_producto",
+      "CREATE INDEX tp3_detalle_producto ON public.detalle_pedido USING btree (id_producto) INCLUDE (cantidad, precio_unitario)"
+    ],
+    [
+      "detalle_pedido",
+      "tp4_detalle_pedido_cubierto",
+      "CREATE INDEX tp4_detalle_pedido_cubierto ON public.detalle_pedido USING btree (id_pedido) INCLUDE (id_producto, cantidad, precio_unitario)"
+    ],
+    [
+      "detalle_pedido",
+      "tp5_detalle_precio",
+      "CREATE INDEX tp5_detalle_precio ON public.detalle_pedido USING btree (precio_unitario, id_pedido, id_producto) INCLUDE (cantidad)"
+    ],
+    [
+      "pedido",
+      "idx_pedido_cliente",
+      "CREATE INDEX idx_pedido_cliente ON public.pedido USING btree (cliente_id)"
+    ],
+    [
+      "pedido",
+      "pk_pedido",
+      "CREATE UNIQUE INDEX pk_pedido ON public.pedido USING btree (id_pedido)"
+    ],
+    [
+      "pedido",
+      "tp3_pedido_fecha",
+      "CREATE INDEX tp3_pedido_fecha ON public.pedido USING btree (fecha, id_pedido) INCLUDE (estado, cliente_id)"
+    ],
+    [
+      "pedido",
+      "tp4_pedido_entregado_fecha",
+      "CREATE INDEX tp4_pedido_entregado_fecha ON public.pedido USING btree (fecha, id_pedido) INCLUDE (cliente_id) WHERE (estado = 'ENTREGADO'::estado_pedido)"
+    ],
+    [
+      "pedido",
+      "tp5_pedido_confirmado_tarjeta",
+      "CREATE INDEX tp5_pedido_confirmado_tarjeta ON public.pedido USING btree (fecha, id_pedido) INCLUDE (estado, forma_pago, cliente_id) WHERE ((estado = 'CONFIRMADO'::estado_pedido) AND (forma_pago = 'TARJETA'::forma_pago))"
+    ],
+    [
+      "producto",
+      "idx_producto_categoria",
+      "CREATE INDEX idx_producto_categoria ON public.producto USING btree (categoria_id)"
+    ],
+    [
+      "producto",
+      "pk_producto",
+      "CREATE UNIQUE INDEX pk_producto ON public.producto USING btree (id_producto)"
+    ],
+    [
+      "producto",
+      "tp3_producto_categoria_precio",
+      "CREATE INDEX tp3_producto_categoria_precio ON public.producto USING btree (categoria_id, precio_lista, id_producto) INCLUDE (nombre) WHERE (activo = true)"
+    ],
+    [
+      "producto",
+      "tp5_producto_nombre_activo",
+      "CREATE INDEX tp5_producto_nombre_activo ON public.producto USING btree (lower((nombre)::text)) WHERE activo"
+    ],
+    [
+      "producto",
+      "uq_producto_nombre",
+      "CREATE UNIQUE INDEX uq_producto_nombre ON public.producto USING btree (nombre)"
+    ],
+    [
+      "tp5_facturacion_mensual",
+      "tp5_facturacion_categoria_mes",
+      "CREATE UNIQUE INDEX tp5_facturacion_categoria_mes ON public.tp5_facturacion_mensual USING btree (id_categoria, mes)"
+    ]
+  ],
+  "modelo_sin_cambios": true
 }
