@@ -1,0 +1,51 @@
+Finalize GroupAggregate  (cost=8135.08..8213.86 rows=681 width=57) (actual time=80.417..83.839 rows=3 loops=1)
+  Group Key: ((date_trunc('month'::text, (o.fecha AT TIME ZONE 'UTC'::text)))::date), c.id_categoria
+  Buffers: shared hit=56466
+  ->  Gather Merge  (cost=8135.08..8195.23 rows=401 width=57) (actual time=78.895..83.813 rows=6 loops=1)
+        Workers Planned: 1
+        Workers Launched: 1
+        Buffers: shared hit=56466
+        ->  Partial GroupAggregate  (cost=7135.07..7150.11 rows=401 width=57) (actual time=56.690..58.598 rows=3 loops=2)
+              Group Key: ((date_trunc('month'::text, (o.fecha AT TIME ZONE 'UTC'::text)))::date), c.id_categoria
+              Buffers: shared hit=56466
+              ->  Sort  (cost=7135.07..7136.07 rows=401 width=26) (actual time=55.443..55.884 rows=5757 loops=2)
+                    Sort Key: ((date_trunc('month'::text, (o.fecha AT TIME ZONE 'UTC'::text)))::date), c.id_categoria
+                    Sort Method: quicksort  Memory: 584kB
+                    Buffers: shared hit=56466
+                    Worker 0:  Sort Method: quicksort  Memory: 275kB
+                    ->  Merge Join  (cost=7108.69..7117.73 rows=401 width=26) (actual time=50.951..54.049 rows=5757 loops=2)
+                          Merge Cond: (p.categoria_id = c.id_categoria)
+                          Buffers: shared hit=56454
+                          ->  Sort  (cost=7107.64..7108.64 rows=401 width=21) (actual time=50.471..50.873 rows=5757 loops=2)
+                                Sort Key: p.categoria_id
+                                Sort Method: quicksort  Memory: 502kB
+                                Buffers: shared hit=56452
+                                Worker 0:  Sort Method: quicksort  Memory: 237kB
+                                ->  Nested Loop  (cost=0.71..7090.30 rows=401 width=21) (actual time=5.402..48.352 rows=5757 loops=2)
+                                      Buffers: shared hit=56452
+                                      ->  Nested Loop  (cost=0.42..6951.69 rows=445 width=21) (actual time=4.990..28.212 rows=6168 loops=2)
+                                            Buffers: shared hit=19443
+                                            ->  Parallel Seq Scan on pedido o  (cost=0.00..5294.98 rows=148 width=12) (actual time=4.947..15.994 rows=2056 loops=2)
+                                                  Filter: ((estado = 'ENTREGADO'::estado_pedido) AND (date_trunc('month'::text, (fecha AT TIME ZONE 'UTC'::text)) = '2025-06-01 00:00:00'::timestamp without time zone))
+                                                  Rows Removed by Filter: 97946
+                                                  Buffers: shared hit=2942
+                                            ->  Index Scan using pk_detalle_pedido on detalle_pedido d  (cost=0.42..11.16 rows=3 width=17) (actual time=0.004..0.005 rows=3 loops=4112)
+                                                  Index Cond: (id_pedido = o.id_pedido)
+                                                  Buffers: shared hit=16501
+                                      ->  Index Scan using pk_producto on producto p  (cost=0.29..0.31 rows=1 width=8) (actual time=0.003..0.003 rows=1 loops=12336)
+                                            Index Cond: (id_producto = d.id_producto)
+                                            Filter: activo
+                                            Rows Removed by Filter: 0
+                                            Buffers: shared hit=37009
+                          ->  Sort  (cost=1.05..1.06 rows=3 width=13) (actual time=0.473..0.474 rows=3 loops=2)
+                                Sort Key: c.id_categoria
+                                Sort Method: quicksort  Memory: 25kB
+                                Buffers: shared hit=2
+                                Worker 0:  Sort Method: quicksort  Memory: 25kB
+                                ->  Seq Scan on categoria c  (cost=0.00..1.03 rows=3 width=13) (actual time=0.458..0.459 rows=3 loops=2)
+                                      Filter: activo
+                                      Buffers: shared hit=2
+Planning:
+  Buffers: shared hit=40
+Planning Time: 0.745 ms
+Execution Time: 84.142 ms
