@@ -1,0 +1,42 @@
+Limit  (cost=4363.48..4363.49 rows=5 width=45) (actual time=117.947..117.951 rows=5 loops=1)
+  Buffers: shared hit=920
+  ->  Sort  (cost=4363.48..4363.55 rows=30 width=45) (actual time=117.946..117.949 rows=5 loops=1)
+        Sort Key: (sum(((dp.cantidad)::numeric * dp.precio_unitario))) DESC, c.nombre
+        Sort Method: top-N heapsort  Memory: 25kB
+        Buffers: shared hit=920
+        ->  HashAggregate  (cost=4362.60..4362.98 rows=30 width=45) (actual time=117.920..117.931 rows=30 loops=1)
+              Group Key: c.nombre
+              Batches: 1  Memory Usage: 32kB
+              Buffers: shared hit=920
+              ->  Hash Join  (cost=1144.17..3762.60 rows=60000 width=22) (actual time=30.290..91.603 rows=60000 loops=1)
+                    Hash Cond: (pr.categoria_id = c.id_categoria)
+                    Buffers: shared hit=920
+                    ->  Hash Join  (cost=1142.50..3581.18 rows=60000 width=13) (actual time=30.243..79.579 rows=60000 loops=1)
+                          Hash Cond: (dp.id_producto = pr.id_producto)
+                          Buffers: shared hit=919
+                          ->  Hash Join  (cost=1123.00..3403.07 rows=60000 width=13) (actual time=30.013..65.885 rows=60000 loops=1)
+                                Hash Cond: (dp.id_pedido = ped.id_pedido)
+                                Buffers: shared hit=913
+                                ->  Seq Scan on detalle_pedido dp  (cost=0.00..1965.00 rows=120000 width=17) (actual time=0.013..7.902 rows=120000 loops=1)
+                                      Buffers: shared hit=765
+                                ->  Hash  (cost=998.00..998.00 rows=10000 width=4) (actual time=29.978..29.978 rows=10000 loops=1)
+                                      Buckets: 16384  Batches: 1  Memory Usage: 480kB
+                                      Buffers: shared hit=148
+                                      ->  Seq Scan on pedido ped  (cost=0.00..998.00 rows=10000 width=4) (actual time=0.025..27.518 rows=10000 loops=1)
+                                            Filter: ((fecha >= ((((CURRENT_TIMESTAMP AT TIME ZONE 'America/Argentina/Buenos_Aires'::text))::date)::timestamp without time zone AT TIME ZONE 'America/Argentina/Buenos_Aires'::text)) AND (fecha < (((((CURRENT_TIMESTAMP AT TIME ZONE 'America/Argentina/Buenos_Aires'::text))::date + 1))::timestamp without time zone AT TIME ZONE 'America/Argentina/Buenos_Aires'::text)))
+                                            Rows Removed by Filter: 10000
+                                            Buffers: shared hit=148
+                          ->  Hash  (cost=12.00..12.00 rows=600 width=8) (actual time=0.225..0.226 rows=600 loops=1)
+                                Buckets: 1024  Batches: 1  Memory Usage: 32kB
+                                Buffers: shared hit=6
+                                ->  Seq Scan on producto pr  (cost=0.00..12.00 rows=600 width=8) (actual time=0.011..0.112 rows=600 loops=1)
+                                      Buffers: shared hit=6
+                    ->  Hash  (cost=1.30..1.30 rows=30 width=17) (actual time=0.040..0.040 rows=30 loops=1)
+                          Buckets: 1024  Batches: 1  Memory Usage: 10kB
+                          Buffers: shared hit=1
+                          ->  Seq Scan on categoria c  (cost=0.00..1.30 rows=30 width=17) (actual time=0.028..0.032 rows=30 loops=1)
+                                Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=24
+Planning Time: 0.918 ms
+Execution Time: 118.105 ms

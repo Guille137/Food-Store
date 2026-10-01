@@ -1,0 +1,8 @@
+Limit  (cost=0.15..1.57 rows=5 width=20) (actual time=0.027..0.028 rows=5 loops=1)
+  Buffers: shared hit=3
+  ->  Index Only Scan using u4_ventas_top on ventas_categoria_diaria  (cost=0.15..8.67 rows=30 width=20) (actual time=0.026..0.027 rows=5 loops=1)
+        Index Cond: (fecha = ((CURRENT_TIMESTAMP AT TIME ZONE 'America/Argentina/Buenos_Aires'::text))::date)
+        Heap Fetches: 5
+        Buffers: shared hit=3
+Planning Time: 0.162 ms
+Execution Time: 0.047 ms

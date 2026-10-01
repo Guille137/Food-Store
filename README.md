@@ -34,3 +34,6 @@ La [reproducción del integrador](tpi/README.md#reproducción-desde-cero) crea u
 | [TP5](tp5/README.md) | Índices, costo de escritura, vistas, permisos y materialización |
 
 Los scripts nuevos del TPI están en `tpi/`; reutilizan el esquema y los archivos anteriores sin reescribir su historial. Los respaldos binarios, credenciales y guías personales no forman parte de la entrega.
+## Unidad 4
+
+[FNBC y desnormalización controlada](tpUnidad4/README.md): informe PDF, scripts de lotes y reporte diario, verificación y evidencias. 
