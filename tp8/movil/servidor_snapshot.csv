@@ -1,0 +1,4 @@
+id,nombre,precio_centavos,stock,disponible,eliminado
+1,Muzzarella de prueba,110000,10,f,t
+2,Bebida inactiva de prueba,80000,10,f,t
+3,Bebida activa de prueba,90000,5,t,f
