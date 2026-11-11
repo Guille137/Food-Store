@@ -1,3 +1,12 @@
 backups/*.dump
 __pycache__/
 .venv/
+# Segunda entrega: respaldos y registros generados al ejecutar el plan de mantenimiento
+tpi2/evidencias/**/respaldos/
+tpi2/evidencias/**/registros/
+tpi2/u6/respaldos/
+tpi2/u6/registros/
+*.ndjson
+tpi2/evidencias/**/*.db
+tpi2/evidencias/**/*.db-wal
+tpi2/evidencias/**/*.db-shm
