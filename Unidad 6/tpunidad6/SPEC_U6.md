@@ -1,5 +1,7 @@
 # SPEC_U6 - Mantenimiento, respaldo y recuperación
 
+**Grupo:** Victoria Guzman, Daniela Sosa, Octavio Skumanic, Sebastián Vivanco, Guillermo Sanchez
+
 ## Entorno y alcance
 
 - Motor: PostgreSQL local.

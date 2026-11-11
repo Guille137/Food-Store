@@ -49,8 +49,8 @@ Cada hallazgo se comprobó ejecutando el caso (o leyendo el código cuando la ej
 
 ## Firma del equipo
 
-- [ ] Octavio Skumanic
-- [ ] Sebastián Vivanco
 - [ ] Victoria Guzman
 - [ ] Daniela Sosa
+- [ ] Octavio Skumanic
+- [ ] Sebastián Vivanco
 - [ ] Guillermo Sanchez

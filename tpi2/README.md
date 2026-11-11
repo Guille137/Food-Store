@@ -1,6 +1,6 @@
 # Segunda entrega del TPI — Food Store (Unidades 4 a 8)
 
-**Grupo:** Octavio Skumanic, Sebastián Vivanco, Victoria Guzman, Daniela Sosa, Guillermo Sanchez
+**Grupo:** Victoria Guzman, Daniela Sosa, Octavio Skumanic, Sebastián Vivanco, Guillermo Sanchez
 
 Capa de datos completa del proyecto: relacional (PostgreSQL 17.11), documental (MongoDB 8.0.15) y móvil (SQLite 3.43), con specs, scripts versionados, plan de mantenimiento y bitácora de IA.
 

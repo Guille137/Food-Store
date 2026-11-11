@@ -1,5 +1,7 @@
 # TP2 — Integridad, transacciones y concurrencia
 
+**Grupo:** Victoria Guzman, Daniela Sosa, Octavio Skumanic, Sebastián Vivanco, Guillermo Sanchez
+
 Trabajo práctico 2: integridad, transacciones, concurrencia y lectura crítica de SQL. Resolución y evidencia ejecutada en PostgreSQL 17.11 sobre Windows.
 
 ## Entregables

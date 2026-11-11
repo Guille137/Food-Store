@@ -1,5 +1,7 @@
 # TP3 — Optimización de consultas sobre Food Store
 
+**Grupo:** Victoria Guzman, Daniela Sosa, Octavio Skumanic, Sebastián Vivanco, Guillermo Sanchez
+
 Las cinco partes están desarrolladas y verificadas sobre el mismo proyecto Food Store de los TP anteriores. Se usan schema.sql, datos_iniciales.sql y las restricciones del TP2, documentando su correspondencia con los nombres de referencia del PDF. La Parte 5 desarrolla el ejemplo de productos por categoría, precio y orden indicado en la consigna.
 
 ## Resolución

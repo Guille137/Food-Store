@@ -1,5 +1,7 @@
 # TP5 — Índices y vistas de Food Store
 
+**Grupo:** Victoria Guzman, Daniela Sosa, Octavio Skumanic, Sebastián Vivanco, Guillermo Sanchez
+
 Continuación del mismo repositorio y la base masiva de TP3/TP4. Contiene tres índices medidos, tres vistas verificadas y una vista materializada con refresco concurrente. Se conservan las tablas y restricciones. Las mediciones registradas corresponden a PostgreSQL 17.11 del 22/09/2026.
 
 | Entregable | Archivo |

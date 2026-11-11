@@ -1,6 +1,6 @@
 # Unidad 4 — FNBC y desnormalización controlada
 
-Grupo: Octavio Skumanic, Sebastián Vivanco, Victoria Guzman, Daniela Sosa, Guillermo Sanchez
+Grupo: Victoria Guzman, Daniela Sosa, Octavio Skumanic, Sebastián Vivanco, Guillermo Sanchez
 
 Esta carpeta corresponde a la **Unidad 4**. `tp4/` conserva el TP anterior de optimización y no se reemplaza.
 

@@ -1,5 +1,7 @@
 # TP4 — Reportes analíticos sobre Food Store
 
+**Grupo:** Victoria Guzman, Daniela Sosa, Octavio Skumanic, Sebastián Vivanco, Guillermo Sanchez
+
 Continuación del mismo proyecto y la base masiva del TP3. Las cuatro partes están desarrolladas, con planes reales, intentos aceptados y descartados, equivalencia comprobada y DUIA. Se incluyen únicamente entregables y archivos necesarios para reproducirlos.
 
 | Parte | Entregables |

@@ -1,6 +1,6 @@
 # Informe técnico — Segunda entrega del TPI Food Store
 
-**Grupo:** Octavio Skumanic, Sebastián Vivanco, Victoria Guzman, Daniela Sosa, Guillermo Sanchez
+**Grupo:** Victoria Guzman, Daniela Sosa, Octavio Skumanic, Sebastián Vivanco, Guillermo Sanchez
 
 **Base de Datos II · Unidades 4 a 8 · 10/11/2026** — **Motores:** PostgreSQL 17.11 (PL/pgSQL), MongoDB 8.0.15, SQLite 3.43
 

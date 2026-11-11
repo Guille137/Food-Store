@@ -1,6 +1,6 @@
 # Informe técnico — Parcial 1 - TPI
 
-**Grupo: Octavio Skumanic, Sebastián Vivanco, Victoria Guzman, Daniela Sosa, Guillermo Sanchez**
+**Grupo: Victoria Guzman, Daniela Sosa, Octavio Skumanic, Sebastián Vivanco, Guillermo Sanchez**
 
 **Base de Datos II · Food Store · 22/09/2026**
 

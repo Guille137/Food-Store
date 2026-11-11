@@ -1,6 +1,6 @@
 # Declaración de Uso de IA (DUIA) — Segunda entrega
 
-**Grupo:** Octavio Skumanic, Sebastián Vivanco, Victoria Guzman, Daniela Sosa, Guillermo Sanchez
+**Grupo:** Victoria Guzman, Daniela Sosa, Octavio Skumanic, Sebastián Vivanco, Guillermo Sanchez
 
 ## Herramientas
 

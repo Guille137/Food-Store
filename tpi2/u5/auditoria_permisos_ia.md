@@ -45,8 +45,8 @@
 
 Las decisiones de esta tabla se tomaron sobre la evidencia indicada. Antes de la defensa, cada integrante debe haberlas leído y poder explicarlas.
 
-- [ ] Octavio Skumanic
-- [ ] Sebastián Vivanco
 - [ ] Victoria Guzman
 - [ ] Daniela Sosa
+- [ ] Octavio Skumanic
+- [ ] Sebastián Vivanco
 - [ ] Guillermo Sanchez

@@ -1,5 +1,7 @@
 # TP8 — Food Store en la feria
 
+**Grupo:** Victoria Guzman, Daniela Sosa, Octavio Skumanic, Sebastián Vivanco, Guillermo Sanchez
+
 SQLite conserva el catálogo copiado y los borradores; PostgreSQL sigue siendo la fuente de verdad. `SIMULADO_APROBADO` indica que los datos coinciden con la instantánea: no crea una venta.
 
 ## Contenido de la entrega

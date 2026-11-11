@@ -1,6 +1,6 @@
 # Parcial 1 - TPI — Food Store
 
-**Grupo: Octavio Skumanic, Sebastián Vivanco, Victoria Guzman, Daniela Sosa, Guillermo Sanchez**
+**Grupo: Victoria Guzman, Daniela Sosa, Octavio Skumanic, Sebastián Vivanco, Guillermo Sanchez**
 
 **Materia:** Base de Datos II. **Alcance:** unidades 1, 2 y 3. **Motor utilizado:** PostgreSQL 17.11, compatible con el mínimo 16+ solicitado.
 

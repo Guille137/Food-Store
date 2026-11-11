@@ -1,6 +1,16 @@
 # Food Store — Base de Datos II
 
-**Grupo: Octavio Skumanic, Sebastián Vivanco, Victoria Guzman, Daniela Sosa, Guillermo Sanchez**
+## Integrantes del grupo
+
+| # | Integrante |
+|---|---|
+| 1 | Victoria Guzman |
+| 2 | Daniela Sosa |
+| 3 | Octavio Skumanic |
+| 4 | Sebastián Vivanco |
+| 5 | Guillermo Sanchez |
+
+Materia: **Base de Datos II** · Tecnicatura Universitaria en Programación · Ciclo lectivo 2026
 
 ## Segunda entrega del TPI · Unidades 4 a 8
 
