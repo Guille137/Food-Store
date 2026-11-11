@@ -1,0 +1,70 @@
+{
+  "fecha": "2026-11-10 20:49:55",
+  "base": "food_store_tpi2_20261110_204915",
+  "respaldo_utilizado": "food_store_tpi2_20261110_204915_20261110_204939.dump",
+  "respaldo_bytes": 220543,
+  "respaldo_termino": "2026-11-10 20:49:43",
+  "rto_objetivo_segundos": 900,
+  "rto_observado_segundos": 7.94,
+  "rpo_objetivo_segundos": 86400,
+  "rpo_observado_segundos": 11.9,
+  "fases_restauracion_segundos": {
+    "verificar_archivo": 0.168,
+    "restaurar": 4.188,
+    "estadisticas": 1.049,
+    "integridad": 1.042
+  },
+  "pedidos_antes_del_desastre": 2401,
+  "pedidos_tras_restaurar": 2398,
+  "pedidos_perdidos": 3,
+  "cambio_de_precio_perdido": {
+    "antes_del_desastre": "1850.00",
+    "tras_restaurar": "1750.00"
+  },
+  "rastro_en_log_del_servidor": {
+    "cambio_de_precio": true,
+    "pedidos": false
+  },
+  "linea_de_tiempo": [
+    {
+      "t_segundos": 0.28,
+      "hito": "DESASTRE: la base fue eliminada (DROP DATABASE)"
+    },
+    {
+      "t_segundos": 0.47,
+      "hito": "Detección: la aplicación no puede conectarse"
+    },
+    {
+      "t_segundos": 7.33,
+      "hito": "  fase verificar_archivo: 0.168 s"
+    },
+    {
+      "t_segundos": 7.33,
+      "hito": "  fase restaurar: 4.188 s"
+    },
+    {
+      "t_segundos": 7.33,
+      "hito": "  fase estadisticas: 1.049 s"
+    },
+    {
+      "t_segundos": 7.33,
+      "hito": "  fase integridad: 1.042 s"
+    },
+    {
+      "t_segundos": 7.33,
+      "hito": "Base restaurada desde el último respaldo e integridad verificada"
+    },
+    {
+      "t_segundos": 7.52,
+      "hito": "Contenido comparado con la huella tomada al respaldar"
+    },
+    {
+      "t_segundos": 7.67,
+      "hito": "Permisos verificados contra la matriz"
+    },
+    {
+      "t_segundos": 7.94,
+      "hito": "Prueba de humo: la aplicación lee el catálogo y registra un pedido"
+    }
+  ]
+}

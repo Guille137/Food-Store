@@ -1,0 +1,32 @@
+Claves que ahora hacen cumplir las dependencias funcionales
+   tabla    |        restriccion         |                                     definicion                                      
+------------+----------------------------+-------------------------------------------------------------------------------------
+ zona       | zona_nombre_key            | UNIQUE (nombre)
+ zona       | zona_pkey                  | PRIMARY KEY (id_zona)
+ repartidor | repartidor_pkey            | PRIMARY KEY (id_repartidor)
+ repartidor | repartidor_zona_id_fkey    | FOREIGN KEY (zona_id) REFERENCES zona(id_zona) ON DELETE RESTRICT
+ entrega    | entrega_pkey               | PRIMARY KEY (id_pedido)
+ entrega    | entrega_id_pedido_fkey     | FOREIGN KEY (id_pedido) REFERENCES pedido(id_pedido) ON DELETE RESTRICT
+ entrega    | entrega_repartidor_id_fkey | FOREIGN KEY (repartidor_id) REFERENCES repartidor(id_repartidor) ON DELETE RESTRICT
+(7 rows)
+
+Renglones en cuarentena (no migrables, conservados con su motivo)
+ nro_planilla | renglon | cliente_email |        producto         |                                  motivo                                   
+--------------+---------+---------------+-------------------------+---------------------------------------------------------------------------
+         1111 |       1 |               | ENSALADA VARIEDAD 03    | Planilla sin correo de cliente, fecha, forma de pago o estado reconocible
+         1222 |       1 |               | Hamburguesa variedad 01 | Planilla sin correo de cliente, fecha, forma de pago o estado reconocible
+(2 rows)
+
+Valores del legado no trasladados
+ entidad |         clave          | atributo |    valor_legado     |  valor_conservado   |                              regla                              
+---------+------------------------+----------+---------------------+---------------------+-----------------------------------------------------------------
+ cliente | legado100@example.test | telefono | +54 9 351 5555-0100 | +54 9 351 5555-9100 | Cliente nuevo: se conserva el teléfono de la venta más reciente
+ cliente | legado60@example.test  | telefono | +54 9 351 5555-0060 | +54 9 351 5555-9060 | Cliente nuevo: se conserva el teléfono de la venta más reciente
+(2 rows)
+
+Desnormalización controlada: fuente normalizada vs materializada (0 filas = sincronizadas)
+ diferencias 
+-------------
+           0
+(1 row)
+

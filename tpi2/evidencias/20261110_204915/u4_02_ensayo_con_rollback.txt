@@ -1,0 +1,86 @@
+BEGIN
+SET
+LOCK TABLE
+LOCK TABLE
+CREATE SCHEMA
+COMMENT
+CREATE TABLE
+INSERT 0 1
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE INDEX
+CREATE INDEX
+INSERT 0 2
+SELECT 817
+DO
+INSERT 0 1
+INSERT 0 7
+INSERT 0 20
+INSERT 0 70
+INSERT 0 0
+SELECT 117
+INSERT 0 58
+INSERT 0 59
+INSERT 0 2
+INSERT 0 0
+INSERT 0 4
+INSERT 0 6
+INSERT 0 398
+INSERT 0 398
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+INSERT 0 807
+ALTER TABLE
+ALTER TABLE
+UPDATE 32
+UPDATE 366
+UPDATE 366
+INSERT 0 366
+DO
+ pedidos_migrados | clientes_nuevos | productos_nuevos | categorias_nuevas | repartidores | renglones_en_cuarentena | discrepancias 
+------------------+-----------------+------------------+-------------------+--------------+-------------------------+---------------
+              398 |              58 |               20 |                 1 |            6 |                       2 |             2
+(1 row)
+
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+--- Control 1: renglones del legado = migrados + cuarentena
+ renglones_legado | renglones_migrados | renglones_cuarentena 
+------------------+--------------------+----------------------
+              819 |                817 |                    2
+(1 row)
+
+--- Control 2: importes
+ importe_legado | importe_migrado 
+----------------+-----------------
+     4488032.00 |      4488032.00
+(1 row)
+
+--- Control 3: diferencias fila a fila (debe devolver 0 filas)
+ problema | nro_planilla | fecha | email | producto | precio_unit | cantidad | forma_pago | estado | legajo | repartidor | zona 
+----------+--------------+-------+-------+----------+-------------+----------+------------+--------+--------+------------+------
+(0 rows)
+
+--- Control 4: salvaguarda de la desnormalización Unidad 4 (debe devolver 0 filas)
+ fecha | id_categoria | categoria | total_vendido 
+-------+--------------+-----------+---------------
+(0 rows)
+
+--- Control 5: valores del legado no trasladados, con su regla
+ entidad | atributo |                              regla                              | casos 
+---------+----------+-----------------------------------------------------------------+-------
+ cliente | telefono | Cliente nuevo: se conserva el teléfono de la venta más reciente |     2
+(1 row)
+
+psql:tpi2/u4/04_verificar_migracion.sql:122: NOTICE:  MIGRACION VERIFICADA: 819 renglones (817 migrados, 2 en cuarentena), importe 4488032.00
+DO
+ROLLBACK

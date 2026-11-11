@@ -1,0 +1,12 @@
+BEGIN
+SET
+CREATE TABLE
+CREATE FUNCTION
+CREATE TABLE
+RESET
+ soporte_lee_tabla_nueva | app_lee_tabla_nueva | public_ejecuta_funcion_nueva | reportes_lee_anon_nuevo 
+-------------------------+---------------------+------------------------------+-------------------------
+ f                       | f                   | f                            | t
+(1 row)
+
+ROLLBACK

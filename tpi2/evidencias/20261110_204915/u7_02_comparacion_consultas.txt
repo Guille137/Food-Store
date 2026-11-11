@@ -1,0 +1,40 @@
+Mediana de 30 ejecuciones medida dentro de cada motor (sin red ni arranque del cliente).
+Documentos en la colección: 2398
+
+consulta                       coinciden PostgreSQL ms  MongoDB ms  plan MongoDB
+c1_pedido_completo             SÍ                0.392       1.745  EXPRESS_IXSCAN(_id_) (examinó 1 docs)
+c2_pedidos_por_estado          SÍ                3.009       3.777  GROUP <- COLLSCAN (examinó 2398 docs)
+c3_pedidos_con_producto        SÍ                0.179       2.635  SORT <- PROJECTION_SIMPLE <- FETCH <- IXSCAN(lineas_producto) (examinó 76 docs)
+c4_entregados_total_alto       SÍ                6.609      10.561  SORT <- PROJECTION_SIMPLE <- FETCH <- IXSCAN(estado_fecha) (examinó 1785 docs)
+c5_facturacion_categoria_mes   SÍ               13.467      20.387  PROJECTION_SIMPLE <- FETCH <- IXSCAN(estado_fecha) (examinó 1785 docs)
+c6_top_clientes                SÍ                6.257       7.041  GROUP <- FETCH <- IXSCAN(estado_fecha) (examinó 1785 docs)
+c7_historial_cliente           SÍ                0.432       1.777  PROJECTION_SIMPLE <- FETCH <- IXSCAN(cliente_fecha) (examinó 12 docs)
+c8_ticket_por_forma_pago       SÍ                6.718        7.03  GROUP <- FETCH <- IXSCAN(estado_fecha) (examinó 2172 docs)
+
+Planes PostgreSQL de C1 y C3
+                                             QUERY PLAN                                              
+-----------------------------------------------------------------------------------------------------
+ Nested Loop (actual rows=1 loops=1)
+   ->  Nested Loop (actual rows=1 loops=1)
+         ->  Index Scan using pk_pedido on pedido p (actual rows=1 loops=1)
+               Index Cond: (id_pedido = 1500)
+         ->  Index Only Scan using pk_cliente on cliente c (actual rows=1 loops=1)
+               Index Cond: (id_cliente = p.cliente_id)
+               Heap Fetches: 1
+   ->  Index Only Scan using tp4_detalle_pedido_cubierto on detalle_pedido d (actual rows=1 loops=1)
+         Index Cond: (id_pedido = 1500)
+         Heap Fetches: 0
+(10 rows)
+
+                                   QUERY PLAN                                   
+--------------------------------------------------------------------------------
+ Sort (actual rows=76 loops=1)
+   Sort Key: id_pedido
+   Sort Method: quicksort  Memory: 25kB
+   ->  Bitmap Heap Scan on detalle_pedido (actual rows=76 loops=1)
+         Recheck Cond: (id_producto = 1)
+         Heap Blocks: exact=35
+         ->  Bitmap Index Scan on tp3_detalle_producto (actual rows=76 loops=1)
+               Index Cond: (id_producto = 1)
+(8 rows)
+

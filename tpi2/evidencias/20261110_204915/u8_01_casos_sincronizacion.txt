@@ -1,0 +1,26 @@
+C0   OK     La instantánea no contiene datos personales
+            columnas: id, nombre, categoria, precio_centavos, stock, disponible, eliminado
+C11  OK     SQLite rechaza datos inválidos (CHECK, FK, STRICT)
+            5/5 inserciones inválidas rechazadas: cantidad 0, producto inexistente, uuid mal formado, forma de pago inexistente, texto en columna INTEGER
+C9   OK     Un borrador vacío no puede encolarse
+C10  OK     Una instantánea vacía no reemplaza el catálogo
+            catálogo intacto: 68 productos
+C1   OK     Sin conexión el catálogo local sigue consultable
+            descarga fallida, 68 productos visibles
+C7   OK     Sin conexión las solicitudes quedan pendientes y no se pierden
+            4 pendientes; la primera falló por red y la sincronización se detuvo; el servidor no recibió nada
+C5   OK     Pedido sin cambios: el servidor lo aplica
+            pedido 3595 CONFIRMADO; stock de 3: 258 -> 256
+C3   OK     Stock insuficiente: rechazado y sin efectos
+            [{"motivo": "STOCK_INSUFICIENTE", "pedido": 140, "producto_id": 5, "stock_actual": 139}]
+C4   OK     Producto dado de baja después de copiar el catálogo: rechazado
+            [{"motivo": "PRODUCTO_DADO_DE_BAJA", "producto_id": 2}]
+C2   OK     Precio cambiado en el servidor: conflicto detectado
+            [{"motivo": "PRECIO_CAMBIADO", "producto_id": 1, "precio_centavos_visto": 150000, "precio_centavos_actual": 165000}]
+C2   OK     Conflicto resuelto: precio del servidor aceptado y pedido aplicado
+            visto 1500.00, vendido 1650.00; solicitud original conserva CONFLICTO
+C4   OK     La baja llega como lápida: oculta del catálogo, fila conservada
+C6   OK     Respuesta perdida y reenvío del mismo UUID: una sola venta
+            2 envíos, 1 pedido (3597); el servidor contestó duplicada=true
+C8   OK     Dos tablets por las últimas unidades: una aplica, la otra espera y es rechazada
+            tablet-01 APLICADO, tablet-02 RECHAZADO tras esperar 1.48 s el bloqueo; stock final 1

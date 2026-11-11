@@ -1,0 +1,87 @@
+Consulta sobre la tabla REAL (public.usuario)
+ rol_aplicacion |  mes_alta  | usuarios | activos 
+----------------+------------+----------+---------
+ ADMIN          | 2026-02-01 |        1 |       1
+ ADMIN          | 2026-03-01 |        1 |       1
+ ADMIN          | 2026-05-01 |        1 |       1
+ ADMIN          | 2026-06-01 |        1 |       1
+ ADMIN          | 2026-07-01 |        1 |       1
+ ADMIN          | 2026-09-01 |        1 |       1
+ REPORTES       | 2026-01-01 |        1 |       1
+ REPORTES       | 2026-02-01 |        1 |       1
+ REPORTES       | 2026-03-01 |        1 |       1
+ REPORTES       | 2026-04-01 |        1 |       1
+ REPORTES       | 2026-06-01 |        1 |       1
+ REPORTES       | 2026-07-01 |        1 |       1
+ REPORTES       | 2026-08-01 |        1 |       1
+ SOPORTE        | 2026-01-01 |        1 |       1
+ SOPORTE        | 2026-03-01 |        1 |       1
+ SOPORTE        | 2026-04-01 |        1 |       1
+ SOPORTE        | 2026-06-01 |        1 |       1
+ SOPORTE        | 2026-07-01 |        1 |       0
+ SOPORTE        | 2026-08-01 |        1 |       1
+ SOPORTE        | 2026-10-01 |        1 |       1
+ VENTAS         | 2026-01-01 |        2 |       2
+ VENTAS         | 2026-02-01 |        2 |       2
+ VENTAS         | 2026-03-01 |        2 |       2
+ VENTAS         | 2026-04-01 |        2 |       1
+ VENTAS         | 2026-05-01 |        3 |       3
+ VENTAS         | 2026-06-01 |        2 |       2
+ VENTAS         | 2026-07-01 |        1 |       1
+ VENTAS         | 2026-08-01 |        3 |       3
+ VENTAS         | 2026-09-01 |        3 |       3
+(29 rows)
+
+Consulta equivalente sobre la copia ANONIMA (anon.usuario_anon)
+ rol_aplicacion |  mes_alta  | usuarios | activos 
+----------------+------------+----------+---------
+ ADMIN          | 2026-02-01 |        1 |       1
+ ADMIN          | 2026-03-01 |        1 |       1
+ ADMIN          | 2026-05-01 |        1 |       1
+ ADMIN          | 2026-06-01 |        1 |       1
+ ADMIN          | 2026-07-01 |        1 |       1
+ ADMIN          | 2026-09-01 |        1 |       1
+ REPORTES       | 2026-01-01 |        1 |       1
+ REPORTES       | 2026-02-01 |        1 |       1
+ REPORTES       | 2026-03-01 |        1 |       1
+ REPORTES       | 2026-04-01 |        1 |       1
+ REPORTES       | 2026-06-01 |        1 |       1
+ REPORTES       | 2026-07-01 |        1 |       1
+ REPORTES       | 2026-08-01 |        1 |       1
+ SOPORTE        | 2026-01-01 |        1 |       1
+ SOPORTE        | 2026-03-01 |        1 |       1
+ SOPORTE        | 2026-04-01 |        1 |       1
+ SOPORTE        | 2026-06-01 |        1 |       1
+ SOPORTE        | 2026-07-01 |        1 |       0
+ SOPORTE        | 2026-08-01 |        1 |       1
+ SOPORTE        | 2026-10-01 |        1 |       1
+ VENTAS         | 2026-01-01 |        2 |       2
+ VENTAS         | 2026-02-01 |        2 |       2
+ VENTAS         | 2026-03-01 |        2 |       2
+ VENTAS         | 2026-04-01 |        2 |       1
+ VENTAS         | 2026-05-01 |        3 |       3
+ VENTAS         | 2026-06-01 |        2 |       2
+ VENTAS         | 2026-07-01 |        1 |       1
+ VENTAS         | 2026-08-01 |        3 |       3
+ VENTAS         | 2026-09-01 |        3 |       3
+(29 rows)
+
+Diferencias entre ambas (0 filas = equivalentes)
+ origen | rol_aplicacion | mes_alta | usuarios | activos 
+--------+----------------+----------+----------+---------
+(0 rows)
+
+Los seudónimos son uno a uno
+ clientes_reales | seudonimos_distintos | pedidos_enlazados | pedidos_reales 
+-----------------+----------------------+-------------------+----------------
+             360 |                  360 |              2398 |           2398
+(1 row)
+
+Muestra de lo que ve un analista (ningún dato identificable)
+   usuario_anon   |          correo_anon          | rol_aplicacion | activo |  mes_alta  
+------------------+-------------------------------+----------------+--------+------------
+ usr_06e7efd327cf | usr_06e7efd327cf@anon.invalid | REPORTES       | t      | 2026-08-01
+ usr_0a58d06f2edd | usr_0a58d06f2edd@anon.invalid | ADMIN          | t      | 2026-07-01
+ usr_0a638716735a | usr_0a638716735a@anon.invalid | VENTAS         | t      | 2026-05-01
+(3 rows)
+

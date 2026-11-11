@@ -1,0 +1,89 @@
+CREATE TABLE
+INSERT 0 6
+INSERT 0 6
+INSERT 0 29
+INSERT 0 25
+INSERT 0 6
+INSERT 0 3
+CREATE VIEW
+CREATE VIEW
+=== Roles (equivalente a \du) ===
+        rol        |                      atributos                       |           miembro_de           
+-------------------+------------------------------------------------------+--------------------------------
+ fs_owner          | sin login                                            | -
+ rol_admin_datos   | sin login                                            | rol_app_escritura, rol_soporte
+ rol_app_escritura | sin login                                            | rol_app_lectura
+ rol_app_lectura   | sin login                                            | -
+ rol_auditor       | sin login                                            | -
+ rol_reportes      | sin login                                            | -
+ rol_respaldo      | sin login                                            | pg_read_all_data
+ rol_soporte       | sin login                                            | -
+ rol_sync_movil    | sin login                                            | -
+ admin_datos       | LOGIN                                                | rol_admin_datos
+ analista_01       | LOGIN                                                | rol_reportes
+ app_web           | LOGIN                                                | rol_app_escritura
+ auditor_01        | LOGIN                                                | rol_auditor
+ operador_respaldo | LOGIN                                                | rol_respaldo
+ postgres          | LOGIN, SUPERUSUARIO, CREATEROLE, CREATEDB, BYPASSRLS | -
+ soporte_01        | LOGIN                                                | rol_soporte
+ tablet_feria      | LOGIN                                                | rol_sync_movil
+(17 rows)
+
+=== Privilegios de tabla (information_schema.role_table_grants) ===
+        rol        |                objeto                |  privilegios   
+-------------------+--------------------------------------+----------------
+ rol_admin_datos   | public.categoria                     | INSERT
+ rol_admin_datos   | public.producto                      | INSERT
+ rol_app_escritura | public.cliente                       | INSERT, SELECT
+ rol_app_escritura | public.detalle_pedido                | SELECT
+ rol_app_escritura | public.pedido                        | SELECT
+ rol_app_lectura   | public.categoria                     | SELECT
+ rol_app_lectura   | public.producto                      | SELECT
+ rol_app_lectura   | public.tp5_productos_vigentes        | SELECT
+ rol_auditor       | auditoria.intento_login              | SELECT
+ rol_auditor       | auditoria.registro                   | SELECT
+ rol_auditor       | auditoria.v_actividad_por_rol        | SELECT
+ rol_auditor       | auditoria.v_alerta_fuerza_bruta      | SELECT
+ rol_reportes      | public.tp5_detalles_productos        | SELECT
+ rol_reportes      | public.tp5_productos_vigentes        | SELECT
+ rol_reportes      | unidad4.top_categorias_materializado | SELECT
+ rol_soporte       | public.categoria                     | SELECT
+ rol_soporte       | public.cliente                       | SELECT
+ rol_soporte       | public.detalle_pedido                | SELECT
+ rol_soporte       | public.entrega                       | SELECT
+ rol_soporte       | public.pedido                        | SELECT
+ rol_soporte       | public.producto                      | SELECT
+ rol_soporte       | public.repartidor                    | SELECT
+ rol_soporte       | public.zona                          | SELECT
+ rol_sync_movil    | sync.v_snapshot_movil                | SELECT
+(24 rows)
+
+=== Privilegios por columna ===
+        rol        |      objeto      | privilegio |                                               columnas                                                
+-------------------+------------------+------------+-------------------------------------------------------------------------------------------------------
+ rol_admin_datos   | public.categoria | UPDATE     | activo, nombre
+ rol_admin_datos   | public.producto  | UPDATE     | activo, categoria_id, nombre, precio_lista, stock
+ rol_admin_datos   | public.usuario   | UPDATE     | activo, apellido, nombre, rol_aplicacion
+ rol_app_escritura | public.cliente   | UPDATE     | apellido, nombre, nro_telefono
+ rol_app_escritura | public.pedido    | UPDATE     | estado
+ rol_soporte       | public.cliente   | UPDATE     | nro_telefono
+ rol_soporte       | public.pedido    | UPDATE     | estado
+ rol_soporte       | public.usuario   | SELECT     | activo, apellido, bloqueado_hasta, correo_electronico, fecha_alta, id_usuario, nombre, rol_aplicacion
+(8 rows)
+
+=== Rutinas ejecutables por rol ===
+        rol        |                                  rutinas                                   
+-------------------+----------------------------------------------------------------------------
+ rol_admin_datos   | public.fn_resetear_password, public.tpi_baja_producto
+ rol_app_escritura | public.fn_autenticar, public.tpi_registrar_pedido, public.tpi_total_pedido
+ rol_soporte       | public.tpi_total_pedido
+ rol_sync_movil    | sync.aplicar_solicitud
+(4 rows)
+
+=== Diferencias entre la spec y el catálogo (debe devolver 0 filas) ===
+ problema | rol | clase | objeto | privilegio | columna 
+----------+-----+-------+--------+------------+---------
+(0 rows)
+
+psql:tpi2/u5/06_verificar_permisos.sql:151: NOTICE:  PERMISOS VERIFICADOS: 75 privilegios previstos, 0 faltantes, 0 sobrantes
+DO

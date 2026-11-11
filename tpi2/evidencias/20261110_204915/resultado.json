@@ -1,0 +1,670 @@
+{
+  "base": "food_store_tpi2_20261110_204915",
+  "motor": "17.11",
+  "exito": true,
+  "error": null,
+  "duracion_segundos": 67.0,
+  "total_comprobaciones": 132,
+  "comprobaciones": [
+    {
+      "comprobacion": "Base instalada en una transacción",
+      "correcta": true,
+      "detalle": "2000 pedidos, 5003 líneas, 300 clientes, 80 productos"
+    },
+    {
+      "comprobacion": "Motor PostgreSQL 16 o superior",
+      "correcta": true,
+      "detalle": "17.11"
+    },
+    {
+      "comprobacion": "DF validadas contra los datos del legado",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "Respaldo previo a la migración",
+      "correcta": true,
+      "detalle": "122086 bytes"
+    },
+    {
+      "comprobacion": "Ensayo de migración verificado",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "ROLLBACK deja la base idéntica",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "Migración confirmada y verificada",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "La migración cambió el contenido",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "La reversión deja la base idéntica al estado previo",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "Error provocado corta la migración",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "Tras el error no quedó nada aplicado",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "Migración definitiva verificada",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "Auditoría del servidor activada",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "Permisos idénticos a la matriz de la spec",
+      "correcta": true,
+      "detalle": "75 privilegios previstos, 0 faltantes, 0 sobrantes"
+    },
+    {
+      "comprobacion": "app_web: ver el catálogo vigente",
+      "correcta": true,
+      "detalle": "permitido"
+    },
+    {
+      "comprobacion": "app_web: registrar un pedido por el procedimiento",
+      "correcta": true,
+      "detalle": "permitido"
+    },
+    {
+      "comprobacion": "app_web: insertar un pedido a mano",
+      "correcta": true,
+      "detalle": "denegado"
+    },
+    {
+      "comprobacion": "app_web: leer la tabla usuario",
+      "correcta": true,
+      "detalle": "denegado"
+    },
+    {
+      "comprobacion": "app_web: borrar un cliente",
+      "correcta": true,
+      "detalle": "denegado"
+    },
+    {
+      "comprobacion": "app_web: leer la auditoría",
+      "correcta": true,
+      "detalle": "denegado"
+    },
+    {
+      "comprobacion": "soporte_01: ver usuarios sin el hash",
+      "correcta": true,
+      "detalle": "permitido"
+    },
+    {
+      "comprobacion": "soporte_01: leer el hash de las contraseñas",
+      "correcta": true,
+      "detalle": "denegado"
+    },
+    {
+      "comprobacion": "soporte_01: corregir el teléfono de un cliente",
+      "correcta": true,
+      "detalle": "permitido"
+    },
+    {
+      "comprobacion": "soporte_01: cambiar el nombre de un cliente",
+      "correcta": true,
+      "detalle": "denegado"
+    },
+    {
+      "comprobacion": "soporte_01: cambiar un precio",
+      "correcta": true,
+      "detalle": "denegado"
+    },
+    {
+      "comprobacion": "analista_01: leer clientes anonimizados",
+      "correcta": true,
+      "detalle": "permitido"
+    },
+    {
+      "comprobacion": "analista_01: leer la facturación mensual",
+      "correcta": true,
+      "detalle": "permitido"
+    },
+    {
+      "comprobacion": "analista_01: leer la tabla cliente real",
+      "correcta": true,
+      "detalle": "denegado"
+    },
+    {
+      "comprobacion": "analista_01: leer la sal de los seudónimos",
+      "correcta": true,
+      "detalle": "denegado"
+    },
+    {
+      "comprobacion": "auditor_01: leer la auditoría",
+      "correcta": true,
+      "detalle": "permitido"
+    },
+    {
+      "comprobacion": "auditor_01: borrar la auditoría",
+      "correcta": true,
+      "detalle": "denegado"
+    },
+    {
+      "comprobacion": "auditor_01: leer pedidos",
+      "correcta": true,
+      "detalle": "denegado"
+    },
+    {
+      "comprobacion": "admin_datos: cambiar un precio",
+      "correcta": true,
+      "detalle": "permitido"
+    },
+    {
+      "comprobacion": "admin_datos: dar de baja lógica un producto",
+      "correcta": true,
+      "detalle": "permitido"
+    },
+    {
+      "comprobacion": "admin_datos: borrar físicamente un producto",
+      "correcta": true,
+      "detalle": "denegado"
+    },
+    {
+      "comprobacion": "admin_datos: leer el hash de las contraseñas",
+      "correcta": true,
+      "detalle": "denegado"
+    },
+    {
+      "comprobacion": "admin_datos: crear una tabla",
+      "correcta": true,
+      "detalle": "denegado"
+    },
+    {
+      "comprobacion": "operador_respaldo: leer para respaldar",
+      "correcta": true,
+      "detalle": "permitido"
+    },
+    {
+      "comprobacion": "operador_respaldo: modificar datos",
+      "correcta": true,
+      "detalle": "denegado"
+    },
+    {
+      "comprobacion": "tablet_feria: leer clientes",
+      "correcta": true,
+      "detalle": "denegado"
+    },
+    {
+      "comprobacion": "Objetos futuros: nadie accede salvo decisión explícita",
+      "correcta": true,
+      "detalle": "tabla nueva en public: sin acceso; función nueva: sin PUBLIC; objeto nuevo en anon: reportes"
+    },
+    {
+      "comprobacion": "Login con clave errónea rechazado",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "El log registra: connection authorized",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "El log registra: statement: SELECT count(*) FROM public.cliente",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "El log registra: statement: INSERT INTO public.cliente",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "El log registra: statement: UPDATE public.cliente",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "El log registra: password authentication failed",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "El log registra: disconnection",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "Simulacro · fn_autenticar intento fallido 1",
+      "correcta": true,
+      "detalle": "esperado DENEGADO, obtenido DENEGADO"
+    },
+    {
+      "comprobacion": "Simulacro · fn_autenticar intento fallido 2",
+      "correcta": true,
+      "detalle": "esperado DENEGADO, obtenido DENEGADO"
+    },
+    {
+      "comprobacion": "Simulacro · fn_autenticar intento fallido 3",
+      "correcta": true,
+      "detalle": "esperado DENEGADO, obtenido DENEGADO"
+    },
+    {
+      "comprobacion": "Simulacro · fn_autenticar intento fallido 4",
+      "correcta": true,
+      "detalle": "esperado DENEGADO, obtenido DENEGADO"
+    },
+    {
+      "comprobacion": "Simulacro · fn_autenticar con la clave adivinada",
+      "correcta": true,
+      "detalle": "esperado PERMITIDO, obtenido PERMITIDO"
+    },
+    {
+      "comprobacion": "Simulacro · conexión soporte_01 con clave errónea 1",
+      "correcta": true,
+      "detalle": "esperado DENEGADO, obtenido DENEGADO"
+    },
+    {
+      "comprobacion": "Simulacro · conexión soporte_01 con clave errónea 2",
+      "correcta": true,
+      "detalle": "esperado DENEGADO, obtenido DENEGADO"
+    },
+    {
+      "comprobacion": "Simulacro · conexión soporte_01 con clave errónea 3",
+      "correcta": true,
+      "detalle": "esperado DENEGADO, obtenido DENEGADO"
+    },
+    {
+      "comprobacion": "Simulacro · conexión soporte_01 con la clave reutilizada",
+      "correcta": true,
+      "detalle": "esperado PERMITIDO, obtenido PERMITIDO"
+    },
+    {
+      "comprobacion": "Simulacro · SELECT * FROM usuario (incluye el hash)",
+      "correcta": true,
+      "detalle": "esperado DENEGADO, obtenido DENEGADO"
+    },
+    {
+      "comprobacion": "Simulacro · lectura masiva de usuario (columnas permitidas)",
+      "correcta": true,
+      "detalle": "esperado PERMITIDO, obtenido PERMITIDO"
+    },
+    {
+      "comprobacion": "Simulacro · lectura masiva de cliente (correo y teléfono)",
+      "correcta": true,
+      "detalle": "esperado PERMITIDO, obtenido PERMITIDO"
+    },
+    {
+      "comprobacion": "Simulacro · cambio del teléfono de un cliente",
+      "correcta": true,
+      "detalle": "esperado PERMITIDO, obtenido PERMITIDO"
+    },
+    {
+      "comprobacion": "Simulacro · GRANT rol_admin_datos TO soporte_01",
+      "correcta": true,
+      "detalle": "esperado DENEGADO, obtenido DENEGADO"
+    },
+    {
+      "comprobacion": "Simulacro · SET ROLE rol_admin_datos",
+      "correcta": true,
+      "detalle": "esperado DENEGADO, obtenido DENEGADO"
+    },
+    {
+      "comprobacion": "Simulacro · restablecer la clave de un administrador",
+      "correcta": true,
+      "detalle": "esperado DENEGADO, obtenido DENEGADO"
+    },
+    {
+      "comprobacion": "Simulacro · UPDATE usuario SET rol_aplicacion = ADMIN",
+      "correcta": true,
+      "detalle": "esperado DENEGADO, obtenido DENEGADO"
+    },
+    {
+      "comprobacion": "Simulacro · ALTER ROLE soporte_01 SUPERUSER",
+      "correcta": true,
+      "detalle": "esperado DENEGADO, obtenido DENEGADO"
+    },
+    {
+      "comprobacion": "Simulacro · borrar el rastro en auditoria.registro",
+      "correcta": true,
+      "detalle": "esperado DENEGADO, obtenido DENEGADO"
+    },
+    {
+      "comprobacion": "Simulacro · CREATE TABLE en public",
+      "correcta": true,
+      "detalle": "esperado DENEGADO, obtenido DENEGADO"
+    },
+    {
+      "comprobacion": "Log del simulacro sin datos identificables",
+      "correcta": true,
+      "detalle": "{'correo': 2, 'telefono': 2, 'ip': 1, 'nombre': 0}"
+    },
+    {
+      "comprobacion": "Todos los intentos de escalamiento fallaron",
+      "correcta": true,
+      "detalle": "7 intentos"
+    },
+    {
+      "comprobacion": "La alerta de fuerza bruta detecta el ataque",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "Tras la contención soporte_01 no puede conectarse",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "El teléfono alterado fue restaurado desde la auditoría",
+      "correcta": true,
+      "detalle": "valor original recuperado"
+    },
+    {
+      "comprobacion": "La clave adivinada ya no sirve",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "Agregados reales y anónimos equivalentes",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "Mantenimiento semanal ejecutado",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "Integridad física y lógica verificada",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "Respaldo diario creado y verificado",
+      "correcta": true,
+      "detalle": "220543 bytes, 336 objetos, 3.34 s"
+    },
+    {
+      "comprobacion": "Respaldo fallido: código de error y sin archivo",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "Restauración de prueba verificada",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "La base temporal de prueba fue eliminada",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "Respaldo corrupto rechazado por SHA-256",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "Plan de tareas programadas definido",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "La aplicación detecta la caída",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "La base restaurada es idéntica al momento del respaldo",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "Permisos restaurados, incluidos los de nivel base",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "La aplicación vuelve a operar",
+      "correcta": true,
+      "detalle": "68 productos en catálogo"
+    },
+    {
+      "comprobacion": "RTO dentro del objetivo de 15 minutos",
+      "correcta": true,
+      "detalle": "7.9 s"
+    },
+    {
+      "comprobacion": "Pérdida de datos acotada a lo posterior al respaldo",
+      "correcta": true,
+      "detalle": "3 pedidos y 1 cambio de precio"
+    },
+    {
+      "comprobacion": "Exportación: un documento por pedido con líneas",
+      "correcta": true,
+      "detalle": "2398 documentos"
+    },
+    {
+      "comprobacion": "MongoDB disponible",
+      "correcta": true,
+      "detalle": "8.0.15"
+    },
+    {
+      "comprobacion": "Carga completa en MongoDB, validador aceptó todos los documentos",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "Mismo resultado en ambos motores: c1_pedido_completo",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "Mismo resultado en ambos motores: c2_pedidos_por_estado",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "Mismo resultado en ambos motores: c3_pedidos_con_producto",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "Mismo resultado en ambos motores: c4_entregados_total_alto",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "Mismo resultado en ambos motores: c5_facturacion_categoria_mes",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "Mismo resultado en ambos motores: c6_top_clientes",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "Mismo resultado en ambos motores: c7_historial_cliente",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "Mismo resultado en ambos motores: c8_ticket_por_forma_pago",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "Validador: documento válido (control)",
+      "correcta": true,
+      "detalle": "aceptado"
+    },
+    {
+      "comprobacion": "Validador: total que no coincide con las líneas",
+      "correcta": true,
+      "detalle": "rechazado"
+    },
+    {
+      "comprobacion": "Validador: cantidad cero",
+      "correcta": true,
+      "detalle": "rechazado"
+    },
+    {
+      "comprobacion": "Validador: estado inexistente",
+      "correcta": true,
+      "detalle": "rechazado"
+    },
+    {
+      "comprobacion": "Validador: importe como double en lugar de Decimal128",
+      "correcta": true,
+      "detalle": "rechazado"
+    },
+    {
+      "comprobacion": "Validador: campo no previsto (correo del cliente)",
+      "correcta": true,
+      "detalle": "rechazado"
+    },
+    {
+      "comprobacion": "Validador: pedido sin líneas",
+      "correcta": true,
+      "detalle": "rechazado"
+    },
+    {
+      "comprobacion": "Validador: producto repetido en el pedido",
+      "correcta": true,
+      "detalle": "rechazado"
+    },
+    {
+      "comprobacion": "Validador: id de pedido duplicado",
+      "correcta": true,
+      "detalle": "E11000"
+    },
+    {
+      "comprobacion": "Duplicación medida y revertida",
+      "correcta": true,
+      "detalle": "un cambio de apellido toca 10 documentos contra 1 fila en PostgreSQL"
+    },
+    {
+      "comprobacion": "SQLite con tablas STRICT (3.37+)",
+      "correcta": true,
+      "detalle": "3.43.1"
+    },
+    {
+      "comprobacion": "Instantánea descargada en SQLite",
+      "correcta": true,
+      "detalle": "versión 1, 68 productos disponibles"
+    },
+    {
+      "comprobacion": "C0 La instantánea no contiene datos personales",
+      "correcta": true,
+      "detalle": "columnas: id, nombre, categoria, precio_centavos, stock, disponible, eliminado"
+    },
+    {
+      "comprobacion": "C11 SQLite rechaza datos inválidos (CHECK, FK, STRICT)",
+      "correcta": true,
+      "detalle": "5/5 inserciones inválidas rechazadas: cantidad 0, producto inexistente, uuid mal formado, forma de pago inexistente, texto en columna INTEGER"
+    },
+    {
+      "comprobacion": "C9 Un borrador vacío no puede encolarse",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "C10 Una instantánea vacía no reemplaza el catálogo",
+      "correcta": true,
+      "detalle": "catálogo intacto: 68 productos"
+    },
+    {
+      "comprobacion": "C1 Sin conexión el catálogo local sigue consultable",
+      "correcta": true,
+      "detalle": "descarga fallida, 68 productos visibles"
+    },
+    {
+      "comprobacion": "C7 Sin conexión las solicitudes quedan pendientes y no se pierden",
+      "correcta": true,
+      "detalle": "4 pendientes; la primera falló por red y la sincronización se detuvo; el servidor no recibió nada"
+    },
+    {
+      "comprobacion": "C7 al reconectar se envían todas las pendientes",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "C5 Pedido sin cambios: el servidor lo aplica",
+      "correcta": true,
+      "detalle": "pedido 3595 CONFIRMADO; stock de 3: 258 -> 256"
+    },
+    {
+      "comprobacion": "C3 Stock insuficiente: rechazado y sin efectos",
+      "correcta": true,
+      "detalle": "[{\"motivo\": \"STOCK_INSUFICIENTE\", \"pedido\": 140, \"producto_id\": 5, \"stock_actual\": 139}]"
+    },
+    {
+      "comprobacion": "C4 Producto dado de baja después de copiar el catálogo: rechazado",
+      "correcta": true,
+      "detalle": "[{\"motivo\": \"PRODUCTO_DADO_DE_BAJA\", \"producto_id\": 2}]"
+    },
+    {
+      "comprobacion": "C2 Precio cambiado en el servidor: conflicto detectado",
+      "correcta": true,
+      "detalle": "[{\"motivo\": \"PRECIO_CAMBIADO\", \"producto_id\": 1, \"precio_centavos_visto\": 150000, \"precio_centavos_actual\": 165000}]"
+    },
+    {
+      "comprobacion": "Solo el pedido aplicado creó una venta",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "C2 Conflicto resuelto: precio del servidor aceptado y pedido aplicado",
+      "correcta": true,
+      "detalle": "visto 1500.00, vendido 1650.00; solicitud original conserva CONFLICTO"
+    },
+    {
+      "comprobacion": "C4 La baja llega como lápida: oculta del catálogo, fila conservada",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "C6 Respuesta perdida y reenvío del mismo UUID: una sola venta",
+      "correcta": true,
+      "detalle": "2 envíos, 1 pedido (3597); el servidor contestó duplicada=true"
+    },
+    {
+      "comprobacion": "C8 Dos tablets por las últimas unidades: una aplica, la otra espera y es rechazada",
+      "correcta": true,
+      "detalle": "tablet-01 APLICADO, tablet-02 RECHAZADO tras esperar 1.48 s el bloqueo; stock final 1"
+    },
+    {
+      "comprobacion": "tablet-01: PRAGMA integrity_check y foreign_key_check",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "tablet-02: PRAGMA integrity_check y foreign_key_check",
+      "correcta": true,
+      "detalle": ""
+    },
+    {
+      "comprobacion": "Servidor: cada solicitud aplicada tiene exactamente un pedido",
+      "correcta": true,
+      "detalle": "4 aplicadas, 4 pedidos"
+    },
+    {
+      "comprobacion": "La tablet no puede registrar pedidos salteando la sincronización",
+      "correcta": true,
+      "detalle": ""
+    }
+  ]
+}

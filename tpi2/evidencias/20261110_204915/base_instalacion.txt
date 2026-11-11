@@ -1,0 +1,45 @@
+stamp without time zone AT TIME ZONE 'America/Argentina/Buenos_Aires'::text)))
+                                                   Buffers: shared hit=2
+                                                   ->  Bitmap Index Scan on tp3_pedido_fecha  (cost=0.00..4.62 rows=31 width=0) (actual time=0.008..0.008 rows=0 loops=1)
+                                                         Index Cond: ((fecha >= ((((CURRENT_TIMESTAMP AT TIME ZONE 'America/Argentina/Buenos_Aires'::text))::date)::timestamp without time zone AT TIME ZONE 'America/Argentina/Buenos_Aires'::text)) AND (fecha < (((((CURRENT_TIMESTAMP AT TIME ZONE 'America/Argentina/Buenos_Aires'::text))::date + 1))::timestamp without time zone AT TIME ZONE 'America/Argentina/Buenos_Aires'::text)))
+                                                         Buffers: shared hit=2
+                                 ->  Index Scan using pk_producto on producto pr  (cost=0.15..0.18 rows=1 width=8) (never executed)
+                                       Index Cond: (id_producto = dp.id_producto)
+                           ->  Index Scan using pk_categoria on categoria c  (cost=0.15..0.33 rows=1 width=122) (never executed)
+                                 Index Cond: (id_categoria = pr.categoria_id)
+ Planning:
+   Buffers: shared hit=50
+ Planning Time: 3.790 ms
+ Execution Time: 0.074 ms
+(39 rows)
+
+                                                                      QUERY PLAN                                                                      
+------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=0.29..18.38 rows=5 width=150) (actual time=0.037..0.037 rows=0 loops=1)
+   Buffers: shared read=2
+   ->  Index Only Scan using u4_ventas_top on ventas_categoria_diaria  (cost=0.29..36.46 rows=10 width=150) (actual time=0.036..0.036 rows=0 loops=1)
+         Index Cond: (fecha = ((CURRENT_TIMESTAMP AT TIME ZONE 'America/Argentina/Buenos_Aires'::text))::date)
+         Heap Fetches: 0
+         Buffers: shared read=2
+ Planning:
+   Buffers: shared hit=7 read=2
+ Planning Time: 2.302 ms
+ Execution Time: 0.049 ms
+(10 rows)
+
+ fecha | id_categoria | categoria | total_vendido 
+-------+--------------+-----------+---------------
+(0 rows)
+
+DO
+COMMIT
+ANALYZE
+     tabla      | count 
+----------------+-------
+ categoria      |     8
+ cliente        |   300
+ detalle_pedido |  5003
+ pedido         |  2000
+ producto       |    80
+(5 rows)
+

@@ -1,0 +1,7 @@
+Respaldo mas reciente: food_store_tpi2_20261110_204915_20261110_204939.dump (hace 0 horas)
+SHA-256 verificado
+Base 'restauracion_prueba_20261110_204945' restaurada
+psql:<repo>/tpi2/u6/verificar_integridad.sql:75: NOTICE:  INTEGRIDAD VERIFICADA en restauracion_prueba_20261110_204945
+
+RESULTADO {"modo":"Prueba","base":"restauracion_prueba_20261110_204945","segundos":6.375,"fases":{"verificar_archivo":0.093,"restaurar":4.175,"estadisticas":1.049,"integridad":1.041},"exito":true}
+Base temporal 'restauracion_prueba_20261110_204945' eliminada

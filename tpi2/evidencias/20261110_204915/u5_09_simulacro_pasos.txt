@@ -1,0 +1,42 @@
+1-fuerza-bruta   DENEGADO   (previsto DENEGADO ) fn_autenticar intento fallido 1
+                 f
+1-fuerza-bruta   DENEGADO   (previsto DENEGADO ) fn_autenticar intento fallido 2
+                 f
+1-fuerza-bruta   DENEGADO   (previsto DENEGADO ) fn_autenticar intento fallido 3
+                 f
+1-fuerza-bruta   DENEGADO   (previsto DENEGADO ) fn_autenticar intento fallido 4
+                 f
+1-fuerza-bruta   PERMITIDO  (previsto PERMITIDO) fn_autenticar con la clave adivinada
+                 t
+2-conexion       DENEGADO   (previsto DENEGADO ) conexión soporte_01 con clave errónea 1
+                 psql: error: connection to server at "127.0.0.1", port 55432 failed: FATAL:  password authentication failed for user "soporte_01"
+2-conexion       DENEGADO   (previsto DENEGADO ) conexión soporte_01 con clave errónea 2
+                 psql: error: connection to server at "127.0.0.1", port 55432 failed: FATAL:  password authentication failed for user "soporte_01"
+2-conexion       DENEGADO   (previsto DENEGADO ) conexión soporte_01 con clave errónea 3
+                 psql: error: connection to server at "127.0.0.1", port 55432 failed: FATAL:  password authentication failed for user "soporte_01"
+2-conexion       PERMITIDO  (previsto PERMITIDO) conexión soporte_01 con la clave reutilizada
+                 soporte_01
+3-lectura        DENEGADO   (previsto DENEGADO ) SELECT * FROM usuario (incluye el hash)
+                 ERROR:  permission denied for table usuario
+3-lectura        PERMITIDO  (previsto PERMITIDO) lectura masiva de usuario (columnas permitidas)
+                 40|usuario40@foodstore.example|Alma|Arias|REPORTES
+3-lectura        PERMITIDO  (previsto PERMITIDO) lectura masiva de cliente (correo y teléfono)
+                 534|prueba.auditoria@example.test|+54 9 11 5555-7777|Prueba|Auditoria
+4-modificacion   PERMITIDO  (previsto PERMITIDO) cambio del teléfono de un cliente
+                 UPDATE 1
+5-escalamiento   DENEGADO   (previsto DENEGADO ) GRANT rol_admin_datos TO soporte_01
+                 DETAIL:  Only roles with the ADMIN option on role "rol_admin_datos" may grant this role.
+5-escalamiento   DENEGADO   (previsto DENEGADO ) SET ROLE rol_admin_datos
+                 ERROR:  permission denied to set role "rol_admin_datos"
+5-escalamiento   DENEGADO   (previsto DENEGADO ) restablecer la clave de un administrador
+                 ERROR:  permission denied for function fn_resetear_password
+5-escalamiento   DENEGADO   (previsto DENEGADO ) UPDATE usuario SET rol_aplicacion = ADMIN
+                 ERROR:  permission denied for table usuario
+5-escalamiento   DENEGADO   (previsto DENEGADO ) ALTER ROLE soporte_01 SUPERUSER
+                 DETAIL:  Only roles with the SUPERUSER attribute may change the SUPERUSER attribute.
+5-escalamiento   DENEGADO   (previsto DENEGADO ) borrar el rastro en auditoria.registro
+                                     ^
+5-escalamiento   DENEGADO   (previsto DENEGADO ) CREATE TABLE en public
+                 ERROR:  permission denied for schema public
+resumen                     (previsto          ) filas leídas
+                 usuario: 40 filas; cliente: 360 filas

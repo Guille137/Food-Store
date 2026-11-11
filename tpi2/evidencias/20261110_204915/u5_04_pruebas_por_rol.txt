@@ -1,0 +1,27 @@
+rol                resultado  previsto   operación
+app_web            PERMITIDO  PERMITIDO  ver el catálogo vigente
+app_web            PERMITIDO  PERMITIDO  registrar un pedido por el procedimiento
+app_web            DENEGADO   DENEGADO   insertar un pedido a mano   → ERROR:  permission denied for table pedido
+app_web            DENEGADO   DENEGADO   leer la tabla usuario   → ERROR:  permission denied for table usuario
+app_web            DENEGADO   DENEGADO   borrar un cliente   → ERROR:  permission denied for table cliente
+app_web            DENEGADO   DENEGADO   leer la auditoría   → ERROR:  permission denied for schema auditoria
+soporte_01         PERMITIDO  PERMITIDO  ver usuarios sin el hash
+soporte_01         DENEGADO   DENEGADO   leer el hash de las contraseñas   → ERROR:  permission denied for table usuario
+soporte_01         PERMITIDO  PERMITIDO  corregir el teléfono de un cliente
+soporte_01         DENEGADO   DENEGADO   cambiar el nombre de un cliente   → ERROR:  permission denied for table cliente
+soporte_01         DENEGADO   DENEGADO   cambiar un precio   → ERROR:  permission denied for table producto
+analista_01        PERMITIDO  PERMITIDO  leer clientes anonimizados
+analista_01        PERMITIDO  PERMITIDO  leer la facturación mensual
+analista_01        DENEGADO   DENEGADO   leer la tabla cliente real   → ERROR:  permission denied for table cliente
+analista_01        DENEGADO   DENEGADO   leer la sal de los seudónimos   → ERROR:  permission denied for schema seguridad
+auditor_01         PERMITIDO  PERMITIDO  leer la auditoría
+auditor_01         DENEGADO   DENEGADO   borrar la auditoría   → ERROR:  permission denied for table registro
+auditor_01         DENEGADO   DENEGADO   leer pedidos   → ERROR:  permission denied for schema public
+admin_datos        PERMITIDO  PERMITIDO  cambiar un precio
+admin_datos        PERMITIDO  PERMITIDO  dar de baja lógica un producto
+admin_datos        DENEGADO   DENEGADO   borrar físicamente un producto   → ERROR:  permission denied for table producto
+admin_datos        DENEGADO   DENEGADO   leer el hash de las contraseñas   → ERROR:  permission denied for table usuario
+admin_datos        DENEGADO   DENEGADO   crear una tabla   → ERROR:  permission denied for schema public
+operador_respaldo  PERMITIDO  PERMITIDO  leer para respaldar
+operador_respaldo  DENEGADO   DENEGADO   modificar datos   → ERROR:  permission denied for table producto
+tablet_feria       DENEGADO   DENEGADO   leer clientes   → ERROR:  permission denied for schema public

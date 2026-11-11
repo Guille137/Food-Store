@@ -1,0 +1,23 @@
+BEGIN
+ALTER ROLE
+ pid | usename | application_name | client_addr | sesion_cerrada 
+-----+---------+------------------+-------------+----------------
+(0 rows)
+
+ largo_clave_temporal 
+----------------------
+                   16
+(1 row)
+
+ id_cliente |       accion        
+------------+---------------------
+         10 | teléfono restaurado
+(1 row)
+
+UPDATE 1
+ clientes_modificados | pedidos_modificados 
+----------------------+---------------------
+                    1 |                   0
+(1 row)
+
+COMMIT

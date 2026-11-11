@@ -1,0 +1,33 @@
+FRAGMENTO DEL LOG DEL SERVIDOR (datos sintéticos de laboratorio)
+
+2026-11-10 20:49:28.870 -03 [13596] rol=[unknown] base=[unknown] origen=127.0.0.1 app=[unknown] LOG:  connection received: host=127.0.0.1 port=60719
+2026-11-10 20:49:28.891 -03 [13596] rol=postgres base=food_store_tpi2_20261110_204915 origen=127.0.0.1 app=[unknown] LOG:  connection authenticated: identity="postgres" method=scram-sha-256 (<home>/AppData/Local/Temp/claude/5b15ae24a1fd7160/3e5ecfc7-0f78-4e17-b881-c80cc4e7eb7e/scratchpad/pgdata/pg_hba.conf:115)
+2026-11-10 20:49:28.891 -03 [13596] rol=postgres base=food_store_tpi2_20261110_204915 origen=127.0.0.1 app=[unknown] LOG:  connection authorized: user=postgres database=food_store_tpi2_20261110_204915 application_name=psql
+2026-11-10 20:49:28.896 -03 [13596] rol=postgres base=food_store_tpi2_20261110_204915 origen=127.0.0.1 app=psql LOG:  disconnection: session time: 0:00:00.032 user=postgres database=food_store_tpi2_20261110_204915 host=127.0.0.1 port=60719
+2026-11-10 20:49:28.954 -03 [27844] rol=[unknown] base=[unknown] origen=127.0.0.1 app=[unknown] LOG:  connection received: host=127.0.0.1 port=60720
+2026-11-10 20:49:28.973 -03 [27844] rol=soporte_01 base=food_store_tpi2_20261110_204915 origen=127.0.0.1 app=[unknown] LOG:  connection authenticated: identity="soporte_01" method=scram-sha-256 (<home>/AppData/Local/Temp/claude/5b15ae24a1fd7160/3e5ecfc7-0f78-4e17-b881-c80cc4e7eb7e/scratchpad/pgdata/pg_hba.conf:115)
+2026-11-10 20:49:28.973 -03 [27844] rol=soporte_01 base=food_store_tpi2_20261110_204915 origen=127.0.0.1 app=[unknown] LOG:  connection authorized: user=soporte_01 database=food_store_tpi2_20261110_204915 application_name=prueba-auditoria
+2026-11-10 20:49:28.977 -03 [27844] rol=soporte_01 base=food_store_tpi2_20261110_204915 origen=127.0.0.1 app=prueba-auditoria LOG:  statement: SELECT count(*) FROM public.cliente
+2026-11-10 20:49:28.981 -03 [27844] rol=soporte_01 base=food_store_tpi2_20261110_204915 origen=127.0.0.1 app=prueba-auditoria LOG:  disconnection: session time: 0:00:00.033 user=soporte_01 database=food_store_tpi2_20261110_204915 host=127.0.0.1 port=60720
+2026-11-10 20:49:29.036 -03 [9724] rol=[unknown] base=[unknown] origen=127.0.0.1 app=[unknown] LOG:  connection received: host=127.0.0.1 port=60721
+2026-11-10 20:49:29.052 -03 [9724] rol=app_web base=food_store_tpi2_20261110_204915 origen=127.0.0.1 app=[unknown] LOG:  connection authenticated: identity="app_web" method=scram-sha-256 (<home>/AppData/Local/Temp/claude/5b15ae24a1fd7160/3e5ecfc7-0f78-4e17-b881-c80cc4e7eb7e/scratchpad/pgdata/pg_hba.conf:115)
+2026-11-10 20:49:29.052 -03 [9724] rol=app_web base=food_store_tpi2_20261110_204915 origen=127.0.0.1 app=[unknown] LOG:  connection authorized: user=app_web database=food_store_tpi2_20261110_204915 application_name=prueba-auditoria
+2026-11-10 20:49:29.056 -03 [9724] rol=app_web base=food_store_tpi2_20261110_204915 origen=127.0.0.1 app=prueba-auditoria LOG:  statement: INSERT INTO public.cliente (correo_electronico, nombre, apellido) VALUES ('prueba.auditoria@example.test', 'Prueba', 'Auditoria')
+2026-11-10 20:49:29.062 -03 [9724] rol=app_web base=food_store_tpi2_20261110_204915 origen=127.0.0.1 app=prueba-auditoria LOG:  disconnection: session time: 0:00:00.032 user=app_web database=food_store_tpi2_20261110_204915 host=127.0.0.1 port=60721
+2026-11-10 20:49:29.120 -03 [25504] rol=[unknown] base=[unknown] origen=127.0.0.1 app=[unknown] LOG:  connection received: host=127.0.0.1 port=60722
+2026-11-10 20:49:29.137 -03 [25504] rol=soporte_01 base=food_store_tpi2_20261110_204915 origen=127.0.0.1 app=[unknown] LOG:  connection authenticated: identity="soporte_01" method=scram-sha-256 (<home>/AppData/Local/Temp/claude/5b15ae24a1fd7160/3e5ecfc7-0f78-4e17-b881-c80cc4e7eb7e/scratchpad/pgdata/pg_hba.conf:115)
+2026-11-10 20:49:29.137 -03 [25504] rol=soporte_01 base=food_store_tpi2_20261110_204915 origen=127.0.0.1 app=[unknown] LOG:  connection authorized: user=soporte_01 database=food_store_tpi2_20261110_204915 application_name=prueba-auditoria
+2026-11-10 20:49:29.141 -03 [25504] rol=soporte_01 base=food_store_tpi2_20261110_204915 origen=127.0.0.1 app=prueba-auditoria LOG:  statement: UPDATE public.cliente SET nro_telefono = '+54 9 11 5555-7777' WHERE correo_electronico = 'prueba.auditoria@example.test'
+2026-11-10 20:49:29.150 -03 [25504] rol=soporte_01 base=food_store_tpi2_20261110_204915 origen=127.0.0.1 app=prueba-auditoria LOG:  disconnection: session time: 0:00:00.035 user=soporte_01 database=food_store_tpi2_20261110_204915 host=127.0.0.1 port=60722
+2026-11-10 20:49:29.202 -03 [48456] rol=[unknown] base=[unknown] origen=127.0.0.1 app=[unknown] LOG:  connection received: host=127.0.0.1 port=60723
+2026-11-10 20:49:29.219 -03 [48456] rol=soporte_01 base=food_store_tpi2_20261110_204915 origen=127.0.0.1 app=[unknown] FATAL:  password authentication failed for user "soporte_01"
+2026-11-10 20:49:29.219 -03 [48456] rol=soporte_01 base=food_store_tpi2_20261110_204915 origen=127.0.0.1 app=[unknown] DETAIL:  Connection matched file "<home>/AppData/Local/Temp/claude/5b15ae24a1fd7160/3e5ecfc7-0f78-4e17-b881-c80cc4e7eb7e/scratchpad/pgdata/pg_hba.conf" line 115: "host    all             all             127.0.0.1/32            scram-sha-256"
+
+AUDITORIA POR FILA (auditoria.registro, leída con el rol auditor_01)
+
+     hora     | rol_sesion |  origen   |    aplicacion    |     tabla      | operacion | tel_antes |    tel_despues     
+--------------+------------+-----------+------------------+----------------+-----------+-----------+--------------------
+ 20:49:29.059 | app_web    | 127.0.0.1 | prueba-auditoria | public.cliente | INSERT    |           | 
+ 20:49:29.147 | soporte_01 | 127.0.0.1 | prueba-auditoria | public.cliente | UPDATE    |           | +54 9 11 5555-7777
+(2 rows)
+

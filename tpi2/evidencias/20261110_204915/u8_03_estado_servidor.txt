@@ -1,0 +1,24 @@
+  estado   | solicitudes | con_pedido 
+-----------+-------------+------------
+ APLICADO  |           4 |          4
+ CONFLICTO |           1 |          0
+ RECHAZADO |           3 |          0
+(3 rows)
+
+ solicitudes_sin_resolver 
+--------------------------
+                        0
+(1 row)
+
+ dispositivo | solicitud |  estado   | id_pedido | estado_pedido |                                                      problemas                                                       
+-------------+-----------+-----------+-----------+---------------+----------------------------------------------------------------------------------------------------------------------
+ tablet-01   | e0ac682d  | CONFLICTO |           |               | [{"motivo": "PRECIO_CAMBIADO", "producto_id": 1, "precio_centavos_visto": 150000, "precio_centavos_actual": 165000}]
+ tablet-01   | 48c8bf5e  | RECHAZADO |           |               | [{"motivo": "PRODUCTO_DADO_DE_BAJA", "producto_id": 2}]
+ tablet-01   | 7a2d4dbe  | APLICADO  |      3595 | CONFIRMADO    | []
+ tablet-01   | 472c607c  | RECHAZADO |           |               | [{"motivo": "STOCK_INSUFICIENTE", "pedido": 140, "producto_id": 5, "stock_actual": 139}]
+ tablet-01   | d949ca23  | APLICADO  |      3596 | CONFIRMADO    | []
+ tablet-01   | fd48f0f6  | APLICADO  |      3597 | CONFIRMADO    | []
+ tablet-01   | 82fb3e38  | APLICADO  |      3598 | CONFIRMADO    | []
+ tablet-02   | 1021076c  | RECHAZADO |           |               | [{"motivo": "STOCK_INSUFICIENTE", "pedido": 2, "producto_id": 4, "stock_actual": 1}]
+(8 rows)
+

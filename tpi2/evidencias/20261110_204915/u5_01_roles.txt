@@ -1,0 +1,21 @@
+rolname      | login | super | crea_roles | crea_bases | salta_rls | conexiones 
+-------------------+-------+-------+------------+------------+-----------+------------
+ fs_owner          | f     | f     | f          | f          | f         |         -1
+ rol_admin_datos   | f     | f     | f          | f          | f         |         -1
+ rol_app_escritura | f     | f     | f          | f          | f         |         -1
+ rol_app_lectura   | f     | f     | f          | f          | f         |         -1
+ rol_auditor       | f     | f     | f          | f          | f         |         -1
+ rol_reportes      | f     | f     | f          | f          | f         |         -1
+ rol_respaldo      | f     | f     | f          | f          | f         |         -1
+ rol_soporte       | f     | f     | f          | f          | f         |         -1
+ rol_sync_movil    | f     | f     | f          | f          | f         |         -1
+ admin_datos       | t     | f     | f          | f          | f         |          3
+ analista_01       | t     | f     | f          | f          | f         |          3
+ app_web           | t     | f     | f          | f          | f         |         20
+ auditor_01        | t     | f     | f          | f          | f         |          3
+ operador_respaldo | t     | f     | f          | f          | f         |          2
+ soporte_01        | t     | f     | f          | f          | f         |          3
+ tablet_feria      | t     | f     | f          | f          | f         |          5
+(16 rows)
+
+COMMIT

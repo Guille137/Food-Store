@@ -1,0 +1,49 @@
+CREATE FUNCTION
+ orden |                               df                               | viola_crudo | viola_canonico 
+-------+----------------------------------------------------------------+-------------+----------------
+     1 | nro_planilla -> fecha, cliente, forma_pago, estado, repartidor |           0 |              0
+     2 | email -> nombre, apellido                                      |           0 |              0
+     3 | email -> telefono                                              |           2 |              2
+     4 | producto -> rubro                                              |          66 |              0
+     5 | producto -> precio_unit                                        |         138 |             90
+     6 | (nro_planilla, producto) -> precio_unit                        |           0 |              0
+     7 | (nro_planilla, producto) -> cantidad                           |          10 |             10
+     8 | repartidor_legajo -> repartidor_nombre, zona                   |           6 |              0
+     9 | zona -> repartidor_legajo                                      |           4 |              2
+(9 rows)
+
+--- DF 3: correos con más de un teléfono
+         email          | telefonos |                  valores                  
+------------------------+-----------+-------------------------------------------
+ legado100@example.test |         2 | +54 9 351 5555-0100 | +54 9 351 5555-9100
+ legado60@example.test  |         2 | +54 9 351 5555-0060 | +54 9 351 5555-9060
+(2 rows)
+
+--- DF 4 (cruda): productos con más de un rubro escrito
+     producto      |     rubros_escritos     
+-------------------+-------------------------
+ pizza variedad 03 | PIZZAS | Pizas | Pizzas
+(1 row)
+
+--- DF 7: doble carga del mismo producto en una planilla
+ nro_planilla |        producto         | renglones | cantidad_total 
+--------------+-------------------------+-----------+----------------
+         1040 | pizza al molde 07       |         2 |              7
+         1080 | pizza variedad 03       |         2 |              5
+         1120 | empanada variedad 02    |         2 |              7
+         1160 | pizza al molde 04       |         2 |              5
+         1200 | postre variedad 03      |         2 |              3
+         1240 | hamburguesa variedad 09 |         2 |              5
+         1280 | pasta variedad 04       |         2 |              7
+         1320 | empanada variedad 02    |         2 |              7
+         1360 | empanada variedad 03    |         2 |              3
+         1400 | ensalada variedad 03    |         2 |              3
+(10 rows)
+
+--- Planillas que no se pueden migrar (sin correo o sin fecha válida)
+ nro_planilla | renglones 
+--------------+-----------
+         1111 |         1
+         1222 |         1
+(2 rows)
+

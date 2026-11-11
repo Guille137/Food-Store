@@ -1,0 +1,111 @@
+===== mantenimiento.sql (codigo 0) =====
+M1. Estado ANTES: filas vivas/muertas y último mantenimiento
+             tabla              | vivas | muertas | pct_muertas | ultimo_vacuum |  ultimo_analyze  
+--------------------------------+-------+---------+-------------+---------------+------------------
+ public.pedido                  |  4398 |    7467 |        62.9 | nunca         | 2026-11-10 20:49
+ public.detalle_pedido          | 10813 |    2422 |        18.3 | nunca         | 2026-11-10 20:49
+ public.cliente                 |   660 |     178 |        21.2 | nunca         | 2026-11-10 20:49
+ public.producto                |   180 |      64 |        26.2 | nunca         | 2026-11-10 20:49
+ public.categoria               |    17 |       4 |        19.0 | nunca         | 2026-11-10 20:49
+ auditoria.registro             |    12 |       3 |        20.0 | nunca         | nunca
+ public.usuario                 |    40 |       1 |         2.4 | nunca         | nunca
+ auditoria.intento_login        |     6 |       0 |         0.0 | nunca         | nunca
+ public.entrega                 |   366 |       0 |         0.0 | nunca         | nunca
+ public.repartidor              |     6 |       0 |         0.0 | nunca         | nunca
+ public.tp5_facturacion_mensual |    70 |       0 |         0.0 | nunca         | 2026-11-10 20:49
+ public.zona                    |     4 |       0 |         0.0 | nunca         | nunca
+(12 rows)
+
+M2. Limpieza de filas muertas y estadísticas del planificador
+VACUUM
+M3. Copias derivadas: materializadas de reportes y copias anónimas
+REFRESH MATERIALIZED VIEW
+REFRESH MATERIALIZED VIEW
+REFRESH MATERIALIZED VIEW
+REFRESH MATERIALIZED VIEW
+ANALYZE
+M4. Estado DESPUÉS
+              tabla              | vivas | muertas |    vacuum_manual    |   analyze_manual    
+---------------------------------+-------+---------+---------------------+---------------------
+ auditoria.intento_login         |     6 |       0 | 2026-11-10 20:49:36 | 2026-11-10 20:49:36
+ auditoria.registro              |    12 |       0 | 2026-11-10 20:49:36 | 2026-11-10 20:49:36
+ public.categoria                |     9 |       0 | 2026-11-10 20:49:36 | 2026-11-10 20:49:36
+ public.cliente                  |   360 |       0 | 2026-11-10 20:49:36 | 2026-11-10 20:49:36
+ public.detalle_pedido           |  5810 |       0 | 2026-11-10 20:49:36 | 2026-11-10 20:49:36
+ public.entrega                  |   366 |       0 | 2026-11-10 20:49:36 | 2026-11-10 20:49:36
+ public.pedido                   |  2398 |       0 | 2026-11-10 20:49:36 | 2026-11-10 20:49:36
+ public.producto                 |   100 |       0 | 2026-11-10 20:49:36 | 2026-11-10 20:49:36
+ public.repartidor               |     6 |       0 | 2026-11-10 20:49:36 | 2026-11-10 20:49:36
+ public.tp5_facturacion_mensual  |   124 |       0 | 2026-11-10 20:49:36 | 2026-11-10 20:49:37
+ public.usuario                  |    40 |       0 | 2026-11-10 20:49:36 | 2026-11-10 20:49:36
+ public.zona                     |     4 |       0 | 2026-11-10 20:49:36 | 2026-11-10 20:49:36
+ sync.config                     |     1 |       0 | 2026-11-10 20:49:36 | 2026-11-10 20:49:36
+ sync.solicitud                  |     0 |       0 | 2026-11-10 20:49:36 | 2026-11-10 20:49:36
+ unidad4.control_lote            |     3 |       0 | 2026-11-10 20:49:36 | 2026-11-10 20:49:36
+ unidad4.control_lote_almacen    |     3 |       0 | 2026-11-10 20:49:36 | 2026-11-10 20:49:36
+ unidad4.deposito                |     2 |       0 | 2026-11-10 20:49:36 | 2026-11-10 20:49:36
+ unidad4.lote                    |     3 |       0 | 2026-11-10 20:49:36 | 2026-11-10 20:49:36
+ unidad4.responsable_deposito    |     2 |       0 | 2026-11-10 20:49:36 | 2026-11-10 20:49:36
+ unidad4.usuario                 |     3 |       0 | 2026-11-10 20:49:36 | 2026-11-10 20:49:36
+ unidad4.ventas_categoria_diaria |  2611 |       0 | 2026-11-10 20:49:36 | 2026-11-10 20:49:36
+(21 rows)
+
+M5. Tamaños (para seguir el crecimiento semana a semana)
+ base  | auditoria | indices 
+-------+-----------+---------
+ 16 MB | 184 kB    | 3248 kB
+(1 row)
+
+M6. Índices sin uso desde el último reinicio de estadísticas (candidatos a revisar, NO a borrar automáticamente)
+                   indice                   |     tabla      |   tamano   
+--------------------------------------------+----------------+------------
+ public.tp5_detalle_precio                  | detalle_pedido | 456 kB
+ public.tp5_pedido_confirmado_tarjeta       | pedido         | 64 kB
+ public.tp5_producto_nombre_activo          | producto       | 16 kB
+ public.idx_entrega_repartidor              | entrega        | 16 kB
+ public.idx_repartidor_zona                 | repartidor     | 16 kB
+ auditoria.idx_intento_login_correo_momento | intento_login  | 16 kB
+ public.idx_producto_categoria              | producto       | 16 kB
+ public.tp3_producto_categoria_precio       | producto       | 16 kB
+ sync.idx_solicitud_estado                  | solicitud      | 8192 bytes
+(9 rows)
+
+M7. Salud: conexiones, transacciones largas y bloqueos en espera
+ conexiones | transacciones_mas_de_5_min | bloqueos_en_espera | rollbacks_acumulados | interbloqueos_acumulados 
+------------+----------------------------+--------------------+----------------------+--------------------------
+          1 |                          0 |                  0 |                   32 |                        0
+(1 row)
+
+===== verificar_integridad.sql (codigo 0) =====
+I1. Índices B-tree: estructura interna (amcheck)
+ indices_revisados 
+-------------------
+                53
+(1 row)
+
+I2. Sumas de verificación de páginas (data checksums)
+ checksums_activos | fallas_detectadas | checksum_last_failure 
+-------------------+-------------------+-----------------------
+ on                |                 0 | 
+(1 row)
+
+I3. Objetos en estado inválido
+ indices_invalidos | restricciones_sin_validar | triggers_deshabilitados | materializadas_sin_datos 
+-------------------+---------------------------+-------------------------+--------------------------
+                 0 |                         0 |                       0 |                        0
+(1 row)
+
+I4. Reglas del negocio que ninguna restricción declarativa cubre
+ pedidos_confirmados_sin_lineas | desnormalizacion_desincronizada | copia_anonima_desactualizada | claves_sin_hash | solicitudes_sin_resolver 
+--------------------------------+---------------------------------+------------------------------+-----------------+--------------------------
+                              0 |                               0 |                            0 |               0 |                        0
+(1 row)
+
+I5. Conteos de control
+ categorias | productos | clientes | pedidos | lineas | importe_total | usuarios | filas_auditoria 
+------------+-----------+----------+---------+--------+---------------+----------+-----------------
+          9 |       100 |      360 |    2398 |   5810 |   42193273.50 |       40 |              12
+(1 row)
+
+DO
+psql:<repo>/tpi2/u6/verificar_integridad.sql:75: NOTICE:  INTEGRIDAD VERIFICADA en food_store_tpi2_20261110_204915

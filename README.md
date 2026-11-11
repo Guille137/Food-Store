@@ -2,6 +2,14 @@
 
 **Grupo: Octavio Skumanic, Sebastián Vivanco, Victoria Guzman, Daniela Sosa, Guillermo Sanchez**
 
+## Segunda entrega del TPI · Unidades 4 a 8
+
+**[→ Entrada para la evaluación de la segunda entrega](tpi2/README.md)** · [Informe técnico](tpi2/informe_tecnico.md) · [Specs (Kiro)](.kiro/specs/) · [Bitácora de IA](tpi2/bitacora_ia.md) · [DUIA](tpi2/duia.md)
+
+Capa de datos completa: normalización hasta BCNF con migración reversible (U4), roles, auditoría y simulacro de incidente (U5), plan de mantenimiento y simulacro de desastre (U6), modelo documental en MongoDB (U7) y base SQLite con sincronización (U8). Se instala y prueba con `python tpi2/ejecutar_todo.py`: **132 comprobaciones correctas** en la corrida registrada.
+
+---
+
 **Parcial 1 - TPI · Unidades 1, 2 y 3**
 
 Proyecto implementado y probado en **PostgreSQL 17.11** (mínimo requerido: 16+). Incluye el modelo, SQL, objetos PL/pgSQL, documentación y evidencia de ejecución.

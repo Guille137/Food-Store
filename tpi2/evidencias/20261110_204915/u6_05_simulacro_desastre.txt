@@ -1,0 +1,25 @@
+SIMULACRO DE DESASTRE - 2026-11-10 20:49:55
+Respaldo utilizado: food_store_tpi2_20261110_204915_20261110_204939.dump (220543 bytes), terminado 2026-11-10 20:49:43
+
+t+   0.28 s  DESASTRE: la base fue eliminada (DROP DATABASE)
+t+   0.47 s  Detección: la aplicación no puede conectarse
+t+   7.33 s    fase verificar_archivo: 0.168 s
+t+   7.33 s    fase restaurar: 4.188 s
+t+   7.33 s    fase estadisticas: 1.049 s
+t+   7.33 s    fase integridad: 1.042 s
+t+   7.33 s  Base restaurada desde el último respaldo e integridad verificada
+t+   7.52 s  Contenido comparado con la huella tomada al respaldar
+t+   7.67 s  Permisos verificados contra la matriz
+t+   7.94 s  Prueba de humo: la aplicación lee el catálogo y registra un pedido
+
+RTO observado: 7.94 s (objetivo 900 s)
+RPO observado: 11.90 s (objetivo 86400 s)
+Pedidos: 2401 antes del desastre, 2398 tras restaurar (3 perdidos)
+Precio del producto 5: 1850.00 antes, 1750.00 tras restaurar
+Rastro en el log del servidor: cambio de precio=True, pedidos=False
+
+SHA-256 verificado
+Base 'food_store_tpi2_20261110_204915' restaurada
+psql:<repo>/tpi2/u6/verificar_integridad.sql:75: NOTICE:  INTEGRIDAD VERIFICADA en food_store_tpi2_20261110_204915
+
+RESULTADO {"modo":"Siniestro","base":"food_store_tpi2_20261110_204915","segundos":6.463,"fases":{"verificar_archivo":0.168,"restaurar":4.188,"estadisticas":1.049,"integridad":1.042},"exito":true}

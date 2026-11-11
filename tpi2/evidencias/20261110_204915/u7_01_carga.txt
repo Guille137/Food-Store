@@ -1,0 +1,21 @@
+MongoDB 8.0.15
+
+{
+  coleccion: 'pedidos',
+  validador: [
+    '$jsonSchema',
+    '$expr'
+  ],
+  indices: [
+    '_id_',
+    'estado_fecha',
+    'lineas_producto',
+    'cliente_fecha'
+  ]
+}
+
+{
+  leidos: 2398,
+  insertados: 2398,
+  en_coleccion: 2398
+}

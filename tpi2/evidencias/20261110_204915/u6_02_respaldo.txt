@@ -1,0 +1,8 @@
+2026-11-10 20:49:39 INICIO respaldo de 'food_store_tpi2_20261110_204915' en 127.0.0.1:55432 con el rol operador_respaldo
+2026-11-10 20:49:40 Respaldo creado: food_store_tpi2_20261110_204915_20261110_204939.dump (220543 bytes)
+2026-11-10 20:49:41 Indice legible: 336 objetos
+2026-11-10 20:49:41 SHA-256: 3b65ad501e9520a971426b8daf8cb2e21ef7ee5cae01030b7f70207af5d548c3
+2026-11-10 20:49:42 Roles guardados sin contrasenas: roles_20261110_204939.sql
+2026-11-10 20:49:42 Retencion de 14 dias: 0 respaldos antiguos eliminados
+2026-11-10 20:49:42 FIN correcto en 3.34 s
+RESULTADO {"segundos":3.34,"base":"food_store_tpi2_20261110_204915","objetos":336,"dump":"<repo>\\tpi2\\evidencias\\20261110_204915\\respaldos\\food_store_tpi2_20261110_204915_20261110_204939.dump","exito":true,"termino":"2026-11-10T20:49:42.7579942-03:00","bytes":220543,"sha256":"3b65ad501e9520a971426b8daf8cb2e21ef7ee5cae01030b7f70207af5d548c3"}

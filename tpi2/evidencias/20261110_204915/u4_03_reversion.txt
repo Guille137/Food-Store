@@ -1,0 +1,35 @@
+BEGIN
+SET
+LOCK TABLE
+DO
+SELECT 477
+psql:tpi2/u4/05_reversion.sql:41: NOTICE:  drop cascades to 10 other objects
+DETAIL:  drop cascades to table migracion.lote
+drop cascades to table migracion.cuarentena
+drop cascades to table migracion.discrepancia
+drop cascades to table migracion.mapa_categoria
+drop cascades to table migracion.mapa_producto
+drop cascades to table migracion.mapa_cliente
+drop cascades to table migracion.mapa_pedido
+drop cascades to view migracion.v_legado_esperado
+drop cascades to view migracion.v_reconstruccion
+drop cascades to view migracion.v_diferencias
+DROP SCHEMA
+DELETE 366
+ALTER TABLE
+DELETE 807
+ALTER TABLE
+DELETE 398
+DELETE 20
+DELETE 1
+DELETE 58
+DROP TABLE
+DROP TABLE
+DROP TABLE
+DO
+     resultado      | pedidos | clientes | productos | renglones_legado_intactos 
+--------------------+---------+----------+-----------+---------------------------
+ REVERSION APLICADA |    2000 |      300 |        80 |                       819
+(1 row)
+
+COMMIT

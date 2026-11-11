@@ -1,0 +1,54 @@
+{
+ "pruebas": [
+  {
+   "prueba": "documento válido (control)",
+   "rechazado": false
+  },
+  {
+   "prueba": "total que no coincide con las líneas",
+   "rechazado": true,
+   "codigo": 121
+  },
+  {
+   "prueba": "cantidad cero",
+   "rechazado": true,
+   "codigo": 121
+  },
+  {
+   "prueba": "estado inexistente",
+   "rechazado": true,
+   "codigo": 121
+  },
+  {
+   "prueba": "importe como double en lugar de Decimal128",
+   "rechazado": true,
+   "codigo": 121
+  },
+  {
+   "prueba": "campo no previsto (correo del cliente)",
+   "rechazado": true,
+   "codigo": 121
+  },
+  {
+   "prueba": "pedido sin líneas",
+   "rechazado": true,
+   "codigo": 121
+  },
+  {
+   "prueba": "producto repetido en el pedido",
+   "rechazado": true,
+   "codigo": 121
+  },
+  {
+   "prueba": "id de pedido duplicado",
+   "rechazado": false,
+   "codigo": 11000
+  }
+ ],
+ "duplicacion": {
+  "cliente": 51,
+  "documentos_a_modificar_por_un_cambio_de_apellido": 10,
+  "filas_a_modificar_en_postgresql": 1
+ },
+ "documentos_finales": 2398
+}

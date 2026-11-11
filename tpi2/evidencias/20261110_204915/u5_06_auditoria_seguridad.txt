@@ -1,0 +1,80 @@
+A1. Privilegios otorgados a PUBLIC en objetos del proyecto (esperado: 0 filas)
+ clase | objeto | privilege_type 
+-------+--------+----------------
+(0 rows)
+
+A2. Funciones SECURITY DEFINER sin search_path fijo o con dueño superusuario (esperado: 0 filas)
+ rutina | dueno | dueno_es_superusuario | configuracion 
+--------+-------+-----------------------+---------------
+(0 rows)
+
+A2b. Inventario de funciones SECURITY DEFINER (informativo)
+                 rutina                  |  dueno   |               search_path               
+-----------------------------------------+----------+-----------------------------------------
+ auditoria.fn_registrar                  | fs_owner | search_path=pg_catalog, pg_temp
+ public.fn_autenticar                    | fs_owner | search_path=pg_catalog, public, pg_temp
+ public.fn_resetear_password             | fs_owner | search_path=pg_catalog, public, pg_temp
+ public.tpi_registrar_pedido             | fs_owner | search_path=pg_catalog, public, pg_temp
+ public.tpi_validar_categorias_detalle   | fs_owner | search_path=pg_catalog, public, pg_temp
+ public.validar_edicion_detalle_pedido   | fs_owner | search_path=pg_catalog, public, pg_temp
+ public.validar_producto_y_stock_detalle | fs_owner | search_path=pg_catalog, public, pg_temp
+ seguridad.seudonimo                     | fs_owner | search_path=pg_catalog, public, pg_temp
+ sync.aplicar_solicitud                  | fs_owner | search_path=pg_catalog, public, pg_temp
+ unidad4.sincronizar_ventas              | fs_owner | search_path=pg_catalog, pg_temp
+(10 rows)
+
+A3. Roles con atributos peligrosos, además del superusuario inicial (esperado: 0 filas)
+ rolname | rolsuper | rolcreaterole | rolcreatedb | rolreplication | rolbypassrls 
+---------+----------+---------------+-------------+----------------+--------------
+(0 rows)
+
+A4. Membresías con ADMIN OPTION: permitirían re-otorgar el rol (esperado: 0 filas)
+ miembro | rol | admin_option 
+---------+-----+--------------
+(0 rows)
+
+A5. Privilegios con GRANT OPTION (esperado: 0 filas)
+ grantee | objeto | privilege_type 
+---------+--------+----------------
+(0 rows)
+
+A6. ¿Algún rol que no sea admin puede leer el hash de las contraseñas? (esperado: 0 filas)
+ rolname 
+---------
+(0 rows)
+
+A6b. Roles que SÍ leen el hash por diseño (respaldo completo de la base)
+      rolname      
+-------------------
+ rol_respaldo
+ operador_respaldo
+(2 rows)
+
+A7. Roles con DELETE o TRUNCATE sobre tablas del negocio (esperado: 0 filas)
+ rolname | relname | puede_delete | puede_truncate 
+---------+---------+--------------+----------------
+(0 rows)
+
+A8. Roles que pueden escribir en la auditoría (esperado: 0 filas)
+ rolname | relname 
+---------+---------
+(0 rows)
+
+A9. Roles de login sin límite de conexiones o sin contraseña SCRAM (esperado: 0 filas)
+ rolname | rolconnlimit | tipo_de_clave 
+---------+--------------+---------------
+(0 rows)
+
+A10. Tablas del negocio a las que ningún rol de aplicación accede (informativo)
+ tabla 
+-------
+(0 rows)
+
+A11. Privilegios por defecto para objetos futuros
+ creador  |       esquema        |  clase  |            acl            
+----------+----------------------+---------+---------------------------
+ fs_owner | (todos los esquemas) | rutinas | {fs_owner=X/fs_owner}
+ fs_owner | anon                 | tablas  | {rol_reportes=r/fs_owner}
+ fs_owner | auditoria            | tablas  | {rol_auditor=r/fs_owner}
+(3 rows)
+

@@ -1,0 +1,7 @@
+[simulacion] FoodStore-Respaldo-Diario - todos los dias 02:00
+             powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File "<repo>\tpi2\u6\respaldo.ps1" -Base food_store_tpi2_20261110_204915 -PgBin "<home>\AppData\Local\Temp\claude\5b15ae24a1fd7160\3e5ecfc7-0f78-4e17-b881-c80cc4e7eb7e\scratchpad\pg\pgsql\bin" -Puerto 55432 -PgPassFile "C:\ruta\segura\pgpass.conf"
+[simulacion] FoodStore-Mantenimiento-Semanal - domingos 03:00
+             powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File "<repo>\tpi2\u6\mantenimiento.ps1" -Base food_store_tpi2_20261110_204915 -PgBin "<home>\AppData\Local\Temp\claude\5b15ae24a1fd7160\3e5ecfc7-0f78-4e17-b881-c80cc4e7eb7e\scratchpad\pg\pgsql\bin" -Puerto 55432 -PgPassFile "C:\ruta\segura\pgpass.conf"
+[simulacion] FoodStore-Restauracion-Semanal - domingos 04:00
+             powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File "<repo>\tpi2\u6\prueba_restauracion.ps1" -Base food_store_tpi2_20261110_204915 -PgBin "<home>\AppData\Local\Temp\claude\5b15ae24a1fd7160\3e5ecfc7-0f78-4e17-b881-c80cc4e7eb7e\scratchpad\pg\pgsql\bin" -Puerto 55432 -PgPassFile "C:\ruta\segura\pgpass.conf"
+Nada fue modificado. Agregar -Registrar para crear las tareas.

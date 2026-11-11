@@ -1,0 +1,12 @@
+--- tablet-01: cola_sync
+  e0ac682d | 73fb2b82 | CONFLICTO | 2 | None
+  48c8bf5e | a61e24d6 | RECHAZADO | 1 | None
+  7a2d4dbe | 760f1c90 | APLICADO | 1 | 3595
+  472c607c | 71c97f6b | RECHAZADO | 1 | None
+  d949ca23 | 73fb2b82 | APLICADO | 1 | 3596
+  fd48f0f6 | 9ccdd9fe | APLICADO | 2 | 3597
+  82fb3e38 | 59a7773d | APLICADO | 1 | 3598
+--- tablet-01: snapshots descargados: 3
+--- tablet-02: cola_sync
+  1021076c | 6c62c2c8 | RECHAZADO | 1 | None
+--- tablet-02: snapshots descargados: 2
