@@ -1,0 +1,23 @@
+# Tareas — Migración de la planilla heredada
+
+- [x] 1. Construir el esquema heredado con datos sintéticos y anomalías reales (`tpi2/u4/01_esquema_heredado.sql`)
+  - Doble carga, rubro mal tipeado, teléfonos cambiados, planillas sin correo, grafías distintas.
+  - _Requisitos: 1_
+- [x] 2. Validar las dependencias funcionales contra los datos (`02_verificar_dependencias.sql`)
+  - Conteo de violaciones crudo y canónico; detalle de cada violación.
+  - _Requisitos: 1.1, 1.2, 1.3_
+- [x] 3. Diseñar el esquema BCNF y registrar decisiones (design.md, `tpi2/u4/normalizacion_bcnf.md`)
+  - _Requisitos: 2_
+- [x] 4. Escribir la migración sin BEGIN/COMMIT, con cuarentena, discrepancias y mapas (`03_migracion.sql`)
+  - _Requisitos: 3.1, 3.4, 3.5, 3.6_
+- [x] 5. Escribir la verificación sin pérdida que aborta ante cualquier diferencia (`04_verificar_migracion.sql`)
+  - _Requisitos: 3.2, 3.3, 5_
+- [x] 6. Escribir la reversión de nivel 2 con controles previos (`05_reversion.sql`)
+  - _Requisitos: 4.3, 4.4_
+- [x] 7. Probar en una base nueva (`tpi2/ejecutar_todo.py`, paso `u4`)
+  - [x] 7.1 Respaldo previo con `pg_dump` (_4.1_)
+  - [x] 7.2 Ensayo con `ROLLBACK`: huella idéntica (_4.2_)
+  - [x] 7.3 Migración con `COMMIT` y verificación
+  - [x] 7.4 Reversión de nivel 2: huella idéntica a la previa (_4.3_)
+  - [x] 7.5 Error provocado a mitad de la migración: no queda nada aplicado (_3.3_)
+  - [x] 7.6 Migración definitiva
